@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import backupMaker.FormattedTableCellFactory?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupMaker.PurpleBController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <AnchorPane prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #222222;">
+         <children>
+            <GridPane layoutX="18.0" layoutY="117.0" prefHeight="270.0" prefWidth="360.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <JFXButton fx:id="btnAddBackup" buttonType="RAISED" onAction="#doAddBackup" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="+" textAlignment="JUSTIFY" textFill="#dddddd" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Noto Sans" size="40.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnSelMsg" onAction="#doSelMsg" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Messages" textFill="#cccccc" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <JFXButton fx:id="btnSelAudit" onAction="#doSelAudit" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Audit Logs" textFill="#cccccc" GridPane.columnIndex="1" />
+                  <JFXButton fx:id="btnSelUserData" onAction="#doSelUserData" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="User Data" textFill="#cccccc" />
+                  <JFXButton fx:id="btnSelCloud" onAction="#doSelCloud" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Cloud Files" textFill="#cccccc" GridPane.rowIndex="1" />
+                  <JFXButton fx:id="btnSelWeb" onAction="#doSelWeb" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Website" textFill="#cccccc" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#080808" height="65.0" stroke="#9728b000" strokeType="OUTSIDE" width="960.0" />
+            <Text fill="WHITE" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Backup Manager" wrappingWidth="960.0000046491623">
+               <font>
+                  <Font name="Noto Sans" size="48.0" />
+               </font>
+            </Text>
+            <TableView fx:id="bmtable" layoutX="400.0" layoutY="75.0" prefHeight="200.0" prefWidth="502.0">
+              <columns>
+                <TableColumn fx:id="colDate" prefWidth="125.0" text="Date">
+               		<cellValueFactory>
+                		<PropertyValueFactory property="creationDateSTR" />
+                	</cellValueFactory>
+                	<cellFactory>
+                		<FormattedTableCellFactory alignment="center"/>
+                	</cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="colUser" prefWidth="75.0" text=" User">
+                <cellValueFactory>
+                		<PropertyValueFactory property="userBackupSTR" />
+                	</cellValueFactory>
+                	<cellFactory>
+                		<FormattedTableCellFactory alignment="center"/>
+                	</cellFactory>
+                </TableColumn>
+                  <TableColumn fx:id="colCloud" prefWidth="75.0" text="Cloud">
+                  <cellValueFactory>
+                		<PropertyValueFactory property="cloudBackupSTR" />
+                	</cellValueFactory>
+                	<cellFactory>
+                		<FormattedTableCellFactory alignment="center"/>
+                	</cellFactory>
+                </TableColumn>
+                  <TableColumn fx:id="colWeb" prefWidth="75.0" text="Webpages">
+                  <cellValueFactory>
+                		<PropertyValueFactory property="webBackupSTR" />
+                	</cellValueFactory>
+                	<cellFactory>
+                		<FormattedTableCellFactory alignment="center"/>
+                	</cellFactory>
+                </TableColumn>
+                  <TableColumn fx:id="colAudit" prefWidth="75.0" text="Audit Logs">
+                  <cellValueFactory>
+                		<PropertyValueFactory property="auditBackupSTR" />
+                	</cellValueFactory>
+                	<cellFactory>
+                		<FormattedTableCellFactory alignment="center"/>
+                	</cellFactory>
+                </TableColumn>
+                  <TableColumn fx:id="colMessage" prefWidth="75.0" text="Messages">
+                  <cellValueFactory>
+                		<PropertyValueFactory property="messageBackupSTR" />
+                	</cellValueFactory>
+                	<cellFactory>
+                		<FormattedTableCellFactory alignment="center"/>
+                	</cellFactory>
+                </TableColumn>
+              </columns>
+            </TableView>
+            <JFXButton fx:id="btnSchedule" buttonType="RAISED" layoutX="631.0" layoutY="297.0" onAction="#gotoSchedule" text="#" textFill="#dddddd">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </JFXButton>
+            <Text fill="#eeeeee" layoutX="16.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual Backup">
+               <font>
+                  <Font name="Noto Sans" size="20.0" />
+               </font>
+            </Text>
+            <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="788.0" layoutY="447.0" onAction="#gotoBack" ripplerFill="#9a27b0" text="&lt;" textFill="#dddddd">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnRestore" layoutX="479.0" layoutY="297.0" onAction="#doRestore" text="[ &lt;" textFill="#dddddd">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</GridPane>
