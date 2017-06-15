@@ -1,5 +1,10 @@
 package backupMaker;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import com.jfoenix.controls.JFXButton;
 
 import javafx.collections.ObservableList;
@@ -12,6 +17,8 @@ import javafx.scene.paint.Paint;
 public class PurpleBController {
 	
 	private BackupObject bo;
+	
+	private ArrayList<BackupObject> allBackups;
 	
     @FXML
     private JFXButton btnAddBackup;
@@ -63,12 +70,64 @@ public class PurpleBController {
 
     public void initialize(){
     	bo = new BackupObject();
+    	allBackups=new ArrayList<BackupObject>();
+
+		try {
+			FileReader fr = new FileReader("src/output/backupLog.txt");
+		
+			Scanner sc = new Scanner(fr);
+			sc.useDelimiter(";");
+		
+		while(sc.hasNextLine()){
+			BackupObject bck = new BackupObject();
+			
+			String line1 = sc.nextLine();
+			
+			Scanner st = new Scanner(line1);
+			st.useDelimiter(";");
+			String binaryCheck="0";
+			
+			binaryCheck=st.next();
+			if(binaryCheck.equals("1")){
+				bck.setUserBackup(true);
+			}
+			binaryCheck=st.next();
+			if(binaryCheck.equals("1")){
+				bck.setCloudBackup(true);
+			}
+			binaryCheck=st.next();
+			if(binaryCheck.equals("1")){
+				bck.setWebBackup(true);
+			}
+			binaryCheck=st.next();
+			if(binaryCheck.equals("1")){
+				bck.setAuditBackup(true);
+			}
+			binaryCheck=st.next();
+			if(binaryCheck.equals("1")){
+				bck.setMessageBackup(true);
+			}
+			bck.setCreationDate(st.nextLong());
+			
+			allBackups.add(bck);
+			
+			ObservableList<BackupObject> data = bmtable.getItems();
+			
+			for(int i=0;i<allBackups.size();i++){
+		    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate()));
+			}
+			st.close();
+		}
+		sc.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     @FXML
 	protected void addBackupObject() {
 		//Display object constructor
-		System.out.println("\nAdding Backup Object");
         ObservableList<BackupObject> data = bmtable.getItems();
         data.add(new BackupObject(bo.getUserBackup(),bo.getCloudBackup(),bo.getWebBackup(),bo.getAuditBackup(),bo.getMessageBackup(),bo.getCreationDate()));
     }
