@@ -125,9 +125,12 @@ public class PurpleBController {
     @FXML
     void doAddBackup(ActionEvent event) {
     	bo.setCreationDate(System.currentTimeMillis());
-    	if(!(bo.getAuditBackup()==false||bo.getCloudBackup()==false||bo.getMessageBackup()==false||bo.getWebBackup()==false||bo.getUserBackup()==false)){
+    	if(!(bo.getAuditBackup()==false&&bo.getCloudBackup()==false&&bo.getMessageBackup()==false&&bo.getWebBackup()==false&&bo.getUserBackup()==false)){
     	addBackupObject();
     	BackupDAO.manualBackup(bo);
+    	
+    	LastDoneBackup ldb = new LastDoneBackup();
+    	ldb.updateBackup(bo.getCreationDate());
     	}
     }
 
