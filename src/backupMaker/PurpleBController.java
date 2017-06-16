@@ -1,7 +1,5 @@
 package backupMaker;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -72,18 +70,14 @@ public class PurpleBController {
     	bo = new BackupObject();
     	allBackups=new ArrayList<BackupObject>();
 
-		try {
-			FileReader fr = new FileReader("src/output/backupLog.txt");
-		
-			Scanner sc = new Scanner(fr);
-			sc.useDelimiter(";");
-		
-		while(sc.hasNextLine()){
+			BackupDAO bdao = new BackupDAO();
+			ArrayList<String> existingBackups = new ArrayList<String>();
+			existingBackups.addAll(bdao.getExistingBackups());
+		for(int o=0;o<existingBackups.size();o++){
 			BackupObject bck = new BackupObject();
 			
-			String line1 = sc.nextLine();
-			
-			Scanner st = new Scanner(line1);
+			Scanner st=new Scanner(existingBackups.get(o));
+
 			st.useDelimiter(";");
 			String binaryCheck="0";
 			
@@ -115,13 +109,9 @@ public class PurpleBController {
 			
 			for(int i=0;i<allBackups.size();i++){
 		    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate()));
+			System.out.println(allBackups.get(i).toString());
 			}
 			st.close();
-		}
-		sc.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
     }
     
@@ -135,7 +125,10 @@ public class PurpleBController {
     @FXML
     void doAddBackup(ActionEvent event) {
     	bo.setCreationDate(System.currentTimeMillis());
+    	if(!(bo.getAuditBackup()==false||bo.getCloudBackup()==false||bo.getMessageBackup()==false||bo.getWebBackup()==false||bo.getUserBackup()==false)){
     	addBackupObject();
+    	BackupDAO.manualBackup(bo);
+    	}
     }
 
     @FXML

@@ -60,6 +60,21 @@ public class BackupObject {
 		SimpleDateFormat sdf = new SimpleDateFormat();
 		this.creationDateSTR = sdf.format(dateOfC);
 	}
+	
+	public String toString(){
+		String toRet="";
+		toRet=toRet+this.userBackup+";";
+		toRet=toRet+this.cloudBackup+";";
+		toRet=toRet+this.webBackup+";";
+		toRet=toRet+this.auditBackup+";";
+		toRet=toRet+this.messageBackup+";";
+		
+		toRet=toRet.replace("true", "1");
+		toRet=toRet.replace("false", "0");
+		
+		toRet=toRet+this.getCreationDate()+";";
+		return toRet;
+	}
 	//String Get/Set
 	public String getUserBackupSTR() {
 		return userBackupSTR;
