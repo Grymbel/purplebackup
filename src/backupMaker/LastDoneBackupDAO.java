@@ -9,6 +9,20 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class LastDoneBackupDAO {
+	public String ldbRead(){
+		try {
+			FileReader fr = new FileReader("src/output/LDB.txt");
+			Scanner sc = new Scanner(fr);
+			sc.useDelimiter(";");
+				String toRet=sc.nextLine();
+				sc.close();
+			sc.close();
+			return toRet;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public String ldbCheck(){
 		long time=0;
 		try {
@@ -22,14 +36,24 @@ public class LastDoneBackupDAO {
 					BufferedWriter bw = new BufferedWriter(fw);
 					PrintWriter outFile = new PrintWriter(bw);
 					
-					outFile.append("00000000;");
+					outFile.append("0;");
 					time=System.currentTimeMillis();
 					outFile.append(time+"");
-					//Backup All
-					outFile.append("00000000;");
+					outFile.append("0;");
 					outFile.close();
 					
-					return "00000000;"+time+";"+"00000000;";
+					BackupObject.makeDir("0");
+					BackupObject.makeDir("0/audit/");
+					BackupObject.makeDir("0/web/");
+					BackupObject.makeDir("0/message/");
+					BackupObject.makeDir("0/user/");
+					BackupObject.makeDir("0/cloud/");
+					
+					BackupObject bcko = new BackupObject();
+					bcko.initBackupLocations();
+					bcko.makeBaseBackup("0",time);
+					
+					return "0;"+time+";"+"0;";
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

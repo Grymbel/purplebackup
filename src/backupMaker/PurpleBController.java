@@ -15,6 +15,7 @@ import javafx.scene.paint.Paint;
 public class PurpleBController {
 	
 	private BackupObject bo;
+	private LastDoneBackup ldb;
 	
 	private ArrayList<BackupObject> allBackups;
 	
@@ -70,6 +71,7 @@ public class PurpleBController {
     	bo = new BackupObject();
     	allBackups=new ArrayList<BackupObject>();
 
+    	ldb = new LastDoneBackup();
 			BackupDAO bdao = new BackupDAO();
 			ArrayList<String> existingBackups = new ArrayList<String>();
 			existingBackups.addAll(bdao.getExistingBackups());
@@ -131,6 +133,10 @@ public class PurpleBController {
     	
     	LastDoneBackup ldb = new LastDoneBackup();
     	ldb.updateBackup(bo.getCreationDate());
+
+    	bo.makeDir(ldb.getLastID()+"");
+    	
+    	
     	}
     }
 

@@ -2,10 +2,15 @@ package backupMaker;
 
 import java.text.SimpleDateFormat;
 
+import zipper.Zipper;
+
 public class BackupObject {
 	private Boolean userBackup, cloudBackup, webBackup, auditBackup, messageBackup;
 	private long creationDate;
 	private String userBackupSTR, cloudBackupSTR, webBackupSTR, auditBackupSTR, messageBackupSTR, creationDateSTR;
+	
+	private String userTarget,cloudTarget,webTarget,auditTarget,messageTarget;
+	
 	public BackupObject(){
 		this.userBackup=false;
 		this.cloudBackup=false;
@@ -61,6 +66,34 @@ public class BackupObject {
 		this.creationDateSTR = sdf.format(dateOfC);
 	}
 	
+	public static void makeDir(String dirName){
+		BackupDAO.makeDir(dirName);
+	}
+	
+	public void makeBaseBackup(String baseID, long time){
+		//Zip all and put it in the output dir
+		Zipper z1=new Zipper(auditTarget,"src/output/"+baseID+"/audit/audit.zip");
+		z1.zipUp();
+		Zipper z2=new Zipper(webTarget,"src/output/"+baseID+"/web/web.zip");
+		z2.zipUp();
+		Zipper z3=new Zipper(messageTarget,"src/output/"+baseID+"/message/message.zip");
+		z3.zipUp();
+		Zipper z4=new Zipper(userTarget,"src/output/"+baseID+"/user/user.zip");
+		z4.zipUp();
+		Zipper z5=new Zipper(cloudTarget,"src/output/"+baseID+"/cloud/cloud.zip");
+		z5.zipUp();
+		
+		BackupObject bco = new BackupObject();
+		bco.setAuditBackup(true);
+		bco.setCloudBackup(true);
+		bco.setMessageBackup(true);
+		bco.setUserBackup(true);
+		bco.setWebBackup(true);
+		
+		bco.setCreationDate(time);
+		
+		BackupDAO.manualBackup(bco);
+	}
 	public String toString(){
 		String toRet="";
 		toRet=toRet+this.userBackup+";";
@@ -74,6 +107,18 @@ public class BackupObject {
 		
 		toRet=toRet+this.getCreationDate()+";";
 		return toRet;
+	}
+	
+	public void initBackupLocations(){
+		BackupDAO backs = new BackupDAO();
+		String[] targets = new String[5];
+		targets=backs.getTargetDirs();
+		
+		this.auditTarget=targets[0];
+		this.cloudTarget=targets[1];
+		this.messageTarget=targets[2];
+		this.userTarget=targets[3];
+		this.webTarget=targets[4];
 	}
 	//String Get/Set
 	public String getUserBackupSTR() {
@@ -150,6 +195,37 @@ public class BackupObject {
 	public void setCreationDate(long creationDate) {
 		this.creationDate = creationDate;
 	}
+	public String getUserTarget() {
+		return userTarget;
+	}
+	public void setUserTarget(String userTarget) {
+		this.userTarget = userTarget;
+	}
+	public String getCloudTarget() {
+		return cloudTarget;
+	}
+	public void setCloudTarget(String cloudTarget) {
+		this.cloudTarget = cloudTarget;
+	}
+	public String getWebTarget() {
+		return webTarget;
+	}
+	public void setWebTarget(String webTarget) {
+		this.webTarget = webTarget;
+	}
+	public String getAuditTarget() {
+		return auditTarget;
+	}
+	public void setAuditTarget(String auditTarget) {
+		this.auditTarget = auditTarget;
+	}
+	public String getMessageTarget() {
+		return messageTarget;
+	}
+	public void setMessageTarget(String messageTarget) {
+		this.messageTarget = messageTarget;
+	}
+	
 	
 	
 	
