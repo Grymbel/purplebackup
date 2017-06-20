@@ -1,7 +1,6 @@
 package backupMaker;
 
 import java.text.SimpleDateFormat;
-
 import zipper.Zipper;
 
 public class BackupObject {
@@ -94,6 +93,40 @@ public class BackupObject {
 		
 		BackupDAO.manualBackup(bco);
 	}
+	
+	public void makeManualBackup(int lastID){
+		LastDoneBackup ldb = new LastDoneBackup();
+		this.initBackupLocations();
+		BackupDAO.manualBackup(this);
+		makeDir(ldb.getLastID()+"");
+		
+		if(this.auditBackup==true){
+		makeDir(ldb.getLastID()+"/audit/");
+		Zipper z1=new Zipper(auditTarget,"src/output/"+lastID+"/audit/audit.zip");
+		z1.zipUp();
+		}
+		if(this.webBackup==true){
+		makeDir(ldb.getLastID()+"/web/");
+		Zipper z2=new Zipper(webTarget,"src/output/"+lastID+"/web/web.zip");
+		z2.zipUp();
+		}
+		if(this.messageBackup==true){
+		makeDir(ldb.getLastID()+"/message/");
+		Zipper z3=new Zipper(messageTarget,"src/output/"+lastID+"/message/message.zip");
+		z3.zipUp();
+		}
+		if(this.userBackup==true){
+		makeDir(ldb.getLastID()+"/user/");
+		Zipper z4=new Zipper(userTarget,"src/output/"+lastID+"/user/user.zip");
+		z4.zipUp();
+		}
+		if(this.cloudBackup==true){
+		makeDir(ldb.getLastID()+"/cloud/");
+		Zipper z5=new Zipper(cloudTarget,"src/output/"+lastID+"/cloud/cloud.zip");
+		z5.zipUp();
+		}
+	}
+	
 	public String toString(){
 		String toRet="";
 		toRet=toRet+this.userBackup+";";

@@ -1,11 +1,9 @@
 package backupMaker;
 
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class LastDoneBackupDAO {
@@ -33,14 +31,12 @@ public class LastDoneBackupDAO {
 				System.out.println("The LDB is empty. Writing new.");
 				try {
 					FileWriter fw = new FileWriter("src/output/LDB.txt");
-					BufferedWriter bw = new BufferedWriter(fw);
-					PrintWriter outFile = new PrintWriter(bw);
 					
-					outFile.append("0;");
+					fw.append("0;");
 					time=System.currentTimeMillis();
-					outFile.append(time+"");
-					outFile.append("0;");
-					outFile.close();
+					fw.append(time+";");
+					fw.append("0;");
+					fw.close();
 					
 					BackupObject.makeDir("0");
 					BackupObject.makeDir("0/audit/");
@@ -60,8 +56,12 @@ public class LastDoneBackupDAO {
 				
 			}
 			else{
-				String toRet=sc.nextLine();
+				FileReader fr2 =new FileReader("src/output/LDB.txt");
+				Scanner sc2 = new Scanner(fr2);
+				String toRet=sc2.nextLine();
 				sc.close();
+				sc2.close();
+				System.out.println("Check passed, returning : "+toRet);
 				return toRet;
 			}
 			sc.close();
@@ -73,11 +73,9 @@ public class LastDoneBackupDAO {
 	public void updateLDB(int newLastID, long newTime, int newBaseID){
 		try {
 			FileWriter fw = new FileWriter("src/output/LDB.txt");
-			BufferedWriter bw = new BufferedWriter(fw);
-			PrintWriter outFile = new PrintWriter(bw);
-			
-			outFile.append(newLastID+";"+newTime+";"+newBaseID+";");
-			outFile.close();
+
+			fw.append(newLastID+";"+newTime+";"+newBaseID+";");
+			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

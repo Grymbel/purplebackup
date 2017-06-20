@@ -1,12 +1,10 @@
 package backupMaker;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,7 +14,6 @@ public class BackupDAO {
 	}
 	public ArrayList<String> getExistingBackups(){
 		ArrayList<String> existing = new ArrayList<String>();
-		String line2Add="";
 		try {
 			FileReader fr = new FileReader("src/output/backupLog.txt");
 			
@@ -24,8 +21,7 @@ public class BackupDAO {
 			sc.useDelimiter(";");
 			
 			while(sc.hasNextLine()){
-				line2Add=sc.nextLine();
-				existing.add(line2Add);
+				existing.add(sc.nextLine());
 			}
 			
 			sc.close();
@@ -39,11 +35,10 @@ public class BackupDAO {
 	public static void manualBackup(BackupObject bcko){
 		try {
 			FileWriter fw = new FileWriter("src/output/backupLog.txt",true);
-			BufferedWriter bw = new BufferedWriter(fw);
-			PrintWriter outFile = new PrintWriter(bw);
-
-			outFile.append(bcko.toString()+"\n");
-			outFile.close();
+			
+			fw.append(bcko.toString());
+			fw.append("\n");
+			fw.close();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

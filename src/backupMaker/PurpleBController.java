@@ -41,22 +41,22 @@ public class PurpleBController {
     private TableView<BackupObject> bmtable;
 
     @FXML
-    private TableColumn colDate;
+    private TableColumn<?, ?> colDate;
 
     @FXML
-    private TableColumn colUser;
+    private TableColumn<?, ?> colUser;
 
     @FXML
-    private TableColumn colCloud;
+    private TableColumn<?, ?> colCloud;
 
     @FXML
-    private TableColumn colWeb;
+    private TableColumn<?, ?> colWeb;
 
     @FXML
-    private TableColumn colAudit;
+    private TableColumn<?, ?> colAudit;
 
     @FXML
-    private TableColumn colMessage;
+    private TableColumn<?, ?> colMessage;
 
     @FXML
     private JFXButton btnSchedule;
@@ -75,45 +75,43 @@ public class PurpleBController {
 			BackupDAO bdao = new BackupDAO();
 			ArrayList<String> existingBackups = new ArrayList<String>();
 			existingBackups.addAll(bdao.getExistingBackups());
+			
 		for(int o=0;o<existingBackups.size();o++){
 			BackupObject bck = new BackupObject();
-			
 			Scanner st=new Scanner(existingBackups.get(o));
 
 			st.useDelimiter(";");
-			String binaryCheck="0";
+			int binaryCheck=0;
 			
-			binaryCheck=st.next();
-			if(binaryCheck.equals("1")){
+			binaryCheck=st.nextInt();
+			if(binaryCheck==1){
 				bck.setUserBackup(true);
 			}
-			binaryCheck=st.next();
-			if(binaryCheck.equals("1")){
+			binaryCheck=st.nextInt();
+			if(binaryCheck==1){
 				bck.setCloudBackup(true);
 			}
-			binaryCheck=st.next();
-			if(binaryCheck.equals("1")){
+			binaryCheck=st.nextInt();
+			if(binaryCheck==1){
 				bck.setWebBackup(true);
 			}
-			binaryCheck=st.next();
-			if(binaryCheck.equals("1")){
+			binaryCheck=st.nextInt();
+			if(binaryCheck==1){
 				bck.setAuditBackup(true);
 			}
-			binaryCheck=st.next();
-			if(binaryCheck.equals("1")){
+			binaryCheck=st.nextInt();
+			if(binaryCheck==1){
 				bck.setMessageBackup(true);
 			}
 			bck.setCreationDate(st.nextLong());
 			
 			allBackups.add(bck);
-			
-			ObservableList<BackupObject> data = bmtable.getItems();
-			
-			for(int i=0;i<allBackups.size();i++){
-		    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate()));
-			System.out.println(allBackups.get(i).toString());
-			}
 			st.close();
+		}
+		ObservableList<BackupObject> data = bmtable.getItems();
+		
+		for(int i=0;i<allBackups.size();i++){
+	    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate()));
 		}
     }
     
@@ -126,17 +124,14 @@ public class PurpleBController {
     
     @FXML
     void doAddBackup(ActionEvent event) {
-    	bo.setCreationDate(System.currentTimeMillis());
+    	long time =System.currentTimeMillis();
+    	bo.setCreationDate(time);
+    	//Sets the tables
     	if(!(bo.getAuditBackup()==false&&bo.getCloudBackup()==false&&bo.getMessageBackup()==false&&bo.getWebBackup()==false&&bo.getUserBackup()==false)){
-    	addBackupObject();
-    	BackupDAO.manualBackup(bo);
+    		addBackupObject();
     	
-    	LastDoneBackup ldb = new LastDoneBackup();
-    	ldb.updateBackup(bo.getCreationDate());
-
-    	bo.makeDir(ldb.getLastID()+"");
-    	
-    	
+    	ldb.updateBackup(time);
+    	bo.makeManualBackup(ldb.getLastID());
     	}
     }
 
