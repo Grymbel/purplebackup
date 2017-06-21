@@ -9,20 +9,24 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class Zipper
-{
-    List<String> fileList;
+public class Zipper{
+	List<String> fileList;
     private String outputZip;
+    private String outputDir;
+    private String outputFile;
     private String sourceDir;
+    private int backupID;
 
-    public Zipper(String source, String output){
+    public Zipper(String source, String outputDir, String outputFile, int backupID){
     	fileList = new ArrayList<String>();
-    	this.outputZip=output;
+    	this.outputZip=outputDir+outputFile;
     	this.sourceDir=source;
+    	this.outputDir=outputDir;
+    	this.outputFile=outputFile;
+    	this.backupID=backupID;
     }
 
     public void zipUp(){
-    	System.out.println("Taking from x to y: "+sourceDir+outputZip);
     	this.generateFileList(new File(sourceDir));
     	this.zipIt(outputZip);
     }
@@ -51,12 +55,14 @@ public class Zipper
         	}
 
         	in.close();
+        	System.out.println(fileList);
+        	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(outputDir).replace("\\", "/"),backupID);
+        	mdw.writeMD();
     	}
 
     	zos.closeEntry();
     	//remember close it
     	zos.close();
-
     	System.out.println("Done");
     }catch(IOException ex){
        ex.printStackTrace();
@@ -81,4 +87,53 @@ public class Zipper
     private String generateZipEntry(String file){
     	return file.substring(sourceDir.length()+1, file.length());
     }
+    
+    public List<String> getFileList() {
+		return fileList;
+	}
+
+	public void setFileList(List<String> fileList) {
+		this.fileList = fileList;
+	}
+
+	public String getOutputZip() {
+		return outputZip;
+	}
+
+	public void setOutputZip(String outputZip) {
+		this.outputZip = outputZip;
+	}
+
+	public String getOutputDir() {
+		return outputDir;
+	}
+
+	public void setOutputDir(String outputDir) {
+		this.outputDir = outputDir;
+	}
+
+	public String getOutputFile() {
+		return outputFile;
+	}
+
+	public void setOutputFile(String outputFile) {
+		this.outputFile = outputFile;
+	}
+
+	public String getSourceDir() {
+		return sourceDir;
+	}
+
+	public void setSourceDir(String sourceDir) {
+		this.sourceDir = sourceDir;
+	}
+
+	public int getBackupID() {
+		return backupID;
+	}
+
+	public void setBackupID(int backupID) {
+		this.backupID = backupID;
+	}
+
 }
