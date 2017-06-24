@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -11,6 +12,7 @@ import java.util.zip.ZipOutputStream;
 
 public class Zipper{
 	List<String> fileList;
+	List<String> digestList;
     private String outputZip;
     private String outputDir;
     private String outputFile;
@@ -19,6 +21,7 @@ public class Zipper{
 
     public Zipper(String source, String outputDir, String outputFile, int backupID){
     	fileList = new ArrayList<String>();
+    	digestList = new ArrayList<String>();
     	this.outputZip=outputDir+outputFile;
     	this.sourceDir=source;
     	this.outputDir=outputDir;
@@ -56,12 +59,11 @@ public class Zipper{
 
         	in.close();
         	System.out.println(fileList);
-        	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(outputDir).replace("\\", "/"),backupID);
+        	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDir).replace("\\", "/"),backupID);
         	mdw.writeMD();
     	}
 
     	zos.closeEntry();
-    	//remember close it
     	zos.close();
     	System.out.println("Done");
     }catch(IOException ex){
@@ -69,10 +71,15 @@ public class Zipper{
     }
    }
     public void generateFileList(File node){
-
-    	//add file only
 	if(node.isFile()){
 		fileList.add(generateZipEntry(node.getPath().toString()));
+		try {
+			digestList.add(SHA1.sha1(node));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	if(node.isDirectory()){

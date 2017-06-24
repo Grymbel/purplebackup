@@ -1,11 +1,9 @@
 package zipper;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class MDWriter {
 
@@ -14,25 +12,26 @@ public class MDWriter {
 	private String destinationDelta;
 	private ArrayList<String> filesAcquired;
 	private int backupID;
+	private ArrayList<String> filesDigest;
 	
-	public MDWriter(ArrayList<String> fileList, String destination, int backupID){
+	public MDWriter(ArrayList<String> fileList, ArrayList<String> digestList, String destination, int backupID){
 		this.setDestination(destination);
 		this.setFilesAcquired(fileList);
+		this.setFilesDigest(digestList);
 		this.setBackupID(backupID);
 		this.setDestinationDelta(destinationDir+"delta.data");
 		this.setDestinationFL(destinationDir+"meta.data");
 	}
-	
+
 	public boolean writeMD(){
-		if(destinationDir!=null&&filesAcquired!=null){	
+		if(destinationDir!=null&&filesAcquired!=null&&filesAcquired!=null){	
 			try {
 				FileWriter fw = new FileWriter(destinationFL);
-				for(String s:filesAcquired){
-				fw.append(s+"*"+"\n");
+				for(int y=0;y<filesAcquired.size();y++){
+				fw.append(filesAcquired.get(y)+"*"+filesDigest.get(y)+"\n");
 				}
 				fw.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return true;
@@ -113,6 +112,14 @@ public class MDWriter {
 
 	public void setDestinationDelta(String destinationDelta) {
 		this.destinationDelta = destinationDelta;
+	}
+
+	public ArrayList<String> getFilesDigest() {
+		return filesDigest;
+	}
+
+	public void setFilesDigest(ArrayList<String> filesDigest) {
+		this.filesDigest = filesDigest;
 	}
 
 	
