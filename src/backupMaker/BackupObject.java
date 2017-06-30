@@ -71,15 +71,15 @@ public class BackupObject {
 	
 	public void makeBaseBackup(String baseID, long time){
 		//Zip all and put it in the output dir
-		Zipper z1=new Zipper(auditTarget,"src/output/"+baseID+"/audit/","audit.zip",Integer.parseInt(baseID));
+		Zipper z1=new Zipper(auditTarget,"src/output/","/audit/","audit.zip",Integer.parseInt(baseID),true);
 		z1.zipUp();
-		Zipper z2=new Zipper(webTarget,"src/output/"+baseID+"/web/","web.zip",Integer.parseInt(baseID));
+		Zipper z2=new Zipper(webTarget,"src/output/","/web/","web.zip",Integer.parseInt(baseID),true);
 		z2.zipUp();
-		Zipper z3=new Zipper(messageTarget,"src/output/"+baseID+"/message/","message.zip",Integer.parseInt(baseID));
+		Zipper z3=new Zipper(messageTarget,"src/output/","/message/","message.zip",Integer.parseInt(baseID),true);
 		z3.zipUp();
-		Zipper z4=new Zipper(userTarget,"src/output/"+baseID+"/user/","user.zip",Integer.parseInt(baseID));
+		Zipper z4=new Zipper(userTarget,"src/output/","/user/","user.zip",Integer.parseInt(baseID),true);
 		z4.zipUp();
-		Zipper z5=new Zipper(cloudTarget,"src/output/"+baseID+"/cloud/","cloud.zip",Integer.parseInt(baseID));
+		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",Integer.parseInt(baseID),true);
 		z5.zipUp();
 		
 		BackupObject bco = new BackupObject();
@@ -102,27 +102,27 @@ public class BackupObject {
 		
 		if(this.auditBackup==true){
 		makeDir(ldb.getLastID()+"/audit/");
-		Zipper z1=new Zipper(auditTarget,"src/output/"+lastID+"/audit/","audit.zip",lastID);
+		Zipper z1=new Zipper(auditTarget,"src/output/","/audit/","audit.zip",lastID);
 		z1.zipUp();
 		}
 		if(this.webBackup==true){
 		makeDir(ldb.getLastID()+"/web/");
-		Zipper z2=new Zipper(webTarget,"src/output/"+lastID+"/web/","web.zip",lastID);
+		Zipper z2=new Zipper(webTarget,"src/output/","/web/","web.zip",lastID);
 		z2.zipUp();
 		}
 		if(this.messageBackup==true){
 		makeDir(ldb.getLastID()+"/message/");
-		Zipper z3=new Zipper(messageTarget,"src/output/"+lastID+"/message/","message.zip",lastID);
+		Zipper z3=new Zipper(messageTarget,"src/output/","/message/","message.zip",lastID);
 		z3.zipUp();
 		}
 		if(this.userBackup==true){
 		makeDir(ldb.getLastID()+"/user/");
-		Zipper z4=new Zipper(userTarget,"src/output/"+lastID+"/user/","user.zip",lastID);
+		Zipper z4=new Zipper(userTarget,"src/output/","/user/","user.zip",lastID);
 		z4.zipUp();
 		}
 		if(this.cloudBackup==true){
 		makeDir(ldb.getLastID()+"/cloud/");
-		Zipper z5=new Zipper(cloudTarget,"src/output/"+lastID+"/cloud/","cloud.zip",lastID);
+		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",lastID);
 		z5.zipUp();
 		}
 	}

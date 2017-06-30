@@ -17,21 +17,38 @@ public class Zipper{
     private String outputDir;
     private String outputFile;
     private String sourceDir;
+    private String outputDirFull;
     private int backupID;
+    private boolean isBase;
 
-    public Zipper(String source, String outputDir, String outputFile, int backupID){
+    public Zipper(String source, String outputDir1,String outputDir2, String outputFile, int backupID){
     	fileList = new ArrayList<String>();
     	digestList = new ArrayList<String>();
-    	this.outputZip=outputDir+outputFile;
     	this.sourceDir=source;
-    	this.outputDir=outputDir;
+    	this.outputDir=outputDir1;
+    	this.outputDirFull=outputDir1+backupID+outputDir2;
     	this.outputFile=outputFile;
+    	this.outputZip=outputDirFull+outputFile;
     	this.backupID=backupID;
+    }
+    
+    public Zipper(String source, String outputDir1,String outputDir2, String outputFile, int backupID,boolean isBase){
+    	fileList = new ArrayList<String>();
+    	digestList = new ArrayList<String>();
+    	this.sourceDir=source;
+    	this.outputDir=outputDir1;
+    	this.outputDirFull=outputDir1+backupID+outputDir2;
+    	this.outputFile=outputFile;
+    	this.outputZip=outputDirFull+outputFile;
+    	this.backupID=backupID;
+    	this.isBase=isBase;
     }
 
     public void zipUp(){
+    	if(isBase==true){
     	this.generateFileList(new File(sourceDir));
     	this.zipIt(outputZip);
+    	}
     }
     public void zipIt(String zipFile){
 
@@ -58,9 +75,10 @@ public class Zipper{
         	}
 
         	in.close();
-        	System.out.println(fileList);
-        	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDir).replace("\\", "/"),backupID);
+        	
+        	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDir).replace("\\", "/"),(outputDirFull).replace("\\", "/"),backupID,isBase);
         	mdw.writeMD();
+        	mdw.writeDelta();
     	}
 
     	zos.closeEntry();
@@ -141,6 +159,22 @@ public class Zipper{
 
 	public void setBackupID(int backupID) {
 		this.backupID = backupID;
+	}
+
+	public String getOutputdirFull() {
+		return outputDirFull;
+	}
+
+	public void setOutputdirFull(String outputdirFull) {
+		this.outputDirFull = outputdirFull;
+	}
+
+	public boolean isBase() {
+		return isBase;
+	}
+
+	public void setBase(boolean isBase) {
+		this.isBase = isBase;
 	}
 
 }
