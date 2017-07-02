@@ -3,10 +3,12 @@ package zipper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -45,12 +47,15 @@ public class Zipper{
     }
 
     public void zipUp(){
-    	if(isBase==true){
     	this.generateFileList(new File(sourceDir));
-    	this.zipIt(outputZip);
+    	if(isBase==true){
+    	this.zipItAll(outputZip);
+    	}
+    	else{
+    		this.zipIt(outputZip);
     	}
     }
-    public void zipIt(String zipFile){
+    public void zipItAll(String zipFile){
 
      byte[] buffer = new byte[1024];
 
@@ -76,7 +81,7 @@ public class Zipper{
 
         	in.close();
         	
-        	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDir).replace("\\", "/"),(outputDirFull).replace("\\", "/"),backupID,isBase);
+        	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);
         	mdw.writeMD();
         	mdw.writeDelta();
     	}
@@ -88,6 +93,56 @@ public class Zipper{
        ex.printStackTrace();
     }
    }
+    
+    public void zipIt(String zipFile){
+
+        byte[] buffer = new byte[1024];
+
+        try{
+           	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);
+           	mdw.writeMD();
+           	mdw.writeDelta();
+           	
+           	FileOutputStream fos = new FileOutputStream(zipFile);
+           	ZipOutputStream zos = new ZipOutputStream(fos);
+
+           	FileReader fr = new FileReader(outputDirFull+"/delta.data");
+           	Scanner sc = new Scanner(fr);
+           	sc.useDelimiter("><");
+           	
+           	fileList = new ArrayList<String>();
+           	while(sc.hasNextLine()){
+           		String action = sc.next();
+           		if(action.equals("ADD")||action.equals("UDT")){
+           	fileList.add(sc.next());
+           	sc.nextLine();
+           	System.out.println(fileList);
+           		}
+           	}
+           	
+           	for(String file : this.fileList){
+           		System.out.println("File Added : " + file);
+           		ZipEntry ze= new ZipEntry(file);
+               	zos.putNextEntry(ze);
+
+               	FileInputStream in = new FileInputStream(sourceDir+File.separator+file);
+
+               	int len;
+               	while ((len = in.read(buffer)) > 0) {
+               		zos.write(buffer, 0, len);
+               	}
+
+               	in.close();
+       	}
+
+       	zos.closeEntry();
+       	zos.close();
+       	sc.close();
+       	System.out.println("Done");
+       }catch(IOException ex){
+          ex.printStackTrace();
+       }
+      }
     public void generateFileList(File node){
 	if(node.isFile()){
 		fileList.add(generateZipEntry(node.getPath().toString()));

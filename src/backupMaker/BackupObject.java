@@ -102,6 +102,7 @@ public class BackupObject {
 		
 		if(this.auditBackup==true){
 		makeDir(ldb.getLastID()+"/audit/");
+		System.out.println(auditTarget+"src/output/"+"/audit/"+"audit.zip"+lastID);
 		Zipper z1=new Zipper(auditTarget,"src/output/","/audit/","audit.zip",lastID);
 		z1.zipUp();
 		}
