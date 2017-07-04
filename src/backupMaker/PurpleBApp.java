@@ -23,7 +23,7 @@ public class PurpleBApp extends Application {
 			loader.setLocation(getClass().getResource("../view/BackupMaker.fxml"));
 			GridPane root = loader.load();
 
-			Scene scene = new Scene(root, 960, 540);
+			Scene scene = new Scene(root, 1280, 720);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Purple Backup System");
 			primaryStage.show();

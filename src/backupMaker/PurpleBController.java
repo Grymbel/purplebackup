@@ -66,6 +66,9 @@ public class PurpleBController {
 
     @FXML
     private JFXButton btnRestore;
+    
+    @FXML
+    private JFXButton btnManual;
 
     public void initialize(){
     	bo = new BackupObject();
@@ -205,6 +208,11 @@ public class PurpleBController {
 
     }
 
+    @FXML
+    void gotoManual(ActionEvent event){
+    	
+    }
+    
     public void colorSwap(JFXButton jfxb){
     	Paint color1 = jfxb.getRipplerFill();
     	Paint color2 = jfxb.getTextFill();
