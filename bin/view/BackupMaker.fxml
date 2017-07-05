@@ -148,6 +148,16 @@
                   </JFXButton>
                </children>
             </GridPane>
+            <JFXButton fx:id="btnScrollLeft" layoutX="720.0" layoutY="420.0" onAction="#doScrollLeft" text="&lt;" textFill="#cccccc" ripplerFill="#9a27b0">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnScrollRight" layoutX="802.0" layoutY="420.0" onAction="#doScrollRight" text="&gt;" textFill="#cccccc" ripplerFill="#9a27b0">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </JFXButton>
          </children>
       </AnchorPane>
    </children>

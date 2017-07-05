@@ -16,6 +16,9 @@ public class PurpleBController {
 	
 	private BackupObject bo;
 	private LastDoneBackup ldb;
+
+	private int noOfPages;
+	private int pageNo;
 	
 	private ArrayList<BackupObject> allBackups;
 	
@@ -36,6 +39,12 @@ public class PurpleBController {
 
     @FXML
     private JFXButton btnSelWeb;
+    
+    @FXML
+    private JFXButton btnScrollLeft;
+
+    @FXML
+    private JFXButton btnScrollRight;
 
     @FXML
     private TableView<BackupObject> bmtable;
@@ -74,6 +83,9 @@ public class PurpleBController {
     	bo = new BackupObject();
     	allBackups=new ArrayList<BackupObject>();
 
+    	btnScrollLeft.setVisible(false);
+    	btnScrollRight.setVisible(false);
+    	
     	ldb = new LastDoneBackup();
 			BackupDAO bdao = new BackupDAO();
 			ArrayList<String> existingBackups = new ArrayList<String>();
@@ -112,9 +124,22 @@ public class PurpleBController {
 			st.close();
 		}
 		ObservableList<BackupObject> data = bmtable.getItems();
-		
-		for(int i=0;i<allBackups.size();i++){
+		int todo;
+		if(allBackups.size()>10){
+			todo=10;
+		}
+		else{
+			todo=allBackups.size();
+		}
+		for(int i=0;i<todo;i++){
 	    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate()));
+		}
+		
+		this.noOfPages = (data.size()/10)+1;
+		this.pageNo = 0;
+		if(noOfPages>1){
+			btnScrollLeft.setVisible(true);
+			btnScrollRight.setVisible(true);
 		}
     }
     
@@ -136,6 +161,12 @@ public class PurpleBController {
     	ldb.updateBackup(time);
     	bo.makeManualBackup(ldb.getLastID());
     	}
+    	this.noOfPages = (allBackups.size()/10)+1;
+		this.pageNo = 0;
+		if(noOfPages>1){
+			btnScrollLeft.setVisible(true);
+			btnScrollRight.setVisible(true);
+		}
     }
 
     @FXML
@@ -211,6 +242,43 @@ public class PurpleBController {
     @FXML
     void gotoManual(ActionEvent event){
     	
+    }
+    
+    @FXML
+    void doScrollLeft(ActionEvent event){
+    	int minBackups;
+    	if((this.pageNo-1)>=0){
+    	minBackups = (pageNo-1)*10;
+    	ObservableList<BackupObject> data = bmtable.getItems();
+		data.clear();
+    	for(int y =minBackups;y<pageNo*10;y++){
+    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate()));
+    	}
+    	this.pageNo=this.pageNo-1;
+    	}
+    	else{
+
+    	}
+    }
+    
+    @FXML
+    void doScrollRight(ActionEvent event){
+    	int maxBackups = allBackups.size();
+    	if(maxBackups>=noOfPages*10){
+    	maxBackups = pageNo*10;
+    	}
+    	else{
+    		maxBackups = allBackups.size();
+    	}
+    	if(maxBackups>=(pageNo+1)*10){
+    		ObservableList<BackupObject> data = bmtable.getItems();
+    		data.clear();
+    	for(int y =(noOfPages-1)*10;y<maxBackups;y++){
+    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate()));
+    	}
+    	this.pageNo=this.pageNo+1;
+
+    	}
     }
     
     public void colorSwap(JFXButton jfxb){
