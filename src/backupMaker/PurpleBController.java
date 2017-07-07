@@ -50,22 +50,22 @@ public class PurpleBController {
     private TableView<BackupObject> bmtable;
 
     @FXML
-    private TableColumn<?, ?> colDate;
+    private TableColumn<BackupObject, String> colDate;
 
     @FXML
-    private TableColumn<?, ?> colUser;
+    private TableColumn<BackupObject, String> colUser;
 
     @FXML
-    private TableColumn<?, ?> colCloud;
+    private TableColumn<BackupObject, String> colCloud;
 
     @FXML
-    private TableColumn<?, ?> colWeb;
+    private TableColumn<BackupObject, String> colWeb;
 
     @FXML
-    private TableColumn<?, ?> colAudit;
+    private TableColumn<BackupObject, String> colAudit;
 
     @FXML
-    private TableColumn<?, ?> colMessage;
+    private TableColumn<BackupObject, String> colMessage;
 
     @FXML
     private JFXButton btnSchedule;
@@ -171,7 +171,14 @@ public class PurpleBController {
 
     @FXML
     void doRestore(ActionEvent event) {
-
+    	if(bmtable.getSelectionModel().getSelectedIndex()>=0){
+    	int selOnes = bmtable.getSelectionModel().getSelectedIndex();
+    	int sel = (pageNo*10)+selOnes;
+    	
+    	System.out.println(allBackups.get(sel));
+    	
+    	allBackups.get(sel).restore(sel);
+    	}
     }
 
     @FXML
