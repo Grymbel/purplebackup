@@ -11,7 +11,7 @@ import zipper.Unzipper;
 import zipper.Zipper;
 
 public class BackupObject {
-	private Boolean userBackup, cloudBackup, webBackup, auditBackup, messageBackup;
+	private Boolean userBackup, cloudBackup, webBackup, auditBackup, messageBackup, isBase;
 	private long creationDate;
 	private String userBackupSTR, cloudBackupSTR, webBackupSTR, auditBackupSTR, messageBackupSTR, creationDateSTR;
 	
@@ -138,6 +138,14 @@ public class BackupObject {
 	
 	public void makeBaseBackup(String baseID, long time){
 		//Zip all and put it in the output dir
+		this.initBackupLocations();
+		makeDir(baseID+"");
+		makeDir(baseID+"/audit/");
+		makeDir(baseID+"/web/");
+		makeDir(baseID+"/message/");
+		makeDir(baseID+"/user/");
+		makeDir(baseID+"/cloud/");
+		
 		Zipper z1=new Zipper(auditTarget,"src/output/","/audit/","audit.zip",Integer.parseInt(baseID),true);
 		z1.zipUp();
 		Zipper z2=new Zipper(webTarget,"src/output/","/web/","web.zip",Integer.parseInt(baseID),true);
@@ -149,13 +157,15 @@ public class BackupObject {
 		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",Integer.parseInt(baseID),true);
 		z5.zipUp();
 		
+
 		BackupObject bco = new BackupObject();
+
 		bco.setAuditBackup(true);
 		bco.setCloudBackup(true);
 		bco.setMessageBackup(true);
 		bco.setUserBackup(true);
 		bco.setWebBackup(true);
-		
+		bco.setIsBase(true);
 		bco.setCreationDate(time);
 		
 		BackupDAO.manualBackup(bco);
@@ -339,6 +349,12 @@ public class BackupObject {
 	}
 	public void setMessageTarget(String messageTarget) {
 		this.messageTarget = messageTarget;
+	}
+	public Boolean getIsBase() {
+		return isBase;
+	}
+	public void setIsBase(Boolean isBase) {
+		this.isBase = isBase;
 	}
 	
 	

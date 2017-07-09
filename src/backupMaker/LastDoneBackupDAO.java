@@ -37,16 +37,8 @@ public class LastDoneBackupDAO {
 					fw.append(time+";");
 					fw.append("0;");
 					fw.close();
-					
-					BackupObject.makeDir("0");
-					BackupObject.makeDir("0/audit/");
-					BackupObject.makeDir("0/web/");
-					BackupObject.makeDir("0/message/");
-					BackupObject.makeDir("0/user/");
-					BackupObject.makeDir("0/cloud/");
-					
+
 					BackupObject bcko = new BackupObject();
-					bcko.initBackupLocations();
 					bcko.makeBaseBackup("0",time);
 					
 					return "0;"+time+";"+"0;";

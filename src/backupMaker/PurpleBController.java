@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.paint.Paint;
@@ -66,6 +69,9 @@ public class PurpleBController {
 
     @FXML
     private TableColumn<BackupObject, String> colMessage;
+    
+    @FXML
+    private TableColumn<BackupObject, String> colIsBase;
 
     @FXML
     private JFXButton btnSchedule;
@@ -79,8 +85,12 @@ public class PurpleBController {
     @FXML
     private JFXButton btnManual;
 
+    @FXML
+    private JFXCheckBox chbEnableBase;
+    
     public void initialize(){
     	bo = new BackupObject();
+    	bo.setIsBase(false);
     	allBackups=new ArrayList<BackupObject>();
 
     	btnScrollLeft.setVisible(false);
@@ -153,13 +163,20 @@ public class PurpleBController {
     @FXML
     void doAddBackup(ActionEvent event) {
     	long time =System.currentTimeMillis();
+    	bo.initBackupLocations();
     	bo.setCreationDate(time);
     	//Sets the tables
     	if(!(bo.getAuditBackup()==false&&bo.getCloudBackup()==false&&bo.getMessageBackup()==false&&bo.getWebBackup()==false&&bo.getUserBackup()==false)){
     		addBackupObject();
     	
     	ldb.updateBackup(time);
-    	bo.makeManualBackup(ldb.getLastID());
+    	if(bo.getIsBase()==true){
+    		bo.makeBaseBackup(ldb.getLastID()+"",time);
+    		}
+    	else{
+    		bo.makeManualBackup(ldb.getLastID());
+    		ldb.updateBase(time);
+    		}
     	}
     	this.noOfPages = (allBackups.size()/10)+1;
 		this.pageNo = 0;
@@ -236,6 +253,60 @@ public class PurpleBController {
         	}
     }
 
+    @FXML
+    void doEnableBase(ActionEvent event){
+    	ArrayList<JFXButton> buttons = new ArrayList<JFXButton>();
+		buttons.add(btnSelAudit);
+		buttons.add(btnSelCloud);
+		buttons.add(btnSelMsg);
+		buttons.add(btnSelUserData);
+		buttons.add(btnSelWeb);
+		
+    	if(chbEnableBase.isSelected()){
+    		bo.setIsBase(true);
+    		
+    		bo.setAuditBackup(true);
+    		bo.setCloudBackup(true);
+    		bo.setMessageBackup(true);
+    		bo.setUserBackup(true);
+    		bo.setWebBackup(true);
+    		
+    		for(JFXButton bt : buttons){
+    			if(bt.getTextFill().equals(btnScrollLeft.getTextFill())){
+    				colorSwap(bt);
+    			}
+    			else{
+    				
+    			}
+    		}
+    		
+    		Alert alert = new Alert(AlertType.WARNING);
+    		alert.setTitle("Base Backup Selected");
+    		alert.setHeaderText("Base backups are large!");
+    		alert.setContentText("Base backups are used to start a new incremental chain. Use this wisely.");
+
+    		alert.showAndWait();
+    	}
+    	else{
+    		bo.setIsBase(false);
+    		
+    		bo.setAuditBackup(false);
+    		bo.setCloudBackup(false);
+    		bo.setMessageBackup(false);
+    		bo.setUserBackup(false);
+    		bo.setWebBackup(false);
+    		
+    		for(JFXButton bt : buttons){
+    			if(!(bt.getTextFill().equals(btnScrollLeft.getTextFill()))){
+    				colorSwap(bt);
+    			}
+    			else{
+    				
+    			}
+    		}
+    	}
+    }
+    
     @FXML
     void gotoBack(ActionEvent event) {
 

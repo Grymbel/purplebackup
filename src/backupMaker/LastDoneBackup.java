@@ -26,6 +26,14 @@ public class LastDoneBackup {
 		ldbdao.updateLDB(this.lastID, this.lastTime, this.baseID);
 	}
 	
+	public void updateBase(long time){
+		this.lastTime = time;
+		this.lastID+=1;
+		
+		LastDoneBackupDAO ldbdao = new LastDoneBackupDAO();
+		ldbdao.updateLDB(this.lastID, this.lastTime, this.lastID);
+	}
+	
 	public int getBaseID() {
 		return baseID;
 	}

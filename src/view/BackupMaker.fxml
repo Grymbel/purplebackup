@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
@@ -25,7 +26,7 @@
    <children>
       <AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #222222;">
          <children>
-            <GridPane layoutX="340.0" layoutY="125.0" prefHeight="270.0" prefWidth="360.0">
+            <GridPane layoutX="290.0" layoutY="125.0" prefHeight="270.0" prefWidth="360.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -94,8 +95,8 @@
                   <Font name="Noto Sans" size="48.0" />
                </font>
             </Text>
-            <TableView fx:id="bmtable" layoutX="720.0" layoutY="125.0" prefHeight="270.0" prefWidth="502.0">
-              <columns>
+            <TableView fx:id="bmtable" layoutX="670.0" layoutY="125.0" prefHeight="270.0" prefWidth="577.0">
+            <columns>
                 <TableColumn fx:id="colDate" prefWidth="125.0" text="Date">
                		<cellValueFactory>
                 		<PropertyValueFactory property="creationDateSTR" />
@@ -144,9 +145,17 @@
                 		<FormattedTableCellFactory alignment="center"/>
                 	</cellFactory>
                 </TableColumn>
+                <TableColumn fx:id="colIsBase" prefWidth="75.0" text="Base?">
+                  <cellValueFactory>
+                		<PropertyValueFactory property="isBase" />
+                	</cellValueFactory>
+                	<cellFactory>
+                		<FormattedTableCellFactory alignment="center"/>
+                	</cellFactory>
+                </TableColumn>
               </columns>
             </TableView>
-            <Text fill="#eeeeee" layoutX="340.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual Backup">
+            <Text fill="#eeeeee" layoutX="290.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual Backup">
                <font>
                   <Font name="Noto Sans" size="20.0" />
                </font>
@@ -156,7 +165,7 @@
                   <Font size="40.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnRestore" layoutX="720.0" layoutY="415.0" onAction="#doRestore" ripplerFill="#9a27b0" text="Restore" textFill="#dddddd">
+            <JFXButton fx:id="btnRestore" layoutX="670.0" layoutY="415.0" onAction="#doRestore" ripplerFill="#9a27b0" text="Restore" textFill="#dddddd">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -183,16 +192,17 @@
                   </JFXButton>
                </children>
             </GridPane>
-            <JFXButton fx:id="btnScrollLeft" layoutX="720.0" layoutY="420.0" onAction="#doScrollLeft" text="&lt;" textFill="#cccccc" ripplerFill="#9a27b0">
+            <JFXButton fx:id="btnScrollLeft" layoutX="720.0" layoutY="420.0" onAction="#doScrollLeft" ripplerFill="#9a27b0" text="&lt;" textFill="#cccccc">
                <font>
                   <Font size="40.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnScrollRight" layoutX="802.0" layoutY="420.0" onAction="#doScrollRight" text="&gt;" textFill="#cccccc" ripplerFill="#9a27b0">
+            <JFXButton fx:id="btnScrollRight" layoutX="802.0" layoutY="420.0" onAction="#doScrollRight" ripplerFill="#9a27b0" text="&gt;" textFill="#cccccc">
                <font>
                   <Font size="40.0" />
                </font>
             </JFXButton>
+            <JFXCheckBox fx:id="chbEnableBase" layoutX="290.0" layoutY="430.0" onAction="#doEnableBase" prefHeight="50.0" prefWidth="155.0" text="Base Backup" textFill="WHITE" />
          </children>
       </AnchorPane>
    </children>
