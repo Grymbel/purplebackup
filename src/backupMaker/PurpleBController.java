@@ -128,7 +128,13 @@ public class PurpleBController {
 			if(binaryCheck==1){
 				bck.setMessageBackup(true);
 			}
+			
 			bck.setCreationDate(st.nextLong());
+			
+			binaryCheck=st.nextInt();
+			if(binaryCheck==1){
+				bck.setIsBase(true);
+			}
 			
 			allBackups.add(bck);
 			st.close();
@@ -142,7 +148,7 @@ public class PurpleBController {
 			todo=allBackups.size();
 		}
 		for(int i=0;i<todo;i++){
-	    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate()));
+	    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate(),allBackups.get(i).getIsBase()));
 		}
 		
 		this.noOfPages = (data.size()/10)+1;
@@ -157,7 +163,7 @@ public class PurpleBController {
 	protected void addBackupObject() {
 		//Display object constructor
         ObservableList<BackupObject> data = bmtable.getItems();
-        data.add(new BackupObject(bo.getUserBackup(),bo.getCloudBackup(),bo.getWebBackup(),bo.getAuditBackup(),bo.getMessageBackup(),bo.getCreationDate()));
+        data.add(new BackupObject(bo.getUserBackup(),bo.getCloudBackup(),bo.getWebBackup(),bo.getAuditBackup(),bo.getMessageBackup(),bo.getCreationDate(),bo.getIsBase()));
     }
     
     @FXML
@@ -330,7 +336,7 @@ public class PurpleBController {
     	ObservableList<BackupObject> data = bmtable.getItems();
 		data.clear();
     	for(int y =minBackups;y<pageNo*10;y++){
-    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate()));
+    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate(),allBackups.get(y).getIsBase()));
     	}
     	this.pageNo=this.pageNo-1;
     	}
@@ -352,7 +358,7 @@ public class PurpleBController {
     		ObservableList<BackupObject> data = bmtable.getItems();
     		data.clear();
     	for(int y =(noOfPages-1)*10;y<maxBackups;y++){
-    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate()));
+    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate(),allBackups.get(y).getIsBase()));
     	}
     	this.pageNo=this.pageNo+1;
 

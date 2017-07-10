@@ -13,7 +13,7 @@ import zipper.Zipper;
 public class BackupObject {
 	private Boolean userBackup, cloudBackup, webBackup, auditBackup, messageBackup, isBase;
 	private long creationDate;
-	private String userBackupSTR, cloudBackupSTR, webBackupSTR, auditBackupSTR, messageBackupSTR, creationDateSTR;
+	private String userBackupSTR, cloudBackupSTR, webBackupSTR, auditBackupSTR, messageBackupSTR, creationDateSTR, isBaseSTR;
 	
 	private String userTarget,cloudTarget,webTarget,auditTarget,messageTarget;
 	
@@ -36,7 +36,7 @@ public class BackupObject {
 		this.creationDate = System.currentTimeMillis();
 	}
 	
-	public BackupObject(boolean userBackupSTR, boolean cloudBackupSTR, boolean webBackupSTR, boolean auditBackupSTR, boolean messageBackupSTR, long dateOfC){
+	public BackupObject(boolean userBackupSTR, boolean cloudBackupSTR, boolean webBackupSTR, boolean auditBackupSTR, boolean messageBackupSTR, long dateOfC, boolean isBase){
 	
 		if(userBackupSTR==true){
 			this.setUserBackupSTR("X");
@@ -66,6 +66,12 @@ public class BackupObject {
 			this.setMessageBackupSTR("X");
 		}else{
 			this.setMessageBackupSTR("");
+		}
+		
+		if(isBase==true){
+			this.setIsBaseSTR("X");
+		}else{
+			this.setIsBaseSTR("");
 		}
 
 		SimpleDateFormat sdf = new SimpleDateFormat();
@@ -213,10 +219,12 @@ public class BackupObject {
 		toRet=toRet+this.auditBackup+";";
 		toRet=toRet+this.messageBackup+";";
 		
+		toRet=toRet+this.getCreationDate()+";";
+		toRet=toRet+this.isBase;
+		
 		toRet=toRet.replace("true", "1");
 		toRet=toRet.replace("false", "0");
 		
-		toRet=toRet+this.getCreationDate()+";";
 		return toRet;
 	}
 	
@@ -355,6 +363,12 @@ public class BackupObject {
 	}
 	public void setIsBase(Boolean isBase) {
 		this.isBase = isBase;
+	}
+	public String getIsBaseSTR() {
+		return isBaseSTR;
+	}
+	public void setIsBaseSTR(String isBaseSTR) {
+		this.isBaseSTR = isBaseSTR;
 	}
 	
 	

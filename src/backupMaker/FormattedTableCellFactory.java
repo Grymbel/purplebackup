@@ -35,7 +35,8 @@ public class FormattedTableCellFactory<S, T>
     @Override
     public TableCell<S, T> call(TableColumn<S, T> p) {
         TableCell<S, T> cell = new TableCell<S, T>() {
-            @Override
+            @SuppressWarnings("unchecked")
+			@Override
             public void updateItem(Object item, boolean empty) {
                 if (item == getItem()) {
                     return;
