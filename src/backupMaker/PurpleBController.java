@@ -148,7 +148,9 @@ public class PurpleBController {
 			todo=allBackups.size();
 		}
 		for(int i=0;i<todo;i++){
-	    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate(),allBackups.get(i).getIsBase()));
+			System.out.println("==="+allBackups.get(i));
+	    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate(),
+	    		allBackups.get(i).getIsBase()));
 		}
 		
 		this.noOfPages = (data.size()/10)+1;
@@ -175,13 +177,11 @@ public class PurpleBController {
     	if(!(bo.getAuditBackup()==false&&bo.getCloudBackup()==false&&bo.getMessageBackup()==false&&bo.getWebBackup()==false&&bo.getUserBackup()==false)){
     		addBackupObject();
     	
-    	ldb.updateBackup(time);
     	if(bo.getIsBase()==true){
-    		bo.makeBaseBackup(ldb.getLastID()+"",time);
+    		bo.makeBaseBackup(time);
     		}
     	else{
-    		bo.makeManualBackup(ldb.getLastID());
-    		ldb.updateBase(time);
+    		bo.makeManualBackup(time);
     		}
     	}
     	this.noOfPages = (allBackups.size()/10)+1;

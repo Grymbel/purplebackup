@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 import zipper.Unzipper;
@@ -36,7 +37,7 @@ public class BackupObject {
 		this.creationDate = System.currentTimeMillis();
 	}
 	
-	public BackupObject(boolean userBackupSTR, boolean cloudBackupSTR, boolean webBackupSTR, boolean auditBackupSTR, boolean messageBackupSTR, long dateOfC, boolean isBase){
+	public BackupObject(boolean userBackupSTR, boolean cloudBackupSTR, boolean webBackupSTR, boolean auditBackupSTR, boolean messageBackupSTR, long dateOfC, boolean isBaseSTR){
 	
 		if(userBackupSTR==true){
 			this.setUserBackupSTR("X");
@@ -67,8 +68,7 @@ public class BackupObject {
 		}else{
 			this.setMessageBackupSTR("");
 		}
-		
-		if(isBase==true){
+		if(isBaseSTR==true){
 			this.setIsBaseSTR("X");
 		}else{
 			this.setIsBaseSTR("");
@@ -85,8 +85,21 @@ public class BackupObject {
 	public void restore(int id){
 		LastDoneBackup ldb = new LastDoneBackup();
 		ArrayList<String> dirList = new ArrayList<String>();
+		ArrayList<Integer> baseList = ldb.getBases();
+		Collections.sort(baseList);
 		
-		for(int i=ldb.getBaseID();i<=id;i++){
+		int rangeStart=0;
+		
+		for(Integer in : baseList){
+			if(in<=id){
+				
+			}
+			else{
+				rangeStart=in;
+				break;
+			}
+		}
+		for(int i = rangeStart;i<=id;i++){
 		File node = new File("src/output/"+i+"/");
 		
 
@@ -134,15 +147,49 @@ public class BackupObject {
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			//FileReader fr = new FileReader();
-			//Check Delta
-			//If else to add, delete or update
-			//Run deletions first
-			//Output to highest ID+Restore
 		}
 	}
 	
-	public void makeBaseBackup(String baseID, long time){
+	public void makeBaseBackup(long time){
+		LastDoneBackup ldb = new LastDoneBackup();
+		int base = ldb.getLastID()+1;
+		System.out.println("BASE "+base);
+		//Zip all and put it in the output dir
+		this.initBackupLocations();
+		
+		this.setAuditBackup(true);
+		this.setCloudBackup(true);
+		this.setMessageBackup(true);
+		this.setUserBackup(true);
+		this.setWebBackup(true);
+		this.setIsBase(true);
+		this.setCreationDate(time);
+		
+		BackupDAO.manualBackup(this);
+		
+		makeDir(base+"");
+		makeDir(base+"/audit/");
+		makeDir(base+"/web/");
+		makeDir(base+"/message/");
+		makeDir(base+"/user/");
+		makeDir(base+"/cloud/");
+		
+		Zipper z1=new Zipper(auditTarget,"src/output/","/audit/","audit.zip",base,true);
+		z1.zipUp();
+		Zipper z2=new Zipper(webTarget,"src/output/","/web/","web.zip",base,true);
+		z2.zipUp();
+		Zipper z3=new Zipper(messageTarget,"src/output/","/message/","message.zip",base,true);
+		z3.zipUp();
+		Zipper z4=new Zipper(userTarget,"src/output/","/user/","user.zip",base,true);
+		z4.zipUp();
+		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",base,true);
+		z5.zipUp();
+		
+		ldb.updateBase(time);
+	}
+	
+	public void makeBaseBackupFirst(String baseID, long time){
+		System.out.println("FIRST");
 		//Zip all and put it in the output dir
 		this.initBackupLocations();
 		makeDir(baseID+"");
@@ -163,52 +210,54 @@ public class BackupObject {
 		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",Integer.parseInt(baseID),true);
 		z5.zipUp();
 		
-
-		BackupObject bco = new BackupObject();
-
-		bco.setAuditBackup(true);
-		bco.setCloudBackup(true);
-		bco.setMessageBackup(true);
-		bco.setUserBackup(true);
-		bco.setWebBackup(true);
-		bco.setIsBase(true);
-		bco.setCreationDate(time);
+		this.setAuditBackup(true);
+		this.setCloudBackup(true);
+		this.setMessageBackup(true);
+		this.setUserBackup(true);
+		this.setWebBackup(true);
+		this.setIsBase(true);
+		this.setCreationDate(time);
 		
-		BackupDAO.manualBackup(bco);
+		BackupDAO.manualBackup(this);
 	}
 	
-	public void makeManualBackup(int lastID){
+	public void makeManualBackup(long time){
 		LastDoneBackup ldb = new LastDoneBackup();
+		int id = ldb.getLastID()+1;
+		System.out.println("MANUAL");
+		
 		this.initBackupLocations();
 		BackupDAO.manualBackup(this);
-		makeDir(ldb.getLastID()+"");
+		System.out.println(id);
+		makeDir(id+"");
 		
 		if(this.auditBackup==true){
-		makeDir(ldb.getLastID()+"/audit/");
-		System.out.println(auditTarget+"src/output/"+"/audit/"+"audit.zip"+lastID);
-		Zipper z1=new Zipper(auditTarget,"src/output/","/audit/","audit.zip",lastID);
+		makeDir(id+"/audit/");
+		Zipper z1=new Zipper(auditTarget,"src/output/","/audit/","audit.zip",id);
 		z1.zipUp();
 		}
 		if(this.webBackup==true){
-		makeDir(ldb.getLastID()+"/web/");
-		Zipper z2=new Zipper(webTarget,"src/output/","/web/","web.zip",lastID);
+		makeDir(id+"/web/");
+		Zipper z2=new Zipper(webTarget,"src/output/","/web/","web.zip",id);
 		z2.zipUp();
 		}
 		if(this.messageBackup==true){
-		makeDir(ldb.getLastID()+"/message/");
-		Zipper z3=new Zipper(messageTarget,"src/output/","/message/","message.zip",lastID);
+		makeDir(id+"/message/");
+		Zipper z3=new Zipper(messageTarget,"src/output/","/message/","message.zip",id);
 		z3.zipUp();
 		}
 		if(this.userBackup==true){
-		makeDir(ldb.getLastID()+"/user/");
-		Zipper z4=new Zipper(userTarget,"src/output/","/user/","user.zip",lastID);
+		makeDir(id+"/user/");
+		Zipper z4=new Zipper(userTarget,"src/output/","/user/","user.zip",id);
 		z4.zipUp();
 		}
 		if(this.cloudBackup==true){
-		makeDir(ldb.getLastID()+"/cloud/");
-		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",lastID);
+		makeDir(id+"/cloud/");
+		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",id);
 		z5.zipUp();
 		}
+		
+		ldb.updateBackup(time);
 	}
 	
 	public String toString(){

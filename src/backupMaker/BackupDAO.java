@@ -36,8 +36,9 @@ public class BackupDAO {
 		try {
 			FileWriter fw = new FileWriter("src/output/backupLog.txt",true);
 			
+			System.out.println(bcko.toString());
 			fw.append(bcko.toString());
-			fw.append("\n");
+			fw.append(";\n");
 			fw.close();
 			
 		} catch (IOException e) {

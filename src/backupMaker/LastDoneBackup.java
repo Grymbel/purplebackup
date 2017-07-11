@@ -1,5 +1,6 @@
 package backupMaker;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LastDoneBackup {
@@ -19,19 +20,28 @@ public class LastDoneBackup {
 	}
 
 	public void updateBackup(long time){
+		System.out.println("uBackup");
 		this.lastTime = time;
-		this.lastID+=1;
 		
 		LastDoneBackupDAO ldbdao = new LastDoneBackupDAO();
+		this.lastID+=1;
+		System.out.println(this.lastID);
 		ldbdao.updateLDB(this.lastID, this.lastTime, this.baseID);
 	}
 	
 	public void updateBase(long time){
+		System.out.println("uBase");
 		this.lastTime = time;
-		this.lastID+=1;
 		
 		LastDoneBackupDAO ldbdao = new LastDoneBackupDAO();
+		this.lastID+=1;
+		System.out.println(this.lastID);
 		ldbdao.updateLDB(this.lastID, this.lastTime, this.lastID);
+	}
+	
+	public ArrayList<Integer> getBases(){
+		LastDoneBackupDAO ldd= new LastDoneBackupDAO();
+		return ldd.getBases();
 	}
 	
 	public int getBaseID() {
