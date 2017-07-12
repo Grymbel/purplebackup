@@ -24,17 +24,9 @@ public class BackupObject {
 		this.webBackup=false;
 		this.auditBackup=false;
 		this.messageBackup=false;
+		this.isBase=false;
 		
 		this.creationDate = 0;
-	}
-	public BackupObject(boolean user, boolean cloud, boolean web, boolean audit, boolean message){
-		this.userBackup=user;
-		this.cloudBackup=cloud;
-		this.webBackup=web;
-		this.auditBackup=audit;
-		this.messageBackup=message;
-		
-		this.creationDate = System.currentTimeMillis();
 	}
 	
 	public BackupObject(boolean userBackupSTR, boolean cloudBackupSTR, boolean webBackupSTR, boolean auditBackupSTR, boolean messageBackupSTR, long dateOfC, boolean isBaseSTR){
