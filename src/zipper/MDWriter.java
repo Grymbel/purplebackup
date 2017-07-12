@@ -74,7 +74,8 @@ public class MDWriter {
 				
 				ArrayList<String> filesAcPast = new ArrayList<String>();
 				ArrayList<String> filesDiPast = new ArrayList<String>();
-				
+				if(backupID!=0){
+					try{
 				FileReader frP1 = new FileReader(destinationDir+(backupID-1)+"/"+lowerDir+"/meta.data");
 				
 				Scanner scP1 = new Scanner(frP1);
@@ -139,7 +140,12 @@ public class MDWriter {
 				
 				scP1.close();
 				}
+					catch(Exception e){
+						System.out.println("No previous MD for the category");
+					}
 			fw.close();
+				}
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

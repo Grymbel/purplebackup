@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.paint.Paint;
@@ -66,6 +69,9 @@ public class PurpleBController {
 
     @FXML
     private TableColumn<BackupObject, String> colMessage;
+    
+    @FXML
+    private TableColumn<BackupObject, String> colIsBase;
 
     @FXML
     private JFXButton btnSchedule;
@@ -79,8 +85,12 @@ public class PurpleBController {
     @FXML
     private JFXButton btnManual;
 
+    @FXML
+    private JFXCheckBox chbEnableBase;
+    
     public void initialize(){
     	bo = new BackupObject();
+    	bo.setIsBase(false);
     	allBackups=new ArrayList<BackupObject>();
 
     	btnScrollLeft.setVisible(false);
@@ -118,7 +128,13 @@ public class PurpleBController {
 			if(binaryCheck==1){
 				bck.setMessageBackup(true);
 			}
+			
 			bck.setCreationDate(st.nextLong());
+			
+			binaryCheck=st.nextInt();
+			if(binaryCheck==1){
+				bck.setIsBase(true);
+			}
 			
 			allBackups.add(bck);
 			st.close();
@@ -132,7 +148,9 @@ public class PurpleBController {
 			todo=allBackups.size();
 		}
 		for(int i=0;i<todo;i++){
-	    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate()));
+			System.out.println("==="+allBackups.get(i));
+	    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate(),
+	    		allBackups.get(i).getIsBase()));
 		}
 		
 		this.noOfPages = (data.size()/10)+1;
@@ -147,19 +165,24 @@ public class PurpleBController {
 	protected void addBackupObject() {
 		//Display object constructor
         ObservableList<BackupObject> data = bmtable.getItems();
-        data.add(new BackupObject(bo.getUserBackup(),bo.getCloudBackup(),bo.getWebBackup(),bo.getAuditBackup(),bo.getMessageBackup(),bo.getCreationDate()));
+        data.add(new BackupObject(bo.getUserBackup(),bo.getCloudBackup(),bo.getWebBackup(),bo.getAuditBackup(),bo.getMessageBackup(),bo.getCreationDate(),bo.getIsBase()));
     }
     
     @FXML
     void doAddBackup(ActionEvent event) {
     	long time =System.currentTimeMillis();
+    	bo.initBackupLocations();
     	bo.setCreationDate(time);
     	//Sets the tables
     	if(!(bo.getAuditBackup()==false&&bo.getCloudBackup()==false&&bo.getMessageBackup()==false&&bo.getWebBackup()==false&&bo.getUserBackup()==false)){
     		addBackupObject();
     	
-    	ldb.updateBackup(time);
-    	bo.makeManualBackup(ldb.getLastID());
+    	if(bo.getIsBase()==true){
+    		bo.makeBaseBackup(time);
+    		}
+    	else{
+    		bo.makeManualBackup(time);
+    		}
     	}
     	this.noOfPages = (allBackups.size()/10)+1;
 		this.pageNo = 0;
@@ -237,6 +260,60 @@ public class PurpleBController {
     }
 
     @FXML
+    void doEnableBase(ActionEvent event){
+    	ArrayList<JFXButton> buttons = new ArrayList<JFXButton>();
+		buttons.add(btnSelAudit);
+		buttons.add(btnSelCloud);
+		buttons.add(btnSelMsg);
+		buttons.add(btnSelUserData);
+		buttons.add(btnSelWeb);
+		
+    	if(chbEnableBase.isSelected()){
+    		bo.setIsBase(true);
+    		
+    		bo.setAuditBackup(true);
+    		bo.setCloudBackup(true);
+    		bo.setMessageBackup(true);
+    		bo.setUserBackup(true);
+    		bo.setWebBackup(true);
+    		
+    		for(JFXButton bt : buttons){
+    			if(bt.getTextFill().equals(btnScrollLeft.getTextFill())){
+    				colorSwap(bt);
+    			}
+    			else{
+    				
+    			}
+    		}
+    		
+    		Alert alert = new Alert(AlertType.WARNING);
+    		alert.setTitle("Base Backup Selected");
+    		alert.setHeaderText("Base backups are large!");
+    		alert.setContentText("Base backups are used to start a new incremental chain. Use this wisely.");
+
+    		alert.showAndWait();
+    	}
+    	else{
+    		bo.setIsBase(false);
+    		
+    		bo.setAuditBackup(false);
+    		bo.setCloudBackup(false);
+    		bo.setMessageBackup(false);
+    		bo.setUserBackup(false);
+    		bo.setWebBackup(false);
+    		
+    		for(JFXButton bt : buttons){
+    			if(!(bt.getTextFill().equals(btnScrollLeft.getTextFill()))){
+    				colorSwap(bt);
+    			}
+    			else{
+    				
+    			}
+    		}
+    	}
+    }
+    
+    @FXML
     void gotoBack(ActionEvent event) {
 
     }
@@ -259,7 +336,7 @@ public class PurpleBController {
     	ObservableList<BackupObject> data = bmtable.getItems();
 		data.clear();
     	for(int y =minBackups;y<pageNo*10;y++){
-    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate()));
+    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate(),allBackups.get(y).getIsBase()));
     	}
     	this.pageNo=this.pageNo-1;
     	}
@@ -281,7 +358,7 @@ public class PurpleBController {
     		ObservableList<BackupObject> data = bmtable.getItems();
     		data.clear();
     	for(int y =(noOfPages-1)*10;y<maxBackups;y++){
-    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate()));
+    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate(),allBackups.get(y).getIsBase()));
     	}
     	this.pageNo=this.pageNo+1;
 
