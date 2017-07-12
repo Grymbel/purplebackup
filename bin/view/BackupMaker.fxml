@@ -145,9 +145,9 @@
                 		<FormattedTableCellFactory alignment="center"/>
                 	</cellFactory>
                 </TableColumn>
-                <TableColumn fx:id="colIsBase" prefWidth="75.0" text="Base?">
+                <TableColumn fx:id="colIsBase" prefWidth="75.0" text="Base">
                   <cellValueFactory>
-                		<PropertyValueFactory property="isBase" />
+                		<PropertyValueFactory property="isBaseSTR" />
                 	</cellValueFactory>
                 	<cellFactory>
                 		<FormattedTableCellFactory alignment="center"/>

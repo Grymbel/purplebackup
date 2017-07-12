@@ -135,6 +135,10 @@ public class PurpleBController {
 			if(binaryCheck==1){
 				bck.setIsBase(true);
 			}
+			else{
+				bck.setIsBase(false);
+			}
+			
 			
 			allBackups.add(bck);
 			st.close();

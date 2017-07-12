@@ -83,6 +83,7 @@ public class BackupObject {
 	}
 	
 	public void restore(int id){
+		System.out.println("RESTORING " + id);
 		LastDoneBackup ldb = new LastDoneBackup();
 		ArrayList<String> dirList = new ArrayList<String>();
 		ArrayList<Integer> baseList = ldb.getBases();
@@ -122,6 +123,7 @@ public class BackupObject {
 				sc.useDelimiter("><");
 				while(sc.hasNextLine()){
 					String action = sc.next().replace("\n", "");
+					action.replace(" ", "");
 					if(action.equals("DEL")){
 						String toDel = sc.next();
 						File file = new File((restDir+toDel).replace("\\", "/"));
@@ -139,7 +141,7 @@ public class BackupObject {
 						sc.next();
 					}
 					else{
-						System.out.println("Malformed delta command: "+action);
+						System.out.println("Malformed delta command:"+action);
 					}
 				}
 				unz.unZipIt();

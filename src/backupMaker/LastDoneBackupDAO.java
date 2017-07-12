@@ -47,6 +47,7 @@ public class LastDoneBackupDAO {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				sc.close();
 			}
 		
 			else{
@@ -88,8 +89,10 @@ public class LastDoneBackupDAO {
 				for(int i=0;i<6;i++){
 				sc2.next();
 				}
+				if(sc2.next().equals("1")){
 				bases.add(counter);
-				counter+=1;
+				}
+				counter++;
 				sc2.close();
 			}
 			sc.close();
