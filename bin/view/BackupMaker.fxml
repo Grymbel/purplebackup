@@ -165,11 +165,7 @@
                   <Font size="40.0" />
                </font>
             </JFXButton>
-<<<<<<< HEAD
-            <JFXButton fx:id="btnRestore" layoutX="720.0" layoutY="415.0" onAction="#doRestore" ripplerFill="#9a27b0" text="Restore" textFill="#dddddd">
-=======
             <JFXButton fx:id="btnRestore" layoutX="670.0" layoutY="415.0" onAction="#doRestore" ripplerFill="#9a27b0" text="Restore" textFill="#dddddd">
->>>>>>> origin/master
                      <font>
                         <Font size="16.0" />
                      </font>
