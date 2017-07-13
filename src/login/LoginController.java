@@ -65,10 +65,12 @@ public class LoginController {
 		
 		if (Username.equals(null) || Username.equals("")) {
 			errorMessage.setVisible(true);
+			errorMessage.setText("Please enter your username.");
 			System.out.println("Username is null");
 		}
 		else if (Password.equals(null) || Password.equals("")) {
 			errorMessage.setVisible(true);
+			errorMessage.setText("Please enter your password.");
 			System.out.println("Password is null");
 		}
 		else {
@@ -104,6 +106,7 @@ public class LoginController {
 			}
 			else {
 				errorMessage.setVisible(true);
+				errorMessage.setText("Username or password is incorrect.");
 			}
 		}
 	}

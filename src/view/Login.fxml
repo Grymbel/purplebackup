@@ -20,6 +20,7 @@
 <?import javafx.scene.text.TextFlow?>
 
 
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #64ACED;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login.LoginController">
    <children>
       <HBox layoutX="100.0" layoutY="50.0" prefHeight="500.0" prefWidth="800.0">
          <children>
@@ -68,6 +69,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <VBox.margin>
+                        <Insets top="120.0" />
                      </VBox.margin>
                      <children>
                         <HBox maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="400.0">
@@ -80,6 +82,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </ImageView>
+                              <JFXTextField fx:id="userID" focusColor="BLACK" labelFloat="true" onKeyPressed="#checkEnter" prefHeight="50.0" prefWidth="400.0" promptText="Enter username" unFocusColor="#ede7f6">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -96,6 +99,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </ImageView>
+                              <JFXPasswordField fx:id="passID" focusColor="BLACK" labelFloat="true" onKeyPressed="#checkEnter" prefHeight="50.0" prefWidth="400.0" promptText="Enter password" unFocusColor="#ede7f6">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -106,6 +110,7 @@
                   </GridPane>
                   <TextFlow textAlignment="CENTER">
                      <children>
+                        <Label fx:id="errorMessage" alignment="CENTER" prefHeight="50.0" prefWidth="380.0" style="-fx-background-color: #F74225;" textAlignment="CENTER" textFill="WHITE" visible="false">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -129,6 +134,7 @@
                         </StackPane>
                      </children>
                      <VBox.margin>
+                        <Insets top="40.0" />
                      </VBox.margin>
                      <cursor>
                         <Cursor fx:constant="HAND" />
