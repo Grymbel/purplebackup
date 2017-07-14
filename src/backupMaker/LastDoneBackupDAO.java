@@ -86,7 +86,7 @@ public class LastDoneBackupDAO {
 				String tg = sc.nextLine();
 				Scanner sc2 = new Scanner(tg);
 				sc2.useDelimiter(";");
-				for(int i=0;i<6;i++){
+				for(int i=0;i<5;i++){
 				sc2.next();
 				}
 				if(sc2.next().equals("1")){

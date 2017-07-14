@@ -12,24 +12,23 @@ import zipper.Unzipper;
 import zipper.Zipper;
 
 public class BackupObject {
-	private Boolean userBackup, cloudBackup, webBackup, auditBackup, messageBackup, isBase;
+	private Boolean userBackup, cloudBackup, webBackup, auditBackup, isBase;
 	private long creationDate;
-	private String userBackupSTR, cloudBackupSTR, webBackupSTR, auditBackupSTR, messageBackupSTR, creationDateSTR, isBaseSTR;
+	private String userBackupSTR, cloudBackupSTR, webBackupSTR, auditBackupSTR, creationDateSTR, isBaseSTR;
 	
-	private String userTarget,cloudTarget,webTarget,auditTarget,messageTarget;
+	private String userTarget,cloudTarget,webTarget,auditTarget;
 	
 	public BackupObject(){
 		this.userBackup=false;
 		this.cloudBackup=false;
 		this.webBackup=false;
 		this.auditBackup=false;
-		this.messageBackup=false;
 		this.isBase=false;
 		
 		this.creationDate = 0;
 	}
 	
-	public BackupObject(boolean userBackupSTR, boolean cloudBackupSTR, boolean webBackupSTR, boolean auditBackupSTR, boolean messageBackupSTR, long dateOfC, boolean isBaseSTR){
+	public BackupObject(boolean userBackupSTR, boolean cloudBackupSTR, boolean webBackupSTR, boolean auditBackupSTR, long dateOfC, boolean isBaseSTR){
 	
 		if(userBackupSTR==true){
 			this.setUserBackupSTR("X");
@@ -55,11 +54,6 @@ public class BackupObject {
 			this.setAuditBackupSTR("");
 		}
 		
-		if(messageBackupSTR==true){
-			this.setMessageBackupSTR("X");
-		}else{
-			this.setMessageBackupSTR("");
-		}
 		if(isBaseSTR==true){
 			this.setIsBaseSTR("X");
 		}else{
@@ -153,7 +147,6 @@ public class BackupObject {
 		
 		this.setAuditBackup(true);
 		this.setCloudBackup(true);
-		this.setMessageBackup(true);
 		this.setUserBackup(true);
 		this.setWebBackup(true);
 		this.setIsBase(true);
@@ -164,7 +157,6 @@ public class BackupObject {
 		makeDir(base+"");
 		makeDir(base+"/audit/");
 		makeDir(base+"/web/");
-		makeDir(base+"/message/");
 		makeDir(base+"/user/");
 		makeDir(base+"/cloud/");
 		
@@ -172,8 +164,6 @@ public class BackupObject {
 		z1.zipUp();
 		Zipper z2=new Zipper(webTarget,"src/output/","/web/","web.zip",base,true);
 		z2.zipUp();
-		Zipper z3=new Zipper(messageTarget,"src/output/","/message/","message.zip",base,true);
-		z3.zipUp();
 		Zipper z4=new Zipper(userTarget,"src/output/","/user/","user.zip",base,true);
 		z4.zipUp();
 		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",base,true);
@@ -189,7 +179,6 @@ public class BackupObject {
 		makeDir(baseID+"");
 		makeDir(baseID+"/audit/");
 		makeDir(baseID+"/web/");
-		makeDir(baseID+"/message/");
 		makeDir(baseID+"/user/");
 		makeDir(baseID+"/cloud/");
 		
@@ -197,8 +186,6 @@ public class BackupObject {
 		z1.zipUp();
 		Zipper z2=new Zipper(webTarget,"src/output/","/web/","web.zip",Integer.parseInt(baseID),true);
 		z2.zipUp();
-		Zipper z3=new Zipper(messageTarget,"src/output/","/message/","message.zip",Integer.parseInt(baseID),true);
-		z3.zipUp();
 		Zipper z4=new Zipper(userTarget,"src/output/","/user/","user.zip",Integer.parseInt(baseID),true);
 		z4.zipUp();
 		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",Integer.parseInt(baseID),true);
@@ -206,7 +193,6 @@ public class BackupObject {
 		
 		this.setAuditBackup(true);
 		this.setCloudBackup(true);
-		this.setMessageBackup(true);
 		this.setUserBackup(true);
 		this.setWebBackup(true);
 		this.setIsBase(true);
@@ -235,11 +221,6 @@ public class BackupObject {
 		Zipper z2=new Zipper(webTarget,"src/output/","/web/","web.zip",id);
 		z2.zipUp();
 		}
-		if(this.messageBackup==true){
-		makeDir(id+"/message/");
-		Zipper z3=new Zipper(messageTarget,"src/output/","/message/","message.zip",id);
-		z3.zipUp();
-		}
 		if(this.userBackup==true){
 		makeDir(id+"/user/");
 		Zipper z4=new Zipper(userTarget,"src/output/","/user/","user.zip",id);
@@ -260,8 +241,6 @@ public class BackupObject {
 		toRet=toRet+this.cloudBackup+";";
 		toRet=toRet+this.webBackup+";";
 		toRet=toRet+this.auditBackup+";";
-		toRet=toRet+this.messageBackup+";";
-		
 		toRet=toRet+this.getCreationDate()+";";
 		toRet=toRet+this.isBase;
 		
@@ -278,9 +257,8 @@ public class BackupObject {
 		
 		this.auditTarget=targets[0];
 		this.cloudTarget=targets[1];
-		this.messageTarget=targets[2];
-		this.userTarget=targets[3];
-		this.webTarget=targets[4];
+		this.userTarget=targets[2];
+		this.webTarget=targets[3];
 	}
 	
 	public String getArchive(File node){
@@ -321,12 +299,6 @@ public class BackupObject {
 	public void setAuditBackupSTR(String auditBackupSTR) {
 		this.auditBackupSTR = auditBackupSTR;
 	}
-	public String getMessageBackupSTR() {
-		return messageBackupSTR;
-	}
-	public void setMessageBackupSTR(String messageBackupSTR) {
-		this.messageBackupSTR = messageBackupSTR;
-	}
 	public String getCreationDateSTR() {
 		return creationDateSTR;
 	}
@@ -359,12 +331,6 @@ public class BackupObject {
 	public void setAuditBackup(Boolean auditBackup) {
 		this.auditBackup = auditBackup;
 	}
-	public Boolean getMessageBackup() {
-		return messageBackup;
-	}
-	public void setMessageBackup(Boolean messageBackup) {
-		this.messageBackup = messageBackup;
-	}
 	public long getCreationDate() {
 		return creationDate;
 	}
@@ -394,12 +360,6 @@ public class BackupObject {
 	}
 	public void setAuditTarget(String auditTarget) {
 		this.auditTarget = auditTarget;
-	}
-	public String getMessageTarget() {
-		return messageTarget;
-	}
-	public void setMessageTarget(String messageTarget) {
-		this.messageTarget = messageTarget;
 	}
 	public Boolean getIsBase() {
 		return isBase;

@@ -18,6 +18,7 @@ import javafx.scene.paint.Paint;
 public class PurpleBController {
 	
 	private BackupObject bo;
+	@SuppressWarnings("unused")
 	private LastDoneBackup ldb;
 
 	private int noOfPages;
@@ -66,9 +67,6 @@ public class PurpleBController {
 
     @FXML
     private TableColumn<BackupObject, String> colAudit;
-
-    @FXML
-    private TableColumn<BackupObject, String> colMessage;
     
     @FXML
     private TableColumn<BackupObject, String> colIsBase;
@@ -124,10 +122,6 @@ public class PurpleBController {
 			if(binaryCheck==1){
 				bck.setAuditBackup(true);
 			}
-			binaryCheck=st.nextInt();
-			if(binaryCheck==1){
-				bck.setMessageBackup(true);
-			}
 			
 			bck.setCreationDate(st.nextLong());
 			
@@ -153,7 +147,7 @@ public class PurpleBController {
 		}
 		for(int i=0;i<todo;i++){
 			System.out.println("==="+allBackups.get(i));
-	    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getMessageBackup(),allBackups.get(i).getCreationDate(),
+	    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getCreationDate(),
 	    		allBackups.get(i).getIsBase()));
 		}
 		
@@ -169,7 +163,7 @@ public class PurpleBController {
 	protected void addBackupObject() {
 		//Display object constructor
         ObservableList<BackupObject> data = bmtable.getItems();
-        data.add(new BackupObject(bo.getUserBackup(),bo.getCloudBackup(),bo.getWebBackup(),bo.getAuditBackup(),bo.getMessageBackup(),bo.getCreationDate(),bo.getIsBase()));
+        data.add(new BackupObject(bo.getUserBackup(),bo.getCloudBackup(),bo.getWebBackup(),bo.getAuditBackup(),bo.getCreationDate(),bo.getIsBase()));
     }
     
     @FXML
@@ -178,7 +172,7 @@ public class PurpleBController {
     	bo.initBackupLocations();
     	bo.setCreationDate(time);
     	//Sets the tables
-    	if(!(bo.getAuditBackup()==false&&bo.getCloudBackup()==false&&bo.getMessageBackup()==false&&bo.getWebBackup()==false&&bo.getUserBackup()==false)){
+    	if(!(bo.getAuditBackup()==false&&bo.getCloudBackup()==false&&bo.getWebBackup()==false&&bo.getUserBackup()==false)){
     		addBackupObject();
     	
     	if(bo.getIsBase()==true){
@@ -231,17 +225,6 @@ public class PurpleBController {
     }
 
     @FXML
-    void doSelMsg(ActionEvent event) {
-    	colorSwap(btnSelMsg);
-    	if(bo.getMessageBackup()==false){
-        	bo.setMessageBackup(true);
-        	}
-        	else{
-        		bo.setMessageBackup(false);
-        	}
-    }
-
-    @FXML
     void doSelUserData(ActionEvent event) {
     	colorSwap(btnSelUserData);
     	if(bo.getUserBackup()==false){
@@ -277,7 +260,6 @@ public class PurpleBController {
     		
     		bo.setAuditBackup(true);
     		bo.setCloudBackup(true);
-    		bo.setMessageBackup(true);
     		bo.setUserBackup(true);
     		bo.setWebBackup(true);
     		
@@ -302,7 +284,6 @@ public class PurpleBController {
     		
     		bo.setAuditBackup(false);
     		bo.setCloudBackup(false);
-    		bo.setMessageBackup(false);
     		bo.setUserBackup(false);
     		bo.setWebBackup(false);
     		
@@ -340,7 +321,7 @@ public class PurpleBController {
     	ObservableList<BackupObject> data = bmtable.getItems();
 		data.clear();
     	for(int y =minBackups;y<pageNo*10;y++){
-    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate(),allBackups.get(y).getIsBase()));
+    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getCreationDate(),allBackups.get(y).getIsBase()));
     	}
     	this.pageNo=this.pageNo-1;
     	}
@@ -362,7 +343,7 @@ public class PurpleBController {
     		ObservableList<BackupObject> data = bmtable.getItems();
     		data.clear();
     	for(int y =(noOfPages-1)*10;y<maxBackups;y++){
-    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getMessageBackup(),allBackups.get(y).getCreationDate(),allBackups.get(y).getIsBase()));
+    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getCreationDate(),allBackups.get(y).getIsBase()));
     	}
     	this.pageNo=this.pageNo+1;
 
