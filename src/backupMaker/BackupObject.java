@@ -30,6 +30,13 @@ public class BackupObject {
 	
 	public BackupObject(boolean userBackupSTR, boolean cloudBackupSTR, boolean webBackupSTR, boolean auditBackupSTR, long dateOfC, boolean isBaseSTR){
 	
+		this.setUserBackup(userBackupSTR);
+		this.setCloudBackup(cloudBackupSTR);
+		this.setWebBackup(webBackupSTR);
+		this.setAuditBackup(auditBackupSTR);
+		this.setIsBase(isBaseSTR);
+		this.setCreationDate(dateOfC);
+		
 		if(userBackupSTR==true){
 			this.setUserBackupSTR("X");
 		}else{
@@ -168,37 +175,26 @@ public class BackupObject {
 		z4.zipUp();
 		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",base,true);
 		z5.zipUp();
-		
-		ldb.updateBase(time);
 	}
 	
-	public void makeBaseBackupFirst(String baseID, long time){
+	public void makeBaseBackupFirst(long time){
 		System.out.println("FIRST");
 		//Zip all and put it in the output dir
 		this.initBackupLocations();
-		makeDir(baseID+"");
-		makeDir(baseID+"/audit/");
-		makeDir(baseID+"/web/");
-		makeDir(baseID+"/user/");
-		makeDir(baseID+"/cloud/");
+		makeDir(0+"");
+		makeDir(0+"/audit/");
+		makeDir(0+"/web/");
+		makeDir(0+"/user/");
+		makeDir(0+"/cloud/");
 		
-		Zipper z1=new Zipper(auditTarget,"src/output/","/audit/","audit.zip",Integer.parseInt(baseID),true);
+		Zipper z1=new Zipper(auditTarget,"src/output/","/audit/","audit.zip",0,true);
 		z1.zipUp();
-		Zipper z2=new Zipper(webTarget,"src/output/","/web/","web.zip",Integer.parseInt(baseID),true);
+		Zipper z2=new Zipper(webTarget,"src/output/","/web/","web.zip",0,true);
 		z2.zipUp();
-		Zipper z4=new Zipper(userTarget,"src/output/","/user/","user.zip",Integer.parseInt(baseID),true);
+		Zipper z4=new Zipper(userTarget,"src/output/","/user/","user.zip",0,true);
 		z4.zipUp();
-		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",Integer.parseInt(baseID),true);
+		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",0,true);
 		z5.zipUp();
-		
-		this.setAuditBackup(true);
-		this.setCloudBackup(true);
-		this.setUserBackup(true);
-		this.setWebBackup(true);
-		this.setIsBase(true);
-		this.setCreationDate(time);
-		
-		BackupDAO.manualBackup(this);
 	}
 	
 	public void makeManualBackup(long time){
@@ -231,8 +227,6 @@ public class BackupObject {
 		Zipper z5=new Zipper(cloudTarget,"src/output/","/cloud/","cloud.zip",id);
 		z5.zipUp();
 		}
-		
-		ldb.updateBackup(time);
 	}
 	
 	public String toString(){

@@ -10,33 +10,13 @@ public class LastDoneBackup {
 	
 	public LastDoneBackup(){
 		LastDoneBackupDAO ldbdao = new LastDoneBackupDAO();
-		Scanner sc =new Scanner(ldbdao.ldbCheck());
+		Scanner sc =new Scanner(ldbdao.ldbRead());
 		sc.useDelimiter(";");
 		
 		this.lastID=Integer.parseInt(sc.next());
 		this.lastTime=Long.parseLong(sc.next());
 		this.baseID=Integer.parseInt(sc.next());
 		sc.close();
-	}
-
-	public void updateBackup(long time){
-		System.out.println("uBackup");
-		this.lastTime = time;
-		
-		LastDoneBackupDAO ldbdao = new LastDoneBackupDAO();
-		this.lastID+=1;
-		System.out.println(this.lastID);
-		ldbdao.updateLDB(this.lastID, this.lastTime, this.baseID);
-	}
-	
-	public void updateBase(long time){
-		System.out.println("uBase");
-		this.lastTime = time;
-		
-		LastDoneBackupDAO ldbdao = new LastDoneBackupDAO();
-		this.lastID+=1;
-		System.out.println(this.lastID);
-		ldbdao.updateLDB(this.lastID, this.lastTime, this.lastID);
 	}
 	
 	public ArrayList<Integer> getBases(){
