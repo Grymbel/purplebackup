@@ -14,8 +14,8 @@ public class BackupDAO {
 	
 	public BackupDAO(){
 	}
-	public ArrayList<String> getExistingBackups(){
-		ArrayList<String> existing = new ArrayList<String>();
+	public ArrayList<BackupObject> getExistingBackups(){
+		ArrayList<BackupObject> existing = new ArrayList<BackupObject>();
 		DBConnect dbc = new DBConnect();
 		try {
 			ResultSet rez = dbc.getAllBackups();
@@ -28,12 +28,9 @@ public class BackupDAO {
 						Long.parseLong(rez.getString("creation")),
 						rez.getBoolean("isBase")
 						);
-				System.out.println(bo);
-				existing.add(bo.toString());
-				
-				dbc.close();
-				return existing;
+				existing.add(bo);
 			}
+			return existing;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -47,6 +44,7 @@ public class BackupDAO {
 	public static void manualBackup(BackupObject bcko){
 			DBConnect dbc = new DBConnect();
 			try {
+				System.out.println("Documenting: "+bcko);
 				dbc.addBackup(bcko.getAuditBackup(), bcko.getCloudBackup(), bcko.getUserBackup(), 
 						bcko.getWebBackup(), bcko.getCreationDate(), bcko.getIsBase());
 			} catch (ClassNotFoundException e) {

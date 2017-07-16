@@ -3,14 +3,16 @@ package zipper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import database.DBConnect;
 
 public class Zipper{
 	List<String> fileList;
@@ -32,6 +34,8 @@ public class Zipper{
     	this.outputFile=outputFile;
     	this.outputZip=outputDirFull+outputFile;
     	this.backupID=backupID;
+    	
+    	System.out.println(outputDir+" "+outputDirFull);
     }
     
     public Zipper(String source, String outputDir1,String outputDir2, String outputFile, int backupID,boolean isBase){
@@ -99,26 +103,29 @@ public class Zipper{
         byte[] buffer = new byte[1024];
 
         try{
-           	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);
+           	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);;
            	mdw.writeMD();
            	mdw.writeDelta();
            	
            	FileOutputStream fos = new FileOutputStream(zipFile);
            	ZipOutputStream zos = new ZipOutputStream(fos);
 
-           	FileReader fr = new FileReader(outputDirFull+"/delta.data");
-           	Scanner sc = new Scanner(fr);
-           	sc.useDelimiter("><");
-           	
+           	DBConnect dbc = new DBConnect();
+           	ResultSet res;
+			try {
+				res = dbc.getFileDelta(this.backupID,mdw.getLowerDir());
+				
            	fileList = new ArrayList<String>();
-           	while(sc.hasNextLine()){
-           		String action = sc.next();
+           	while(res.next()){
+           		String action = res.getString("deltaAction");
            		if(action.equals("ADD")||action.equals("UDT")){
-           	fileList.add(sc.next());
-           	sc.nextLine();
+           	fileList.add(res.getString("fileLine"));
            	System.out.println(fileList);
            		}
            	}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
            	
            	for(String file : this.fileList){
            		System.out.println("File Added : " + file);
@@ -137,7 +144,6 @@ public class Zipper{
 
        	zos.closeEntry();
        	zos.close();
-       	sc.close();
        	System.out.println("Done");
        }catch(IOException ex){
           ex.printStackTrace();

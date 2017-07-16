@@ -1,18 +1,18 @@
 package zipper;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import database.DBConnect;
+
 public class MDWriter {
 
-	private String destinationDir;
-	private String destinationDirFull;
 	private String destinationFL;
 	private String destinationDelta;
+	private String destinationDir;
+	private String destinationDirFull;
 	private String lowerDir;
 	private ArrayList<String> filesAcquired;
 	private ArrayList<String> filesDigest;
@@ -26,10 +26,8 @@ public class MDWriter {
 		this.setFilesAcquired(fileList);
 		this.setFilesDigest(digestList);
 		this.setBackupID(backupID);
-		this.setDestinationDelta(destinationDirFull+"delta.data");
-		this.setDestinationFL(destinationDirFull+"meta.data");
 		this.setIsBase(isBase);
-
+		
 		Scanner sc = new Scanner(destinationDirFull);
 		sc.useDelimiter("/");
 		ArrayList<String> breakDown = new ArrayList<String>();
@@ -41,16 +39,15 @@ public class MDWriter {
 	}
 
 	public boolean writeMD(){
-		if(destinationDirFull!=null&&filesAcquired!=null&&filesAcquired!=null){	
-			try {
-				FileWriter fw = new FileWriter(destinationFL);
+		if(filesAcquired!=null&&filesDigest!=null){	
+				DBConnect dbc = new DBConnect();
 				for(int y=0;y<filesAcquired.size();y++){
-				fw.append(filesAcquired.get(y)+"><"+filesDigest.get(y)+"><\n");
+					try {
+						dbc.addFileIdx(this.backupID,filesAcquired.get(y),filesDigest.get(y));
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 				}
-				fw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 			return true;
 		}
 		else{
@@ -60,94 +57,74 @@ public class MDWriter {
 	}
 	
 	public void writeDelta(){
-		try {
-			FileWriter fw = new FileWriter(destinationDelta);
-			if(this.isBase==true){
-				for(int r=0;r<filesAcquired.size();r++){
-					fw.append("ADD"+"><"+filesAcquired.get(r)+"><"+filesDigest.get(r)+"><\n");
-					}
-			}
-			else{
-				System.out.println("Is not base");
-				ArrayList<String> filesAcCurr = filesAcquired;
-				ArrayList<String> filesDiCurr = filesDigest;
-				
-				ArrayList<String> filesAcPast = new ArrayList<String>();
-				ArrayList<String> filesDiPast = new ArrayList<String>();
-				if(backupID!=0){
-					try{
-				FileReader frP1 = new FileReader(destinationDir+(backupID-1)+"/"+lowerDir+"/meta.data");
-				
-				Scanner scP1 = new Scanner(frP1);
-				
-				while(scP1.hasNextLine()){
-					Scanner scP2 = new Scanner(scP1.nextLine());
-					scP2.useDelimiter("><");
-					try{
-						String one = scP2.next();
-						String two = scP2.next();
-						if(!(one==""||one==null||two==""||two==null)){
-					filesAcPast.add(one);
-					filesDiPast.add(two);
+		if(this.isBase==true){
+			DBConnect dbc = new DBConnect();
+			for(int r=0;r<filesAcquired.size();r++){
+				try {
+					dbc.addFileDelta(this.backupID, "ADD", filesAcquired.get(r), filesDigest.get(r),lowerDir);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				}
+		}
+		else{
+			System.out.println("Is not base");
+			
+			DBConnect dbc = new DBConnect();
+			
+			ArrayList<String> filesAcCurr = filesAcquired;
+			ArrayList<String> filesDiCurr = filesDigest;
+			
+			ArrayList<String> filesAcPast = new ArrayList<String>();
+			ArrayList<String> filesDiPast = new ArrayList<String>();
+			if(backupID!=0){
+				try{
+			//Check New Against Old
+			for(int ii=0;ii<filesAcCurr.size();ii++){
+				boolean found=false;
+				for(int oo=0;oo<filesAcPast.size();oo++){
+					if(filesAcPast.get(oo).equals(filesAcCurr.get(ii))){
+						if(filesDiPast.get(oo).equals(filesDiCurr.get(ii))&&found==false){
+							//Total Match
+							found=true;
+							System.out.println("Total Match");
 						}
-					}catch(java.util.NoSuchElementException e){
+						else{
+							//Hash mismatch
+							dbc.addFileDelta(this.backupID, "UDT", filesAcCurr.get(ii), filesDiCurr.get(ii),lowerDir);
+							found=true;
+							System.out.println("Hash Mismatch");
+						}
 						
 					}
-					scP2.close();
-				}
-				//Check New Against Old
-				for(int ii=0;ii<filesAcCurr.size();ii++){
-					boolean found=false;
-					for(int oo=0;oo<filesAcPast.size();oo++){
-						if(filesAcPast.get(oo).equals(filesAcCurr.get(ii))){
-							if(filesDiPast.get(oo).equals(filesDiCurr.get(ii))&&found==false){
-								//Total Match
-								found=true;
-								System.out.println("Total Match");
-							}
-							else{
-								//Hash mismatch
-								fw.append("UDT><"+filesAcCurr.get(ii)+"><"+filesDiCurr.get(ii)+"><\n");
-								found=true;
-								System.out.println("Hash Mismatch");
-							}
-							
-						}
-						if(found==true){
-							System.out.println("found==true");
-							break;
-						}
-					}
-					if(found==false){
-						//No matches found
-						fw.append("ADD><"+filesAcCurr.get(ii)+"><"+filesDiCurr.get(ii)+"><\n");
-						System.out.println("No matches");
+					if(found==true){
+						break;
 					}
 				}
-
-				for(int y=0;y<filesAcPast.size();y++){
-					boolean found=false;
-					for(int u=0;u<filesAcCurr.size();u++){
-						if(filesAcPast.get(y).equals(filesAcCurr.get(u))){
-							found=true;
-							break;
-						}
-					}
-					if(found==false){
-						fw.append("DEL><"+filesAcPast.get(y)+"><"+filesDiPast.get(y)+"><\n");
-					}
-				}
-				
-				scP1.close();
-				}
-					catch(Exception e){
-						System.out.println("No previous MD for the category");
-					}
-			fw.close();
+				if(found==false){
+					//No matches found
+					dbc.addFileDelta(this.backupID, "ADD", filesAcCurr.get(ii), filesDiCurr.get(ii),lowerDir);
+					System.out.println("No matches");
 				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+
+			for(int y=0;y<filesAcPast.size();y++){
+				boolean found=false;
+				for(int u=0;u<filesAcCurr.size();u++){
+					if(filesAcPast.get(y).equals(filesAcCurr.get(u))){
+						found=true;
+						break;
+					}
+				}
+				if(found==false){
+					dbc.addFileDelta(this.backupID, "DEL", filesAcPast.get(y), filesDiPast.get(y),lowerDir);
+				}
+			}
+			}
+				catch(Exception e){
+					System.out.println("No previous MD for the category");
+				}
+			}
 		}
 	}
 	
@@ -165,13 +142,6 @@ public class MDWriter {
 
 	public void setBackupID(int backupID) {
 		this.backupID = backupID;
-	}
-	public String getDestinationDirFull() {
-		return destinationDirFull;
-	}
-
-	public void setDestinationDirFull(String destinationDir) {
-		this.destinationDirFull = destinationDir;
 	}
 
 	public String getDestinationFL() {
@@ -206,6 +176,14 @@ public class MDWriter {
 		this.isBase = isBase;
 	}
 
+	public String getLowerDir() {
+		return lowerDir;
+	}
+
+	public void setLowerDir(String lowerDir) {
+		this.lowerDir = lowerDir;
+	}
+
 	public String getDestinationDir() {
 		return destinationDir;
 	}
@@ -214,12 +192,12 @@ public class MDWriter {
 		this.destinationDir = destinationDir;
 	}
 
-	public String getLowerDir() {
-		return lowerDir;
+	public String getDestinationDirFull() {
+		return destinationDirFull;
 	}
 
-	public void setLowerDir(String lowerDir) {
-		this.lowerDir = lowerDir;
+	public void setDestinationDirFull(String destinationDirFull) {
+		this.destinationDirFull = destinationDirFull;
 	}
 
 	

@@ -1,11 +1,13 @@
 package backupMaker;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
+import database.DBConnect;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -87,56 +89,16 @@ public class PurpleBController {
     private JFXCheckBox chbEnableBase;
     
     public void initialize(){
+    	DBConnect dbc = new DBConnect();
+    	dbc.close();
     	bo = new BackupObject();
-    	bo.setIsBase(false);
     	allBackups=new ArrayList<BackupObject>();
 
     	btnScrollLeft.setVisible(false);
     	btnScrollRight.setVisible(false);
     	
-    	ldb = new LastDoneBackup();
 			BackupDAO bdao = new BackupDAO();
-			ArrayList<String> existingBackups = new ArrayList<String>();
-			existingBackups.addAll(bdao.getExistingBackups());
-			
-		for(int o=0;o<existingBackups.size();o++){
-			BackupObject bck = new BackupObject();
-			Scanner st=new Scanner(existingBackups.get(o));
-
-			st.useDelimiter(";");
-			int binaryCheck=0;
-			
-			binaryCheck=st.nextInt();
-			if(binaryCheck==1){
-				bck.setUserBackup(true);
-			}
-			binaryCheck=st.nextInt();
-			if(binaryCheck==1){
-				bck.setCloudBackup(true);
-			}
-			binaryCheck=st.nextInt();
-			if(binaryCheck==1){
-				bck.setWebBackup(true);
-			}
-			binaryCheck=st.nextInt();
-			if(binaryCheck==1){
-				bck.setAuditBackup(true);
-			}
-			
-			bck.setCreationDate(st.nextLong());
-			
-			binaryCheck=st.nextInt();
-			if(binaryCheck==1){
-				bck.setIsBase(true);
-			}
-			else{
-				bck.setIsBase(false);
-			}
-			
-			
-			allBackups.add(bck);
-			st.close();
-		}
+			allBackups.addAll(bdao.getExistingBackups());
 		ObservableList<BackupObject> data = bmtable.getItems();
 		int todo;
 		if(allBackups.size()>10){
@@ -146,7 +108,6 @@ public class PurpleBController {
 			todo=allBackups.size();
 		}
 		for(int i=0;i<todo;i++){
-			System.out.println("==="+allBackups.get(i));
 	    data.add(new BackupObject(allBackups.get(i).getUserBackup(),allBackups.get(i).getCloudBackup(),allBackups.get(i).getWebBackup(),allBackups.get(i).getAuditBackup(),allBackups.get(i).getCreationDate(),
 	    		allBackups.get(i).getIsBase()));
 		}

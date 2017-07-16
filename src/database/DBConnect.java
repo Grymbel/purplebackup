@@ -23,7 +23,6 @@ public class DBConnect {
 	 
 	 public DBConnect(){
 		 try {
-			 System.out.println("Connecting!");
 			getConnection();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -62,12 +61,6 @@ public class DBConnect {
 	 }
 	 
 	 public int highestID() throws ClassNotFoundException, SQLException{
-		 try{
-			 getConnection();
-		 }
-		 catch(Exception e){
-			 
-		 }
 		 Statement state = con.createStatement();
 		 ResultSet res = state.executeQuery("select max(id) as ldbID from Backups");
 		 return res.getInt("ldbID");
@@ -84,10 +77,48 @@ public class DBConnect {
 		 ResultSet res = state.executeQuery("select max(creation) as ldbTime from Backups");
 		 return res.getInt("ldbTime");
 	 }
+	 
+	 public void addFileIdx(int backupID, String fileLine, String digest) throws SQLException{
+		 PreparedStatement prep = con.prepareStatement("insert into fileIdx(backupID, fileLine, filedigest) values (?,?,?);");
+		 prep.setInt(1, backupID);
+		 prep.setString(2, fileLine);
+		 prep.setString(3, digest);
+		 prep.execute();
+	 }
+	 
+	 public ResultSet getFileIdx(int toGet) throws SQLException{
+		 Statement state = con.createStatement();
+		 ResultSet res = state.executeQuery("select fileLine from fileIdx, fileDigest where backupID = "+toGet);
+		 return res;
+	 }
+	 
+	 public void addFileDelta(int backupID, String deltaAction, String fileLine, String fileDigest, String targetDir) throws SQLException{
+		 PreparedStatement prep = con.prepareStatement("insert into fileDelta(backupID, deltaAction, fileLine, fileDigest, targetDir) values (?,?,?,?,?)");
+		 prep.setInt(1,backupID);
+		 prep.setString(2, deltaAction);
+		 prep.setString(3, fileLine);
+		 prep.setString(4, fileDigest);
+		 prep.setString(5, targetDir);
+		 prep.execute();
+	 }
+	 
+	 public ResultSet getFileDelta(int toGet,String targetDir) throws SQLException{
+		 Statement state = con.createStatement();
+		 ResultSet res = state.executeQuery("select deltaAction, fileLine, fileDigest from fileDelta where backupID = "+toGet + " and targetDir = '" +targetDir+"'");
+		 return res;
+	 }
+	 
+	 public void debugBackups() throws SQLException{
+		 Statement state = con.createStatement();
+		 ResultSet res = state.executeQuery("select * from Backups");
+		 
+		 while(res.next()){
+			 System.out.print(res.getInt("id")+"|");
+		 }
+	 }
 
 	 public void close(){
 		try {
-			System.out.println("Closing!");
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -100,16 +131,12 @@ public class DBConnect {
 			 // check for database table
 			 Statement state = con.createStatement();
 			 ResultSet res = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='Backups'");
-			 
-			 
-			 
 			 if( !res.next()) {
-				 System.out.println("Building the User table with prepopulated values.");
+				 System.out.println("Building tables with prepopulated values.");
 				 long time = System.currentTimeMillis();
-				 BackupObject bo =new BackupObject();
-				 bo.makeBaseBackupFirst(time);
 				 
-				 // need to build the table
+				 
+				 // need to build the tables
 				  Statement state2 = con.createStatement();
 				  state2.executeUpdate("create table Backups(id integer,"
 				    + "audit boolean," + "web boolean,"
@@ -117,15 +144,33 @@ public class DBConnect {
 						  + "isBase boolean," + "creation varchar(14)," 
 				    + "primary key (id));");
 
+				  Statement state3 = con.createStatement();
+				  state3.executeUpdate("create table fileidx(id integer, "
+				  		+ "backupid integer," + "fileLine varchar(250),"
+						  +"fileDigest varchar(128),"
+				  		+"targetDir varchar(50),"
+						  + "primary key (id));");
+				  
+				  System.out.println("Made fileIdx");
+				  
+				  Statement state4 = con.createStatement();
+				  state4.executeUpdate("create table fileDelta(id integer, backupid integer, deltaaction varchar(3), fileLine varchar(250), fileDigest varChar(128), targetDir varchar(50), primary key(id))");
+				  
+				  System.out.println("Made fileDelta");
+				  
 				  // inserting some sample data
-				  PreparedStatement prep = con.prepareStatement("insert into Backups(audit, cloud, user, web, creation, isBase) values(?,?,?,?,?,?);");
-				  prep.setBoolean(1, true);
+				  PreparedStatement prep = con.prepareStatement("insert into Backups(id, audit, cloud, user, web, creation, isBase) values(?,?,?,?,?,?,?);");
+				  prep.setInt(1, 0);
 				  prep.setBoolean(2, true);
 				  prep.setBoolean(3, true);
 				  prep.setBoolean(4, true);
-				  prep.setString(5, time+"");
-				  prep.setBoolean(6, true);
+				  prep.setBoolean(5, true);
+				  prep.setString(6, time+"");
+				  prep.setBoolean(7, true);
 				  prep.execute();
+				  
+				  BackupObject bo =new BackupObject();
+					 bo.makeBaseBackupFirst(time);
 			 }
 			 
 		 }

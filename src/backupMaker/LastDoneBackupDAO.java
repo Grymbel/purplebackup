@@ -31,7 +31,7 @@ public class LastDoneBackupDAO {
 		try {
 			ResultSet res = dbc.getBaseList();
 			while(res.next()){
-				bases.add(res.getInt("id")-1);
+				bases.add(res.getInt("id"));
 			}
 			
 		} catch (SQLException e) {
