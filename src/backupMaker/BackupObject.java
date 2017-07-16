@@ -1,13 +1,12 @@
 package backupMaker;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 
+import database.DBConnect;
 import zipper.Unzipper;
 import zipper.Zipper;
 
@@ -93,6 +92,7 @@ public class BackupObject {
 				break;
 			}
 		}
+		ArrayList<String> areas = new ArrayList<String>();
 		for(int i = rangeStart;i<=id;i++){
 		File node = new File("src/output/"+i+"/");
 		
@@ -100,46 +100,44 @@ public class BackupObject {
 			String[] subNote = node.list();
 			for(String filename : subNote){
 				dirList.add(new File(node, filename).toString());
+				areas.add(filename);
 			}
 		}
-		
 		String restDir = "src/output/"+id+"RESTORE/";
+		System.out.println("DIRLIST: "+dirList);
+		int c = 0;
 		for(String str : dirList){
 			try {
 				String archive = getArchive(new File(str));
-				System.out.println(archive);
-				Unzipper unz = new Unzipper(archive,restDir);
-				FileReader fr = new FileReader(str+"/delta.data");
-				Scanner sc = new Scanner(fr);
-				
-				
-				sc.useDelimiter("><");
-				while(sc.hasNextLine()){
-					String action = sc.next().replace("\n", "");
-					action.replace(" ", "");
+				Unzipper unz = new Unzipper(archive,restDir+areas.get(c));
+				c++;
+				DBConnect dbc = new DBConnect();
+				ResultSet res = dbc.getFileDeltaRange(rangeStart, id);
+				//Extract the int ID
+				//Get from the delta database: File, Action, Target, matching the backup ID
+				//Location is made of starter, ID and target
+				//Form a line containing: Action, File
+				//Read the corresponding delta
+				while(res.next()){
+					String action = res.getString("deltaAction");
 					if(action.equals("DEL")){
-						String toDel = sc.next();
+						String toDel = res.getString("fileLine");
 						File file = new File((restDir+toDel).replace("\\", "/"));
 						file.delete();
-						sc.next();
 					}
 					else if(action.equals("UDT")){
-						String toDel = sc.next();
+						String toDel = res.getString("fileLine");
 						File file = new File((restDir+toDel).replace("\\", "/"));
 						file.delete();
-						sc.next();
 					}
 					else if(action.equals("ADD")){
-						sc.next();
-						sc.next();
 					}
 					else{
 						System.out.println("Malformed delta command:"+action);
 					}
 				}
 				unz.unZipIt();
-				sc.close();
-			} catch (FileNotFoundException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

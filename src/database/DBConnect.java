@@ -108,6 +108,12 @@ public class DBConnect {
 		 return res;
 	 }
 	 
+	 public ResultSet getFileDeltaRange(int toGetStart,int toGetEnd) throws SQLException{
+		 Statement state = con.createStatement();
+		 ResultSet res = state.executeQuery("select deltaAction, fileLine, fileDigest from fileDelta where backupID between "+toGetStart+" and "+toGetEnd+";");
+		 return res;
+	 }
+	 
 	 public void debugBackups() throws SQLException{
 		 Statement state = con.createStatement();
 		 ResultSet res = state.executeQuery("select * from Backups");
