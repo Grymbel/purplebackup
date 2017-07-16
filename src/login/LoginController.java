@@ -86,7 +86,7 @@ public class LoginController {
 						Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 						Parent root = null;
 						try {
-							root = (Parent)FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
+							root = (Parent)FXMLLoader.load(getClass().getResource("../view/HomePage.fxml"));
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -140,7 +140,7 @@ public class LoginController {
 							Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 							Parent root = null;
 							try {
-								root = (Parent)FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
+								root = (Parent)FXMLLoader.load(getClass().getResource("../view/HomePage.fxml"));
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
