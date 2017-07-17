@@ -1,7 +1,6 @@
 package backupMaker;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.jfoenix.controls.JFXButton;
@@ -11,17 +10,20 @@ import database.DBConnect;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
 
 public class PurpleBController {
 	
 	private BackupObject bo;
-	@SuppressWarnings("unused")
-	private LastDoneBackup ldb;
 
 	private int noOfPages;
 	private int pageNo;
@@ -263,12 +265,28 @@ public class PurpleBController {
     
     @FXML
     void gotoBack(ActionEvent event) {
-
+		try {
+    	Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+		Parent root;
+			root = FXMLLoader.load(getClass().getResource("../view/HomePage.fxml"));
+		stage.setScene(new Scene(root,1920,1080));
+ 	    stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     @FXML
     void gotoSchedule(ActionEvent event) {
-
+    	try {
+        	Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+    		Parent root;
+    			root = FXMLLoader.load(getClass().getResource("../view/Backup Scheduler.fxml"));
+    		stage.setScene(new Scene(root,1280,720));
+     	    stage.show();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
     }
 
     @FXML

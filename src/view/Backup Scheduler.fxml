@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -13,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupScheduler.BackupSController.java">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -21,24 +23,12 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #222222;">
          <children>
-            <TableView layoutX="372.0" layoutY="84.0" prefHeight="308.0" prefWidth="574.0">
-               <columns>
-                  <TableColumn prefWidth="112.80947875976562" text="Scheduled for" />
-                  <TableColumn prefWidth="67.3333740234375" text=" User" />
-                  <TableColumn prefWidth="65.857177734375" text="Cloud" />
-                  <TableColumn prefWidth="94.42852783203125" text="Webpages" />
-                  <TableColumn prefWidth="76.047607421875" text="Audit Logs" />
-                  <TableColumn prefWidth="69.1904296875" text="Messages" />
-                  <TableColumn prefWidth="84.0" text="Ignore" />
-               </columns>
-            </TableView>
-            <GridPane layoutX="18.0" layoutY="117.0" prefHeight="202.0" prefWidth="397.0">
+         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#080808" height="65.0" stroke="#9728b000" strokeType="OUTSIDE" width="1280.0" />
+         <GridPane layoutX="300.0" layoutY="120.0" prefHeight="260.0" prefWidth="333.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
@@ -47,79 +37,92 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User Data">
-					 <font>
-                        <Font name="Noto Sans" size="12.0" />
-                     </font></Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cloud Files" GridPane.rowIndex="1">
+                  <JFXButton fx:id="btnAddBackup" buttonType="RAISED" onAction="#doAddBackup" prefHeight="50.0" prefWidth="166.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="+" textAlignment="JUSTIFY" textFill="#dddddd" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                      <font>
-                        <Font name="Noto Sans" size="12.0" />
-                     </font></Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Website" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Noto Sans" size="12.0" />
-                     </font></Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Audit Logs" GridPane.columnIndex="2">
-                     <font>
-                        <Font name="Noto Sans" size="12.0" />
-                     </font></Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Messages" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Noto Sans" size="12.0" />
-                     </font></Text>
-                  <RadioButton mnemonicParsing="false" GridPane.columnIndex="1" />
-                  <RadioButton mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <RadioButton mnemonicParsing="false" GridPane.columnIndex="3" />
-                  <RadioButton mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <RadioButton mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <RadioButton mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ignore Manual" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <Font name="Noto Sans" size="40.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnSelAudit" onAction="#doSelAudit" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Audit Logs" textFill="#cccccc" GridPane.columnIndex="1">
+                  <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                      <font>
                         <Font name="Noto Sans" size="12.0" />
                      </font>
-                  </Text>
+                  </JFXButton>
+                  <JFXButton fx:id="btnSelUserData" onAction="#doSelUserData" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="User Data" textFill="#cccccc">
+                  <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Noto Sans" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnSelCloud" onAction="#doSelCloud" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Cloud Files" textFill="#cccccc" GridPane.rowIndex="1">
+                  <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Noto Sans" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnSelWeb" onAction="#doSelWeb" prefHeight="98.0" prefWidth="166.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Website" textFill="#cccccc" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Noto Sans" size="12.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </GridPane>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9c27b0" height="76.0" layoutY="-8.0" stroke="TRANSPARENT" strokeType="INSIDE" width="960.0" />
+            <TableView fx:id="bsTable" layoutX="650.0" layoutY="80.0" prefHeight="308.0" prefWidth="574.0">
+               <columns>
+                  <TableColumn fx:id="colETA" prefWidth="123.00003051757812" text="ETA" />
+                  <TableColumn fx:id="colScheduled" prefWidth="120.99996948242188" text="Scheduled for" />
+                  <TableColumn fx:id="colUser" prefWidth="80.142822265625" text=" User" />
+                  <TableColumn fx:id="colCloud" prefWidth="75.28570556640625" text="Cloud" />
+                  <TableColumn fx:id="colWeb" prefWidth="90.5714111328125" text="Webpages" />
+                  <TableColumn fx:id="colAudit" prefWidth="84.14288330078125" text="Audit Logs" />
+               </columns>
+            </TableView>
             <Text fill="WHITE" layoutX="-1.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Backup Scheduler" wrappingWidth="414.51769638061523">
                <font>
                   <Font name="Noto Sans" size="48.0" />
                </font>
             </Text>
-            <Text layoutX="16.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedule Backup">
+            <Text fill="#cccccc" layoutX="300.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedule Backup">
                <font>
                   <Font name="Noto Sans" size="20.0" />
                </font>
             </Text>
-            <Button layoutX="387.0" layoutY="419.0" mnemonicParsing="false" text="Schedule backup" />
-            <Text layoutX="16.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Make once every">
+            <Text fill="#cccccc" layoutX="300.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Make once every">
                <font>
                   <Font name="Noto Sans" size="20.0" />
                </font>
             </Text>
-            <GridPane layoutX="17.0" layoutY="363.0" prefHeight="39.0" prefWidth="240.0">
+            <GridPane layoutX="300.0" layoutY="450.0" prefHeight="40.0" prefWidth="150.0">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField />
-                  <TextField GridPane.columnIndex="2" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Days" GridPane.columnIndex="1" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hours" GridPane.columnIndex="3" />
+                  <TextField fx:id="taDays" />
+                  <Text fill="#cccccc" strokeType="OUTSIDE" strokeWidth="0.0" text="Days" GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <Text layoutX="18.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="At">
+            <Text fill="#cccccc" layoutX="300.0" layoutY="510.0" strokeType="OUTSIDE" strokeWidth="0.0" text="At">
                <font>
                   <Font name="Noto Sans" size="20.0" />
                </font>
             </Text>
-            <GridPane layoutX="17.0" layoutY="431.0" prefHeight="39.0" prefWidth="240.0">
+            <GridPane layoutX="300.0" layoutY="520.0" prefHeight="40.0" prefWidth="300.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -130,14 +133,24 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <TextField />
-                  <TextField GridPane.columnIndex="2" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hours" GridPane.columnIndex="1" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Minutes" GridPane.columnIndex="3" />
+                  <TextField fx:id="taHours" />
+                  <TextField fx:id="taMinutes" GridPane.columnIndex="2" />
+                  <Text fill="#cccccc" strokeType="OUTSIDE" strokeWidth="0.0" text="Hours" GridPane.columnIndex="1" />
+                  <Text fill="#cccccc" strokeType="OUTSIDE" strokeWidth="0.0" text="Minutes" GridPane.columnIndex="3" />
                </children>
             </GridPane>
-            <Button layoutX="534.0" layoutY="419.0" mnemonicParsing="false" text="Remove from schedule" />
-            <Button layoutX="793.0" layoutY="470.0" mnemonicParsing="false" text="Back" />
+            <Button layoutX="800.0" layoutY="419.0" mnemonicParsing="false" text="Remove from schedule" />
+            <Text fill="#cccccc" layoutX="300.0" layoutY="581.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Starting From">
+               <font>
+                  <Font name="Noto Sans" size="20.0" />
+               </font>
+            </Text>
+            <JFXDatePicker fx:id="datePicker" layoutX="300.0" layoutY="588.0" />
+            <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="1160.0" layoutY="600.0" onAction="#goBack" ripplerFill="#9a27b0" text="&lt;" textFill="#dddddd">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </JFXButton>
          </children>
       </AnchorPane>
    </children>

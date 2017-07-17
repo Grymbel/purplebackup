@@ -1,8 +1,10 @@
-/sampleTarget/
-/output/
-/backupMaker/
-/zipper/
-/view/
-/homePage/
 /adminApp/
+/backupMaker/
+/database/
 /login/
+/zipper/
+/homePage/
+/output/
+/sampleTarget/
+/view/
+/backupScheduler/
