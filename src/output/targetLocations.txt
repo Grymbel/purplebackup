@@ -1,5 +1,4 @@
 src/sampleTarget/auditTarget;
 src/sampleTarget/cloudTarget;
-src/sampleTarget/messageTarget;
 src/sampleTarget/userTarget;
-src/sampleTarget/webTarget;
+src/sampleTarget/webTarget0;

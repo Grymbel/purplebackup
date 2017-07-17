@@ -84,11 +84,11 @@ public class Zipper{
         	}
 
         	in.close();
-        	
-        	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);
-        	mdw.writeMD();
-        	mdw.writeDelta();
     	}
+    	System.out.println("Zip it all");
+    	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);
+    	mdw.writeMD();
+    	mdw.writeDelta();
 
     	zos.closeEntry();
     	zos.close();
@@ -103,6 +103,7 @@ public class Zipper{
         byte[] buffer = new byte[1024];
 
         try{
+        	System.out.println("Zip it only");
            	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);;
            	mdw.writeMD();
            	mdw.writeDelta();
@@ -120,7 +121,7 @@ public class Zipper{
            		String action = res.getString("deltaAction");
            		if(action.equals("ADD")||action.equals("UDT")){
            	fileList.add(res.getString("fileLine"));
-           	System.out.println(fileList);
+           	System.out.println("Zipping: " + fileList);
            		}
            	}
 			} catch (SQLException e) {
@@ -128,7 +129,6 @@ public class Zipper{
 			}
            	
            	for(String file : this.fileList){
-           		System.out.println("File Added : " + file);
            		ZipEntry ze= new ZipEntry(file);
                	zos.putNextEntry(ze);
 

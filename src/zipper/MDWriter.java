@@ -1,5 +1,6 @@
 package zipper;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +40,12 @@ public class MDWriter {
 	}
 
 	public boolean writeMD(){
+		System.out.println("writeMD Called");
 		if(filesAcquired!=null&&filesDigest!=null){	
 				DBConnect dbc = new DBConnect();
 				for(int y=0;y<filesAcquired.size();y++){
 					try {
-						dbc.addFileIdx(this.backupID,filesAcquired.get(y),filesDigest.get(y));
+						dbc.addFileIdx(this.backupID,filesAcquired.get(y),filesDigest.get(y), lowerDir);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -77,8 +79,19 @@ public class MDWriter {
 			
 			ArrayList<String> filesAcPast = new ArrayList<String>();
 			ArrayList<String> filesDiPast = new ArrayList<String>();
+			
+			
+			
 			if(backupID!=0){
-				try{
+					ResultSet res;
+					try {
+						res = dbc.getFileIdx(this.backupID-1,lowerDir);
+					
+					while(res.next()){
+						filesAcPast.add(res.getString("fileLine"));
+						filesDiPast.add(res.getString("fileDigest"));
+					}
+					
 			//Check New Against Old
 			for(int ii=0;ii<filesAcCurr.size();ii++){
 				boolean found=false;
@@ -120,13 +133,14 @@ public class MDWriter {
 					dbc.addFileDelta(this.backupID, "DEL", filesAcPast.get(y), filesDiPast.get(y),lowerDir);
 				}
 			}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+			
 			}
-				catch(Exception e){
-					System.out.println("No previous MD for the category");
-				}
+
 			}
 		}
-	}
 	
 	public List<String> getFilesAcquired() {
 		return filesAcquired;

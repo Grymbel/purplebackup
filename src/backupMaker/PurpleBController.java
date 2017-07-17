@@ -157,6 +157,8 @@ public class PurpleBController {
     	int selOnes = bmtable.getSelectionModel().getSelectedIndex();
     	int sel = (pageNo*10)+selOnes;
     	
+    	BackupDAO bdao = new BackupDAO();
+		allBackups.addAll(bdao.getExistingBackups());
     	System.out.println(allBackups.get(sel));
     	
     	allBackups.get(sel).restore(sel);

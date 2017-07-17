@@ -78,17 +78,18 @@ public class DBConnect {
 		 return res.getInt("ldbTime");
 	 }
 	 
-	 public void addFileIdx(int backupID, String fileLine, String digest) throws SQLException{
-		 PreparedStatement prep = con.prepareStatement("insert into fileIdx(backupID, fileLine, filedigest) values (?,?,?);");
+	 public void addFileIdx(int backupID, String fileLine, String digest, String targetDir) throws SQLException{
+		 PreparedStatement prep = con.prepareStatement("insert into fileIdx(backupID, fileLine, filedigest, targetdir) values (?,?,?,?);");
 		 prep.setInt(1, backupID);
 		 prep.setString(2, fileLine);
 		 prep.setString(3, digest);
+		 prep.setString(4, targetDir);
 		 prep.execute();
 	 }
 	 
-	 public ResultSet getFileIdx(int toGet) throws SQLException{
+	 public ResultSet getFileIdx(int toGet,String targetDir) throws SQLException{
 		 Statement state = con.createStatement();
-		 ResultSet res = state.executeQuery("select fileLine from fileIdx, fileDigest where backupID = "+toGet);
+		 ResultSet res = state.executeQuery("select fileLine, fileDigest from fileIdx where backupID = "+toGet +" and targetDir = '" +targetDir+"'");
 		 return res;
 	 }
 	 
