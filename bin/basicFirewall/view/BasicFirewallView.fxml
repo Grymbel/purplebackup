@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="basicFirewall.controller.BasicFirewallViewController">
+   <children>
+      <Pane prefHeight="20.0" style="-fx-background-color: purple;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <VBox prefHeight="800.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <TextFlow textAlignment="CENTER">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP Whitelist">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </TextFlow>
+                        <HBox>
+                           <children>
+                              <JFXTextField fx:id="whiteField" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets right="50.0" />
+                                 </HBox.margin>
+                              </JFXTextField>
+                              <ToolBar>
+                                 <items>
+                                    <JFXButton fx:id="whiteAddBtn" buttonType="RAISED" onAction="#addWhite" text="Add" />
+                                    <JFXButton fx:id="whiteDeleteBtn" buttonType="RAISED" onAction="#deleteWhite" text="Delete" />
+                                 </items>
+                              </ToolBar>
+                           </children>
+                        </HBox>
+                        <JFXListView fx:id="whiteListView" VBox.vgrow="ALWAYS" />
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <TextFlow textAlignment="CENTER">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP Blacklist">
+                                 <font>
+                                    <Font name="System Bold" size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </TextFlow>
+                        <HBox>
+                           <children>
+                              <JFXTextField fx:id="blackField" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets right="50.0" />
+                                 </HBox.margin>
+                              </JFXTextField>
+                              <ToolBar>
+                                 <items>
+                                    <JFXButton fx:id="blackAddBtn" buttonType="RAISED" onAction="#addBlack" text="Add" />
+                                    <JFXButton fx:id="BlackDeleteBtn" buttonType="RAISED" onAction="#deleteBlack" text="Delete" />
+                                 </items>
+                              </ToolBar>
+                           </children>
+                        </HBox>
+                        <JFXListView fx:id="blackListView" VBox.vgrow="ALWAYS" />
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

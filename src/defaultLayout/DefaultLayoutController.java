@@ -103,7 +103,7 @@ public class DefaultLayoutController {
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		Parent root = null;
 		if (event.getSource().equals(userItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/DatabaseTableView.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../userManagement/view/DatabaseTableView.fxml"));
 		}
 		else if (event.getSource().equals(auditItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));

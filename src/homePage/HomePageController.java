@@ -43,7 +43,7 @@ public class HomePageController {
 			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
 		}
 		else if (event.getSource().equals(userItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/DatabaseTableView.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../userManagement/view/DatabaseTableView.fxml"));
 		}
 		else if (event.getSource().equals(settingsItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/"));
