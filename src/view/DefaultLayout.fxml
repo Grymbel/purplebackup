@@ -53,6 +53,7 @@
                <children>
                   <VBox fx:id="sidebarNav" layoutX="-240.0" prefWidth="240.0" spacing="20.0" style="-fx-background-color: #9575CD;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
+                        <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets top="200.0" />
                            </VBox.margin>
@@ -75,6 +76,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
+                        <HBox maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <HBox.margin>
@@ -94,6 +96,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
+                        <HBox fx:id="auditItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <HBox.margin>
@@ -113,6 +116,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
+                        <HBox fx:id="backupItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <HBox.margin>
@@ -132,6 +136,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
+                        <HBox fx:id="settingsItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <HBox.margin>
@@ -151,6 +156,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
+                        <HBox fx:id="logoutItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <HBox.margin>
