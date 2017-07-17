@@ -40,7 +40,7 @@ public class HomePageController {
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		Parent root = null;
 		if (event.getSource().equals(auditItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/"));
+			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
 		}
 		else if (event.getSource().equals(userItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/DatabaseTableView.fxml"));
