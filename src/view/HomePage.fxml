@@ -211,7 +211,7 @@
             </VBox>
          </children>
       </StackPane>
-      <TextFlow fx:id="header" prefHeight="70.0" style="-fx-background-color: #9575CD;" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TextFlow fx:id="header" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label alignment="CENTER" prefHeight="70.0" prefWidth="1280.0" text="Welcome, Admin" textAlignment="CENTER" textFill="WHITE">
                <font>
