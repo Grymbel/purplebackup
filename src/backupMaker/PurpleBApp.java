@@ -3,7 +3,7 @@ package backupMaker;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class PurpleBApp extends Application {
@@ -21,7 +21,7 @@ public class PurpleBApp extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("../view/BackupMaker.fxml"));
-			GridPane root = loader.load();
+			AnchorPane root = loader.load();
 
 			Scene scene = new Scene(root, 1280, 720);
 			primaryStage.setScene(scene);
