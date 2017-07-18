@@ -7,6 +7,7 @@ public class UserAllTable{
 	public SimpleStringProperty username;
 	public SimpleStringProperty password;
 	public SimpleStringProperty salt;
+	public SimpleStringProperty nRIC;
 	public SimpleStringProperty name;
 	public SimpleStringProperty gender;
 	public SimpleStringProperty dOB;
@@ -14,7 +15,7 @@ public class UserAllTable{
 	public SimpleStringProperty email;
 	public SimpleStringProperty schoolClass;
 	public SimpleStringProperty address;
-	public SimpleStringProperty nRIC;
+	public SimpleStringProperty keys;
 	public SimpleStringProperty cCA;
 	public SimpleStringProperty teacherID;
 	public SimpleStringProperty department;
@@ -23,7 +24,8 @@ public class UserAllTable{
 		this.userID 	= new SimpleStringProperty(String.valueOf(userAll.getUser().getUserID()));
 		this.username	= new SimpleStringProperty(userAll.getLogin().getUsername());
 		this.password 	= new SimpleStringProperty(userAll.getLogin().getPassword());
-		this.salt 	= new SimpleStringProperty(userAll.getLogin().getSalt());
+		this.salt 		= new SimpleStringProperty(userAll.getLogin().getSalt());
+		this.nRIC 		= new SimpleStringProperty(userAll.getUser().getnRIC());
 		this.name 		= new SimpleStringProperty(userAll.getUser().getName());
 		this.gender 	= new SimpleStringProperty(userAll.getUser().getGender());
 		this.dOB 		= new SimpleStringProperty(userAll.getUser().getdOB());
@@ -31,21 +33,22 @@ public class UserAllTable{
 		this.email		= new SimpleStringProperty(userAll.getUser().getEmail());
 		this.schoolClass= new SimpleStringProperty(userAll.getUser().getSchoolClass());
 		this.address 	= new SimpleStringProperty(userAll.getUser().getAddress());
-		this.nRIC 		= new SimpleStringProperty(userAll.getStudent().getnRIC());
+		this.keys	 	= new SimpleStringProperty(userAll.getUser().getKeys());
 		this.cCA 		= new SimpleStringProperty(userAll.getStudent().getcCA());
 		this.teacherID 	= new SimpleStringProperty(String.valueOf(userAll.getTeacher().getTeacherID()));
 		this.department = new SimpleStringProperty(userAll.getTeacher().getDepartment());
 	}
 	
 	public UserAllTable(int userID, String username, String password,
-			String salt, String name, String gender, String dOB,
+			String salt, String nRIC, String name, String gender, String dOB,
 			String contactNo, String email, String schoolClass,
-			String address, String nRIC, String cCA,
+			String address, byte[] keys, String cCA,
 			int teacherID, String department) {
 		this.userID 	= new SimpleStringProperty(String.valueOf(userID));
 		this.username	= new SimpleStringProperty(username);
 		this.password 	= new SimpleStringProperty(password);
-		this.salt 	= new SimpleStringProperty(salt);
+		this.salt 		= new SimpleStringProperty(salt);
+		this.nRIC 		= new SimpleStringProperty(nRIC);
 		this.name 		= new SimpleStringProperty(name);
 		this.gender 	= new SimpleStringProperty(gender);
 		this.dOB 		= new SimpleStringProperty(dOB);
@@ -53,7 +56,7 @@ public class UserAllTable{
 		this.email		= new SimpleStringProperty(email);
 		this.schoolClass= new SimpleStringProperty(schoolClass);
 		this.address 	= new SimpleStringProperty(address);
-		this.nRIC 		= new SimpleStringProperty(nRIC);
+		this.keys	 	= new SimpleStringProperty(new String(keys));
 		this.cCA 		= new SimpleStringProperty(cCA);
 		this.teacherID 	= new SimpleStringProperty(String.valueOf(teacherID));
 		this.department = new SimpleStringProperty(department);
@@ -70,6 +73,9 @@ public class UserAllTable{
 	}
 	public void setSalt(SimpleStringProperty salt) {
 		this.salt = salt;
+	}
+	public void setnRIC(SimpleStringProperty nRIC) {
+		this.nRIC = nRIC;
 	}
 	public void setName(SimpleStringProperty name) {
 		this.name = name;
@@ -92,8 +98,8 @@ public class UserAllTable{
 	public void setAddress(SimpleStringProperty address) {
 		this.address = address;
 	}
-	public void setnRIC(SimpleStringProperty nRIC) {
-		this.nRIC = nRIC;
+	public void setKeys(SimpleStringProperty keys) {
+		this.keys = keys;
 	}
 	public void setcCA(SimpleStringProperty cCA) {
 		this.cCA = cCA;
@@ -112,6 +118,9 @@ public class UserAllTable{
 	}
 	public SimpleStringProperty getSalt() {
 		return salt;
+	}
+	public SimpleStringProperty getnRIC() {
+		return nRIC;
 	}
 	public SimpleStringProperty getName() {
 		return name;
@@ -134,8 +143,8 @@ public class UserAllTable{
 	public SimpleStringProperty getAddress() {
 		return address;
 	}
-	public SimpleStringProperty getnRIC() {
-		return nRIC;
+	public SimpleStringProperty getKeys() {
+		return keys;
 	}
 	public SimpleStringProperty getcCA() {
 		return cCA;

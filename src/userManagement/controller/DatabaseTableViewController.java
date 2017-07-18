@@ -2,9 +2,11 @@ package userManagement.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Random;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -20,6 +22,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,6 +32,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
@@ -54,6 +58,8 @@ public class DatabaseTableViewController {
     @FXML
     private JFXTextField Login_Password;
     @FXML
+    private JFXTextField User_NRIC;
+    @FXML
     private JFXTextField User_Name;
     @FXML
     private JFXTextField User_ContactNo;
@@ -75,8 +81,6 @@ public class DatabaseTableViewController {
     private JFXToggleButton studentTeacherInputChange;
     @FXML
     private VBox student_Input;
-    @FXML
-    private JFXTextField Student_NRIC;
     @FXML
     private JFXTextField Student_CCA;
     @FXML
@@ -106,6 +110,8 @@ public class DatabaseTableViewController {
     @FXML
     private TableColumn<UserAllTable, String> salt;
     @FXML
+    private TableColumn<UserAllTable, String> nRIC;
+    @FXML
     private TableColumn<UserAllTable, String> name;
     @FXML
     private TableColumn<UserAllTable, String> gender;
@@ -120,7 +126,7 @@ public class DatabaseTableViewController {
     @FXML
     private TableColumn<UserAllTable, String> address;
     @FXML
-    private TableColumn<UserAllTable, String> nRIC;
+    private TableColumn<UserAllTable, String> keys;
     @FXML
     private TableColumn<UserAllTable, String> cCA;
     @FXML
@@ -146,6 +152,7 @@ public class DatabaseTableViewController {
 	    username.setCellValueFactory(cellData -> cellData.getValue().getUsername());
 	    password.setCellValueFactory(cellData -> cellData.getValue().getPassword());
 	    salt.setCellValueFactory(cellData -> cellData.getValue().getSalt());
+	    nRIC.setCellValueFactory(cellData -> cellData.getValue().getnRIC());
 	    name.setCellValueFactory(cellData -> cellData.getValue().getName());
 	    gender.setCellValueFactory(cellData -> cellData.getValue().getGender());
 	    dOB.setCellValueFactory(cellData -> cellData.getValue().getdOB());
@@ -153,7 +160,7 @@ public class DatabaseTableViewController {
 	    email.setCellValueFactory(cellData -> cellData.getValue().getEmail());
 	    schoolClass.setCellValueFactory(cellData -> cellData.getValue().getSchoolClass());
 	    address.setCellValueFactory(cellData -> cellData.getValue().getAddress());
-	    nRIC.setCellValueFactory(cellData -> cellData.getValue().getnRIC());
+	    keys.setCellValueFactory(cellData -> cellData.getValue().getKeys());
 	    cCA.setCellValueFactory(cellData -> cellData.getValue().getcCA());
 	    teacherID.setCellValueFactory(cellData -> cellData.getValue().getTeacherID());
 	    department.setCellValueFactory(cellData -> cellData.getValue().getDepartment());
@@ -163,6 +170,7 @@ public class DatabaseTableViewController {
 	    username.setCellFactory(cellFactory);
 	    password.setCellFactory(cellFactory);
 	    salt.setCellFactory(cellFactory);
+	    nRIC.setCellFactory(cellFactory);
 	    name.setCellFactory(cellFactory);
 	    gender.setCellFactory(cellFactory);
 	    dOB.setCellFactory(cellFactory);
@@ -170,11 +178,20 @@ public class DatabaseTableViewController {
 	    email.setCellFactory(cellFactory);
 	    schoolClass.setCellFactory(cellFactory);
 	    address.setCellFactory(cellFactory);
-	    nRIC.setCellFactory(cellFactory);
+	    keys.setCellFactory(cellFactory);
 	    cCA.setCellFactory(cellFactory);
 	    teacherID.setCellFactory(cellFactory);
 	    department.setCellFactory(cellFactory);
 	    
+	    nRIC.setOnEditCommit(
+	            (CellEditEvent<UserAllTable, String> t) -> {
+	            	int userID = Integer.parseInt(((UserAllTable) t.getTableView().getItems().get(t.getTablePosition().getRow())).getUserID().get());
+	            	String newValue = t.getNewValue();
+	                ((UserAllTable) t.getTableView().getItems().get(
+	                        t.getTablePosition().getRow())
+	                        ).setnRIC(new SimpleStringProperty(newValue));
+	                logs.add("UPDATE Student SET NRIC='" + newValue + "' WHERE UserID=" + userID + ";");
+	        });
 	    username.setOnEditCommit(
 	            (CellEditEvent<UserAllTable, String> t) -> {
 	            	String oldValue = t.getOldValue();
@@ -260,15 +277,6 @@ public class DatabaseTableViewController {
 	                        ).setAddress(new SimpleStringProperty(newValue));
 	                logs.add("UPDATE User SET Address='" + newValue + "' WHERE UserID=" + userID + ";");
 	        });
-	    nRIC.setOnEditCommit(
-	            (CellEditEvent<UserAllTable, String> t) -> {
-	            	int userID = Integer.parseInt(((UserAllTable) t.getTableView().getItems().get(t.getTablePosition().getRow())).getUserID().get());
-	            	String newValue = t.getNewValue();
-	                ((UserAllTable) t.getTableView().getItems().get(
-	                        t.getTablePosition().getRow())
-	                        ).setnRIC(new SimpleStringProperty(newValue));
-	                logs.add("UPDATE Student SET NRIC='" + newValue + "' WHERE UserID=" + userID + ";");
-	        });
 	    cCA.setOnEditCommit(
 	            (CellEditEvent<UserAllTable, String> t) -> {
 	            	int userID = Integer.parseInt(((UserAllTable) t.getTableView().getItems().get(t.getTablePosition().getRow())).getUserID().get());
@@ -325,6 +333,7 @@ public class DatabaseTableViewController {
     void submit(ActionEvent event) throws UnsupportedEncodingException {
     	String login = Login_Username.getText();
     	String password = Login_Password.getText();
+    	String nRIC = User_NRIC.getText();
     	String name = User_Name.getText();
     	String contactNo = User_ContactNo.getText();
     	String gender = Gender.getSelectedToggle().getUserData().toString();
@@ -332,7 +341,6 @@ public class DatabaseTableViewController {
     	String schoolClass = User_Class.getText();
     	String dOB = User_DOB.getValue().toString();
     	String address = User_Address.getText();
-    	String nRIC = Student_NRIC.getText();
     	String cCA = Student_CCA.getText();
     	String department = Teacher_Department.getText();
     	
@@ -342,25 +350,34 @@ public class DatabaseTableViewController {
     	String saltString = enc.encodeToString(newSalt);
 		password = HP.getHashedPassword(password, newSalt);
         
-    	User user = new User(name, gender, dOB, contactNo, email, schoolClass, address);
+		String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 16) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String keys = salt.toString();
+	        
+    	User user = new User(nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
     	user.setUserID(dataTable.getItems().size() + 1);
     	Login l = new Login(login, password, saltString, user);
-    	UserAll ua = new UserAll();
+    	UserAll ua = new UserAll(user, l);
     	if(!show){
     		Teacher teacher = new Teacher(department, user);
-    		Student student = new Student(null, null, user);
+    		Student student = new Student(null, user);
     		ua = new UserAll(user, l, student, teacher);
-    		logs.add("INSERT INTO User (UserID, Name, Gender, DOB, ContactNo, Email, Class, Address) VALUES (" + user.getUserID() + ", '" + name + "', '" + gender + "', '" + dOB + "', '" + contactNo + "', '" + email + "', '" + schoolClass + "', '" + address + "');");
+    		logs.add("INSERT INTO User (UserID, Name, Gender, DOB, ContactNo, Email, Class, Address) VALUES (" + user.getUserID() + ", '" + user.getnRIC() + "', '" + name + "', '" + gender + "', '" + dOB + "', '" + contactNo + "', '" + email + "', '" + schoolClass + "', '" + address + "');");
     		logs.add("INSERT INTO Login (Username, Password, Salt, UserID) VALUES ('" + nRIC + "', '" + password + "', '" + saltString + "', " + user.getUserID() + ");");
         	logs.add("INSERT INTO Teacher (Department, UserID) VALUES ('" + department + "', " + user.getUserID() + ");");
     	}
     	else{
     		Teacher teacher = new Teacher(null, user);
-    		Student student = new Student(nRIC, cCA, user);
+    		Student student = new Student(cCA, user);
     		ua = new UserAll(user, l, student, teacher);
-    		logs.add("INSERT INTO User (UserID, Name, Gender, DOB, ContactNo, Email, Class, Address) VALUES (" + user.getUserID() + ", '" + name + "', '" + gender + "', '" + dOB + "', '" + contactNo + "', '" + email + "', '" + schoolClass + "', '" + address + "');");
+    		logs.add("INSERT INTO User (UserID, NRIC, Name, Gender, DOB, ContactNo, Email, Class, Address) VALUES (" + user.getUserID() + ", '" + user.getnRIC() + "', '" + name + "', '" + gender + "', '" + dOB + "', '" + contactNo + "', '" + email + "', '" + schoolClass + "', '" + address + "');");
     		logs.add("INSERT INTO Login (Username, Password, Salt, UserID) VALUES ('" + nRIC + "', '" + password + "', '" + saltString + "', " + user.getUserID() + ");");
-    		logs.add("INSERT INTO Student (NRIC, CCA, UserID) VALUES ('" + nRIC + "', '" + cCA + "', " + user.getUserID() + ");");
+    		logs.add("INSERT INTO Student (CCA, UserID) VALUES ('" + cCA + "', " + user.getUserID() + ");");
     	}
     	
     	UserAllTable uat = new UserAllTable(ua);
@@ -385,6 +402,7 @@ public class DatabaseTableViewController {
     public void clear(){
     	Login_Username.clear();
     	Login_Password.clear();
+    	User_NRIC.clear();
     	User_Name.clear();
     	User_ContactNo.clear();
     	User_Gender_M.setSelected(true);
@@ -392,7 +410,6 @@ public class DatabaseTableViewController {
     	User_Class.clear();
     	User_DOB.setValue(null);
     	User_Address.clear();
-    	Student_NRIC.clear();
     	Student_CCA.clear();
     	Student_UserID.clear();
     	Teacher_TeacherID.clear();
@@ -510,4 +527,14 @@ public class DatabaseTableViewController {
 		stage.setScene(new Scene(root));
  	    stage.show();
 	}
+	
+	@FXML
+    void generateNewSaltKeys(MouseEvent event) {
+		if (event.getClickCount() == 2) //Checking double click
+	    {
+			System.out.println(event.getSource().getClass().getName().toString());
+			System.out.println(dataTable.getSelectionModel().getSelectedItem().getSalt());
+			System.out.println(dataTable.getSelectionModel().getSelectedItem().getKeys());
+	    }
+    }
 }

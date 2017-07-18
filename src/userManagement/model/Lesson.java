@@ -6,12 +6,12 @@ public class Lesson {
 	double grade = 0;
 	String nRIC;
 	
-	public Lesson(double attendance, String subject, double grade, Student student) {
+	public Lesson(double attendance, String subject, double grade, User user) {
 		super();
 		this.attendance = attendance;
 		this.subject = subject;
 		this.grade = grade;
-		this.nRIC = student.getnRIC();
+		this.nRIC = user.getnRIC();
 	}
 
 	public double getAttendance() {

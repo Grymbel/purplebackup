@@ -1,15 +1,19 @@
 package userManagement.dao;
 
 import java.io.InputStream;
+import java.security.SecureRandom;
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
 
+import userManagement.model.File;
 import userManagement.model.Login;
 import userManagement.model.Student;
 import userManagement.model.Teacher;
@@ -66,11 +70,12 @@ public class DatabaseDAO {
 	}
 	
 	public ArrayList<UserAll> getDatabaseUserAll() throws SQLException{
-		ResultSet rs = getDatabaseData("SELECT User.UserID, Login.Username, Login.Password, Login.Salt, User.Name, User.Gender, User.DOB, User.ContactNo, User.Email, User.Class, User.Address, Student.NRIC, Student.CCA, Teacher.TeacherID, Teacher.Department FROM User LEFT OUTER JOIN Login ON (User.UserID = Login.UserID) LEFT OUTER JOIN Student ON (User.UserID = Student.UserID) LEFT OUTER JOIN Teacher ON (User.UserID = Teacher.UserID) ORDER BY UserID;");
+		ResultSet rs = getDatabaseData("SELECT User.UserID, Login.Username, Login.Password, Login.Salt, User.NRIC, User.Name, User.Gender, User.DOB, User.ContactNo, User.Email, User.Class, User.Address, User.Keys, Student.CCA, Teacher.TeacherID, Teacher.Department FROM User LEFT OUTER JOIN Login ON (User.UserID = Login.UserID) LEFT OUTER JOIN Student ON (User.UserID = Student.UserID) LEFT OUTER JOIN Teacher ON (User.UserID = Teacher.UserID) ORDER BY UserID;");
 		ArrayList<UserAll> userAllArray = new ArrayList<UserAll>();
 		
 		while(rs.next()){
 			int userID = rs.getInt("userID");
+			String nRIC = rs.getString("NRIC");
 			String name = rs.getString("Name");
 			String gender = rs.getString("Gender");
 			String dOB = rs.getString("DOB");
@@ -78,20 +83,21 @@ public class DatabaseDAO {
 			String email = rs.getString("Email");
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
-			User user = new User(userID, name, gender, dOB, contactNo, email, schoolClass, address);
+			String keys = rs.getString("Keys");
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
 			
 			String username = rs.getString("Username");
 			String password = rs.getString("Password");
 			String salt = rs.getString("Salt");
 			Login login = new Login(username, password, salt, user);
 			
-			String nRIC = rs.getString("NRIC");
 			String cCA = rs.getString("CCA");
-			Student student = new Student(nRIC, cCA, user);
+			Student student = new Student(cCA, user);
 			
 			int teacherID = rs.getInt("TeacherID");
 			String department = rs.getString("Department");
 			Teacher teacher = new Teacher(teacherID, department, user);
+			
 			userAllArray.add(new UserAll(user, login, student, teacher));
 		}
 		
@@ -105,6 +111,7 @@ public class DatabaseDAO {
 		
 		while(rs.next()){
 			int userID = rs.getInt("userID");
+			String nRIC = rs.getString("NRIC");
 			String name = rs.getString("Name");
 			String gender = rs.getString("Gender");
 			String dOB = rs.getString("DOB");
@@ -112,7 +119,8 @@ public class DatabaseDAO {
 			String email = rs.getString("Email");
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
-			userArray.add(new User(userID,name,gender,dOB,contactNo,email,schoolClass,address));
+			String keys = rs.getString("Keys");
+			userArray.add(new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys));
 		}
 		
 		rs.close();
@@ -125,6 +133,7 @@ public class DatabaseDAO {
 		
 		while(rs.next()){
 			int userID = rs.getInt("userID");
+			String nRIC = rs.getString("NRIC");
 			String name = rs.getString("Name");
 			String gender = rs.getString("Gender");
 			String dOB = rs.getString("DOB");
@@ -132,8 +141,9 @@ public class DatabaseDAO {
 			String email = rs.getString("Email");
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
+			String keys = rs.getString("Keys");
 			
-			User user = new User(userID,name,gender,dOB,contactNo,email,schoolClass,address);
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
 			String username = rs.getString("Username");
 			String password = rs.getString("Password");
 			String salt = rs.getString("Salt");
@@ -151,6 +161,7 @@ public class DatabaseDAO {
 		
 		while(rs.next()){
 			int userID = rs.getInt("userID");
+			String nRIC = rs.getString("NRIC");
 			String name = rs.getString("Name");
 			String gender = rs.getString("Gender");
 			String dOB = rs.getString("DOB");
@@ -158,11 +169,12 @@ public class DatabaseDAO {
 			String email = rs.getString("Email");
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
-			User user = new User(userID,name,gender,dOB,contactNo,email,schoolClass,address);
+			String keys = rs.getString("Keys");
 			
-			String nRIC = rs.getString("NRIC");
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
+			
 			String cCA = rs.getString("CCA");
-			Student student = new Student(nRIC, cCA, user);
+			Student student = new Student(cCA, user);
 			
 			studentArray.add(student);
 		}
@@ -177,6 +189,7 @@ public class DatabaseDAO {
 		
 		while(rs.next()){
 			int userID = rs.getInt("userID");
+			String nRIC = rs.getString("NRIC");
 			String name = rs.getString("Name");
 			String gender = rs.getString("Gender");
 			String dOB = rs.getString("DOB");
@@ -184,8 +197,9 @@ public class DatabaseDAO {
 			String email = rs.getString("Email");
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
+			String keys = rs.getString("Keys");
 			
-			User user = new User(userID,name,gender,dOB,contactNo,email,schoolClass,address);
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
 			int teacherID = rs.getInt("TeacherID");
 			String department = rs.getString("Department");
 			Teacher teacher = new Teacher(teacherID, department, user);
@@ -196,12 +210,13 @@ public class DatabaseDAO {
 		return teacherArray;
 	}
 	
-	public ArrayList<userManagement.model.File> getDatabaseFile() throws SQLException{
-		ResultSet rs = getDatabaseData("SELECT * FROM File LEFT INNER JOIN User ON User.userID = File.userID;");
-		ArrayList<userManagement.model.File> fileArray = new ArrayList<userManagement.model.File>();
+	public ArrayList<File> getDatabaseFile() throws SQLException{
+		ResultSet rs = getDatabaseData("SELECT * FROM File LEFT JOIN User ON User.userID = File.userID;");
+		ArrayList<File> fileArray = new ArrayList<File>();
 		
 		while(rs.next()){
 			int userID = rs.getInt("userID");
+			String nRIC = rs.getString("NRIC");
 			String name = rs.getString("Name");
 			String gender = rs.getString("Gender");
 			String dOB = rs.getString("DOB");
@@ -209,15 +224,18 @@ public class DatabaseDAO {
 			String email = rs.getString("Email");
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
+			String keys = rs.getString("Keys");
 			
-			User user = new User(userID, name, gender, dOB, contactNo, email, schoolClass, address);
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
 			
-			int fileID = rs.getInt("userID");
-			String fileName = rs.getString("Name");;
-			int fileSize = rs.getInt("userID");
+			int fileID = rs.getInt("fileID");
+			String fileName = rs.getString("fileName");;
+			int fileSize = rs.getInt("size");
 			Blob dataBlob = rs.getBlob("Data");
-			byte [] fileData = dataBlob.getBytes(0, (int)dataBlob.length());
-			userManagement.model.File file = new userManagement.model.File(fileID, fileName, fileSize, fileData, user);
+			String recipient = rs.getString("recipient");
+			Date date = rs.getDate("Date");
+			byte [] fileData = dataBlob.getBytes(1, (int)dataBlob.length());
+			File file = new File(fileID, user, fileName, fileSize, fileData, recipient, date);
 			fileArray.add(file);
 		}
 		
@@ -230,6 +248,7 @@ public class DatabaseDAO {
 		
 		while(rs.next()){
 			int userID = rs.getInt("userID");
+			String nRIC = rs.getString("NRIC");
 			String name = rs.getString("Name");
 			String gender = rs.getString("Gender");
 			String dOB = rs.getString("DOB");
@@ -237,16 +256,17 @@ public class DatabaseDAO {
 			String email = rs.getString("Email");
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
-			User user = new User(userID, name, gender, dOB, contactNo, email, schoolClass, address);
+			String keys = rs.getString("Keys");
+			
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
 			
 			String username = rs.getString("Username");
 			String password = rs.getString("Password");
 			String salt = rs.getString("Salt");
 			Login login = new Login(username, password, salt, user);
 			
-			String nRIC = rs.getString("NRIC");
 			String cCA = rs.getString("CCA");
-			Student student = new Student(nRIC, cCA, user);
+			Student student = new Student(cCA, user);
 			
 			int teacherID = rs.getInt("TeacherID");
 			String department = rs.getString("Department");
@@ -269,11 +289,14 @@ public class DatabaseDAO {
         }
 	}
 	
-	public void updateDatabaseDataFileUpload(String sql, String fileName, long fileSize, InputStream data) throws SQLException{
+	public void updateDatabaseDataFileUpload(String sql, int userID, String fileName, long fileSize, InputStream data, Date date) throws SQLException{
 		ppstmt = conn.prepareStatement(sql);
-		ppstmt.setString(1, fileName);
-		ppstmt.setLong(2, fileSize);
-		ppstmt.setBlob(3, data);
+		ppstmt.setInt(1, userID);
+		ppstmt.setString(2, fileName);
+		ppstmt.setLong(3, fileSize);
+		ppstmt.setBlob(4, data);
+		ppstmt.setObject(5, date);
+		
 		int count = ppstmt.executeUpdate();
         if(count ==0){
         	System.out.println("!!! Update failed !!!\n");
@@ -286,17 +309,97 @@ public class DatabaseDAO {
 		conn.close();
 		stmt.close();
 	}
+
+	public Connection getConn() {
+		return conn;
+	}
 	
 	/*
 	public static void main(String[] args) throws ClassNotFoundException, SQLException{
-		DatabaseDAO dao = new DatabaseDAO();
-		ArrayList<UserAll> userAllArray= dao.getDatabaseUserAll();
+		DatabaseDAO dao = new DatabaseDAO(0);
 		
-		for(UserAll u:userAllArray){
-			u.printInfo();
-		}
-		
+		String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 16) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String keys = salt.toString();
+        
+        Connection conn = dao.getConn();
+        String query = "UPDATE User SET User.Keys = ? WHERE User.UserID = 13";
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setString(1, keys);
+        pstmt.execute();
+        
 		dao.close();
 	}
+	*/
+	
+	/* For File Uploads...
+	 * 
+	 * //"<form action='Home' method='POST' enctype='multipart/form-data'><input type='file' name='file' /><input type='submit' /></form>" (HTML)
+	 * 
+	 * Part filePart = request.getPart("file"); (Java)
+	 * String fileName = getSubmittedFileName(filePart);
+	 * long fileSize = filePart.getSize();
+	 * System.out.println("Name: " + fileName + "\nSpace: " + fileSize);
+	 * InputStream inputStream = filePart.getInputStream();
+	 * try {
+	 * 		DatabaseAccess dba = new DatabaseAccess(0);
+	 * 		String sqlline = "INSERT INTO File(FileName, Size, Data) VALUES (?, ?, ?);";
+	 *		dba.updateDatabaseDataFileUpload(sqlline, fileName, fileSize, inputStream);
+	 *		dba.close();
+	 *	} catch (ClassNotFoundException e) {
+	 *		e.printStackTrace();
+	 *	} catch (SQLException e) {
+	 *		e.printStackTrace();
+	 *	}
+	 *
+	 * 	private static String getSubmittedFileName(Part part) {
+	 * 		for (String cd : part.getHeader("content-disposition").split(";")) {
+	 *       	if (cd.trim().startsWith("filename")) {
+	 *           	String fileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+	 *           	return fileName.substring(fileName.lastIndexOf('/') + 1).substring(fileName.lastIndexOf('\\') + 1);
+	 *     	 	}
+	 *  	}
+	 *  	return null;
+	 *	}
+	 *
+	For File Downloads...
+	*
+	*	private static final int BUFFER_SIZE = 4096;
+	*
+	*	String fileName = "autoplaylist.txt";
+	*	try {
+	*		DatabaseAccess dba = new DatabaseAccess(0);
+	*	  	String sqlline = "SELECT * FROM File WHERE fileName = ?;";
+	*		ResultSet result = dba.getDatabaseData(sqlline, fileName);
+	*	 	response.setHeader("Content-Disposition",
+    *                "attachment;filename=" + fileName);
+	*	 	if (result.next()) {
+    *            Blob blob = result.getBlob("Data");
+    *            InputStream inputStream = blob.getBinaryStream();
+    *            OutputStream out = response.getOutputStream();
+    *
+    *           int bytesRead = -1;
+    *            byte[] buffer = new byte[BUFFER_SIZE];
+    *           while ((bytesRead = inputStream.read(buffer)) != -1) {
+    *                out.write(buffer, 0, bytesRead);
+    *            }
+    *
+    *            inputStream.close();
+    *             out.flush();
+    *            out.close();
+    *           System.out.println("File saved");
+    *       }
+	*	 	dba.close();
+	*	} catch (ClassNotFoundException e) {
+	*	 	e.printStackTrace();
+	*	} catch (SQLException e) {
+	*	 	e.printStackTrace();
+	*	}
+	*
 	*/
 }

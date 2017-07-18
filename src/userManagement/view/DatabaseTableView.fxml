@@ -40,7 +40,7 @@
                      <children>
                         <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/BasLogo.png" />
+                              <Image url="@../../images/BasLogo.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -216,6 +216,14 @@
                                        <children>
                                           <VBox prefHeight="271.0" prefWidth="17.0" HBox.hgrow="ALWAYS">
                                              <children>
+                                                <JFXTextField fx:id="User_NRIC" promptText="NRIC">
+                                                   <VBox.margin>
+                                                      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                                   </VBox.margin>
+                                                   <padding>
+                                                      <Insets bottom="5.0" top="5.0" />
+                                                   </padding>
+                                                </JFXTextField>
                                                 <JFXTextField fx:id="User_Name" labelFloat="true" promptText="Name">
                                                    <VBox.margin>
                                                       <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
@@ -296,11 +304,6 @@
                                              <children>
                                                 <VBox fx:id="student_Input" prefHeight="200.0" prefWidth="100.0">
                                                    <children>
-                                                      <JFXTextField fx:id="Student_NRIC" promptText="NRIC">
-                                                         <VBox.margin>
-                                                            <Insets left="20.0" right="20.0" top="20.0" />
-                                                         </VBox.margin>
-                                                      </JFXTextField>
                                                       <JFXTextField fx:id="Student_CCA" promptText="CCA">
                                                          <VBox.margin>
                                                             <Insets left="20.0" right="20.0" top="20.0" />
@@ -353,12 +356,13 @@
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="272.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <TableView fx:id="dataTable" editable="true" prefHeight="79.0" prefWidth="1280.0" HBox.hgrow="ALWAYS">
+                                          <TableView fx:id="dataTable" editable="true" onMouseClicked="#generateNewSaltKeys" prefHeight="79.0" prefWidth="1280.0" HBox.hgrow="ALWAYS">
                                             <columns>
                                               <TableColumn fx:id="userID" editable="false" prefWidth="56.0" text="UserID" />
-                                              <TableColumn fx:id="username" editable="false" prefWidth="94.0" text="Username" />
+                                              <TableColumn fx:id="username" prefWidth="94.0" text="Username" />
                                                 <TableColumn fx:id="password" prefWidth="73.0" text="Password" />
                                                 <TableColumn fx:id="salt" editable="false" prefWidth="73.0" text="Salt" />
+                                                <TableColumn fx:id="nRIC" minWidth="0.0" prefWidth="101.0" text="NRIC" />
                                                 <TableColumn fx:id="name" prefWidth="90.0" text="Name" />
                                                 <TableColumn fx:id="gender" prefWidth="58.0" text="Gender" />
                                                 <TableColumn fx:id="dOB" prefWidth="136.80029296875" text="DOB" />
@@ -366,7 +370,7 @@
                                                 <TableColumn fx:id="email" prefWidth="121.0" text="Email" />
                                                 <TableColumn fx:id="schoolClass" prefWidth="68.0" text="Class" />
                                                 <TableColumn fx:id="address" prefWidth="137.0" text="Address" />
-                                                <TableColumn fx:id="nRIC" minWidth="0.0" prefWidth="101.0" text="NRIC" />
+                                                <TableColumn fx:id="keys" editable="false" prefWidth="137.0" text="Keys" />
                                                 <TableColumn fx:id="cCA" minWidth="0.0" text="CCA" />
                                                 <TableColumn fx:id="teacherID" prefWidth="139.0" text="TeacherID" />
                                                 <TableColumn fx:id="department" prefWidth="116.0" text="Department" />
