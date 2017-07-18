@@ -7,11 +7,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="auditLog.AuditLogController">
+<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="defaultLayout.DefaultLayoutController">
    <children>
       <AnchorPane prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -33,17 +34,29 @@
                   </ImageView>
                </children>
             </TextFlow>
-            <TextFlow fx:id="sideIcon" onMouseClicked="#showSidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <TextFlow AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/BasLogo.png" />
-                     </image>
-                  </ImageView>
+                  <StackPane>
+                     <children>
+                        <ImageView fx:id="closeIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#hideSidebar" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Close.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="sideIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#showSidebar" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/HamburgerMenu.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
                </children>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <padding>
+                  <Insets left="10.0" top="10.0" />
+               </padding>
             </TextFlow>
          </children>
       </AnchorPane>
@@ -53,9 +66,32 @@
                <children>
                   <VBox fx:id="sidebarNav" layoutX="-240.0" prefWidth="240.0" spacing="20.0" style="-fx-background-color: #9575CD;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                        <HBox fx:id="homeItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../images/Home.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Home" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                            <VBox.margin>
                               <Insets top="200.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <VBox.margin>
+                              <Insets />
                            </VBox.margin>
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -96,7 +132,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
-                        <HBox maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                        <HBox fx:id="secureItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <HBox.margin>

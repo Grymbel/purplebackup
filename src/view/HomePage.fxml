@@ -13,13 +13,26 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #EDE7F6;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="homePage.HomePageController">
    <children>
-      <VBox fx:id="auditItem" layoutX="900.0" layoutY="350.0" onMouseClicked="#changePage" prefWidth="150.0" visible="false">
+      <TextFlow fx:id="header" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="70.0" prefWidth="1280.0" text="Welcome, Admin" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </TextFlow>
+      <VBox fx:id="logoutItem" layoutX="900.0" layoutY="370.0" onMouseClicked="#changePage" prefWidth="150.0" visible="false">
          <children>
             <VBox prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #9575CD; -fx-background-radius: 50%;">
                <children>
                   <TextFlow textAlignment="CENTER" VBox.vgrow="ALWAYS">
                      <children>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Logout.png" />
+                           </image>
+                        </ImageView>
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -32,7 +45,7 @@
             </VBox>
             <TextFlow textAlignment="CENTER">
                <children>
-                  <Label alignment="CENTER" prefWidth="150.0" text="Audit Log" textAlignment="CENTER" wrapText="true">
+                  <Label alignment="CENTER" prefWidth="150.0" text="Logout" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -44,13 +57,16 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </VBox>
-      <VBox fx:id="backupItem" layoutX="900.0" layoutY="350.0" onMouseClicked="#changePage" prefWidth="150.0" visible="false">
+      <VBox fx:id="backupItem" layoutX="900.0" layoutY="370.0" onMouseClicked="#changePage" prefWidth="150.0" visible="false">
          <children>
             <VBox prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #9575CD; -fx-background-radius: 50%;">
                <children>
                   <TextFlow textAlignment="CENTER" VBox.vgrow="ALWAYS">
                      <children>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Backup.png" />
+                           </image></ImageView>
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -75,13 +91,119 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </VBox>
-      <VBox fx:id="userItem" layoutX="900.0" layoutY="350.0" onMouseClicked="#changePage" prefWidth="150.0" visible="false">
+      <VBox fx:id="auditItem" layoutX="900.0" layoutY="370.0" onMouseClicked="#changePage" prefWidth="150.0" visible="false">
          <children>
             <VBox prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #9575CD; -fx-background-radius: 50%;">
                <children>
                   <TextFlow textAlignment="CENTER" VBox.vgrow="ALWAYS">
                      <children>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Log.png" />
+                           </image></ImageView>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </TextFlow>
+               </children>
+            </VBox>
+            <TextFlow textAlignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" prefWidth="150.0" text="Audit Log" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </TextFlow>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </VBox>
+      <VBox fx:id="secureItem" layoutX="900.0" layoutY="370.0" onMouseClicked="#changePage" prefWidth="150.0" visible="false">
+         <children>
+            <VBox prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #9575CD; -fx-background-radius: 50%;">
+               <children>
+                  <TextFlow textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Secure.png" />
+                           </image></ImageView>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </TextFlow>
+               </children>
+            </VBox>
+            <TextFlow textAlignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" prefWidth="150.0" text="XZ's Feature" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </TextFlow>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </VBox>
+      <VBox fx:id="firewallItem" layoutX="900.0" layoutY="370.0" onMouseClicked="#changePage" prefWidth="150.0" visible="false">
+         <children>
+            <VBox prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #9575CD; -fx-background-radius: 50%;">
+               <children>
+                  <TextFlow textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Firewall.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </TextFlow>
+               </children>
+            </VBox>
+            <TextFlow textAlignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" prefWidth="150.0" text="Firewall" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </TextFlow>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </VBox>
+      <VBox fx:id="userItem" layoutX="900.0" layoutY="370.0" onMouseClicked="#changePage" prefWidth="150.0" visible="false">
+         <children>
+            <VBox prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #9575CD; -fx-background-radius: 50%;">
+               <children>
+                  <TextFlow textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                     <children>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/UserManage.png" />
+                           </image></ImageView>
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -106,38 +228,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </VBox>
-      <VBox fx:id="settingsItem" layoutX="900.0" layoutY="350.0" onMouseClicked="#changePage" prefWidth="150.0" visible="false">
-         <children>
-            <VBox prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: #9575CD; -fx-background-radius: 50%;">
-               <children>
-                  <TextFlow textAlignment="CENTER" VBox.vgrow="ALWAYS">
-                     <children>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
-                     </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets top="20.0" />
-                     </padding>
-                  </TextFlow>
-               </children>
-            </VBox>
-            <TextFlow textAlignment="CENTER">
-               <children>
-                  <Label alignment="CENTER" prefWidth="150.0" text="Settings" textAlignment="CENTER" wrapText="true">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </TextFlow>
-         </children>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </VBox>
-      <StackPane layoutX="900.0" layoutY="350.0">
+      <StackPane layoutX="900.0" layoutY="370.0">
          <children>
             <VBox fx:id="closeNavMenu" onMouseClicked="#closeItems" prefWidth="150.0" visible="false">
                <children>
@@ -211,14 +302,5 @@
             </VBox>
          </children>
       </StackPane>
-      <TextFlow fx:id="header" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label alignment="CENTER" prefHeight="70.0" prefWidth="1280.0" text="Welcome, Admin" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-         </children>
-      </TextFlow>
    </children>
 </AnchorPane>

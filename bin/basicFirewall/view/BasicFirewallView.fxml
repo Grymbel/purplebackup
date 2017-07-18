@@ -4,7 +4,11 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -15,84 +19,257 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="basicFirewall.controller.BasicFirewallViewController">
    <children>
-      <Pane prefHeight="20.0" style="-fx-background-color: purple;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <VBox prefHeight="800.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+      <AnchorPane prefHeight="800.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox VBox.vgrow="ALWAYS">
+            <AnchorPane prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox HBox.hgrow="ALWAYS">
+                  <TextFlow layoutX="1013.0" maxHeight="70.0" minHeight="70.0" prefHeight="70.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <TextFlow textAlignment="CENTER">
+                        <Label alignment="CENTER" maxHeight="70.0" minHeight="70.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="70.0" text="Purpleboard" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </TextFlow>
+                  <TextFlow layoutX="1210.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/BasLogo.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </TextFlow>
+                  <TextFlow fx:id="sideIcon" onMouseClicked="#showSidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/BasLogo.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </TextFlow>
+               </children>
+            </AnchorPane>
+            <HBox layoutY="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+               <children>
+                  <AnchorPane>
+                     <children>
+                        <VBox fx:id="sidebarNav" layoutX="-240.0" prefWidth="240.0" spacing="20.0" style="-fx-background-color: #9575CD;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP Whitelist">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                              </Text>
+                              <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets top="200.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/BasLogo.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="User Management" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
+                              <HBox maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/BasLogo.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="XZ's Feature" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
+                              <HBox fx:id="auditItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/BasLogo.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Audit Log" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
+                              <HBox fx:id="backupItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/BasLogo.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Maker" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
+                              <HBox fx:id="settingsItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/BasLogo.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Settings" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
+                              <HBox fx:id="logoutItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/BasLogo.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Logout" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
                            </children>
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                        </TextFlow>
-                        <HBox>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+                  <VBox prefHeight="800.0" prefWidth="1280.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox VBox.vgrow="ALWAYS">
                            <children>
-                              <JFXTextField fx:id="whiteField" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                              <VBox HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TextFlow textAlignment="CENTER">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP Whitelist">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" />
+                                       </VBox.margin>
+                                    </TextFlow>
+                                    <HBox>
+                                       <children>
+                                          <JFXTextField fx:id="whiteField" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                                             <HBox.margin>
+                                                <Insets right="50.0" />
+                                             </HBox.margin>
+                                          </JFXTextField>
+                                          <ToolBar>
+                                             <items>
+                                                <JFXButton fx:id="whiteAddBtn" buttonType="RAISED" onAction="#addWhite" text="Add" />
+                                                <JFXButton fx:id="whiteDeleteBtn" buttonType="RAISED" onAction="#deleteWhite" text="Delete" />
+                                             </items>
+                                          </ToolBar>
+                                       </children>
+                                    </HBox>
+                                    <JFXListView fx:id="whiteListView" VBox.vgrow="ALWAYS" />
+                                 </children>
                                  <HBox.margin>
-                                    <Insets right="50.0" />
+                                    <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
                                  </HBox.margin>
-                              </JFXTextField>
-                              <ToolBar>
-                                 <items>
-                                    <JFXButton fx:id="whiteAddBtn" buttonType="RAISED" onAction="#addWhite" text="Add" />
-                                    <JFXButton fx:id="whiteDeleteBtn" buttonType="RAISED" onAction="#deleteWhite" text="Delete" />
-                                 </items>
-                              </ToolBar>
+                              </VBox>
+                              <VBox HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <TextFlow textAlignment="CENTER">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP Blacklist">
+                                             <font>
+                                                <Font name="System Bold" size="24.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" />
+                                       </VBox.margin>
+                                    </TextFlow>
+                                    <HBox>
+                                       <children>
+                                          <JFXTextField fx:id="blackField" prefWidth="300.0" HBox.hgrow="ALWAYS">
+                                             <HBox.margin>
+                                                <Insets right="50.0" />
+                                             </HBox.margin>
+                                          </JFXTextField>
+                                          <ToolBar>
+                                             <items>
+                                                <JFXButton fx:id="blackAddBtn" buttonType="RAISED" onAction="#addBlack" text="Add" />
+                                                <JFXButton fx:id="BlackDeleteBtn" buttonType="RAISED" onAction="#deleteBlack" text="Delete" />
+                                             </items>
+                                          </ToolBar>
+                                       </children>
+                                    </HBox>
+                                    <JFXListView fx:id="blackListView" VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                                 </HBox.margin>
+                              </VBox>
                            </children>
                         </HBox>
-                        <JFXListView fx:id="whiteListView" VBox.vgrow="ALWAYS" />
                      </children>
-                     <HBox.margin>
-                        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-                     </HBox.margin>
-                  </VBox>
-                  <VBox HBox.hgrow="ALWAYS">
-                     <children>
-                        <TextFlow textAlignment="CENTER">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP Blacklist">
-                                 <font>
-                                    <Font name="System Bold" size="24.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                        </TextFlow>
-                        <HBox>
-                           <children>
-                              <JFXTextField fx:id="blackField" prefWidth="300.0" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets right="50.0" />
-                                 </HBox.margin>
-                              </JFXTextField>
-                              <ToolBar>
-                                 <items>
-                                    <JFXButton fx:id="blackAddBtn" buttonType="RAISED" onAction="#addBlack" text="Add" />
-                                    <JFXButton fx:id="BlackDeleteBtn" buttonType="RAISED" onAction="#deleteBlack" text="Delete" />
-                                 </items>
-                              </ToolBar>
-                           </children>
-                        </HBox>
-                        <JFXListView fx:id="blackListView" VBox.vgrow="ALWAYS" />
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-                     </HBox.margin>
                   </VBox>
                </children>
             </HBox>
          </children>
-      </VBox>
+      </AnchorPane>
+      <Pane prefHeight="20.0" style="-fx-background-color: purple;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>
