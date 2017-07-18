@@ -44,7 +44,7 @@ public class HomePageController {
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		Parent root = null;
 		if (event.getSource().equals(firewallItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/"));
+			root = FXMLLoader.load(getClass().getResource("../basicFirewall/view/BasicFirewallView.fxml"));
 		}
 		else if (event.getSource().equals(userItem)) {
 			root = FXMLLoader.load(getClass().getResource("../userManagement/view/DatabaseTableView.fxml"));

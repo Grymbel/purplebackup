@@ -32,6 +32,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
@@ -416,61 +417,83 @@ public class DatabaseTableViewController {
     	Teacher_Department.clear();
     	Teacher_UserID.clear();
     }
-
-    @FXML
-	private TextFlow sideIcon;
+	
+	@FXML
+    void generateNewSaltKeys(MouseEvent event) {
+		if (event.getClickCount() == 2) //Checking double click
+	    {
+			System.out.println(event.getSource().getClass().getName().toString());
+			System.out.println(dataTable.getSelectionModel().getSelectedItem().getSalt());
+			System.out.println(dataTable.getSelectionModel().getSelectedItem().getKeys());
+	    }
+    }
+	
+	@FXML
+	private ImageView sideIcon;
+	@FXML
+	private ImageView closeIcon;
 	@FXML
 	private VBox sidebarNav;
 	@FXML
+	private HBox homeItem;
+	@FXML
 	private HBox userItem;
+	@FXML
+	private HBox firewallItem;
+	@FXML
+	private HBox secureItem;
 	@FXML
 	private HBox auditItem;
 	@FXML
 	private HBox backupItem;
 	@FXML
-	private HBox settingsItem;
-	@FXML
 	private HBox logoutItem;
-
-	private boolean openClose = false;
 
 	@FXML
 	public void showSidebar(MouseEvent event) {
-		if (openClose == false) {
-			openClose = true;
-			Timeline timeline = new Timeline();
-			KeyValue sidebarNavValue = new KeyValue(sidebarNav.layoutXProperty(), 0);
-			
-			KeyFrame keyFrame = new KeyFrame(Duration.millis(300), sidebarNavValue);
-			
-			timeline.getKeyFrames().addAll(keyFrame);
-			timeline.play();
-		}
-		else {
-			openClose = false;
-			Timeline timeline = new Timeline();
-			KeyValue sidebarNavValue = new KeyValue(sidebarNav.layoutXProperty(), -240);
-			
-			KeyFrame keyFrame = new KeyFrame(Duration.millis(300), sidebarNavValue);
-			
-			timeline.getKeyFrames().addAll(keyFrame);
-			timeline.play();
-		}
+		closeIcon.setVisible(true);
+		sideIcon.setVisible(false);
+		Timeline timeline = new Timeline();
+		KeyValue sidebarNavValue = new KeyValue(sidebarNav.layoutXProperty(), 0);
+		
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(300), sidebarNavValue);
+		
+		timeline.getKeyFrames().addAll(keyFrame);
+		timeline.play();
+	}
+	
+	@FXML
+	public void hideSidebar(MouseEvent event) {
+		closeIcon.setVisible(false);
+		sideIcon.setVisible(true);
+		Timeline timeline = new Timeline();
+		KeyValue sidebarNavValue = new KeyValue(sidebarNav.layoutXProperty(), -240);
+		
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(300), sidebarNavValue);
+		
+		timeline.getKeyFrames().addAll(keyFrame);
+		timeline.play();
 	}
 	
 	@FXML
 	public void showHoverColor(MouseEvent event) {
-		if (event.getSource().equals(userItem)) {
+		if (event.getSource().equals(homeItem)) {
+			homeItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(userItem)) {
 			userItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(firewallItem)) {
+			firewallItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(secureItem)) {
+			secureItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(backupItem)) {
 			backupItem.setStyle("-fx-background-color: #673AB7");
-		}
-		else if (event.getSource().equals(settingsItem)) {
-			settingsItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #673AB7");
@@ -479,17 +502,23 @@ public class DatabaseTableViewController {
 	
 	@FXML
 	public void hideHoverColor(MouseEvent event) {
-		if (event.getSource().equals(userItem)) {
+		if (event.getSource().equals(homeItem)) {
+			homeItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(userItem)) {
 			userItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(firewallItem)) {
+			firewallItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(secureItem)) {
+			secureItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(backupItem)) {
 			backupItem.setStyle("-fx-background-color: #9575CD");
-		}
-		else if (event.getSource().equals(settingsItem)) {
-			settingsItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #9575CD");
@@ -500,20 +529,23 @@ public class DatabaseTableViewController {
 	public void changePage(MouseEvent event) throws IOException {
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		Parent root = null;
+		if (event.getSource().equals(homeItem)) {
+			root = FXMLLoader.load(getClass().getResource("../../view/HomePage.fxml"));
+		}
 		if (event.getSource().equals(userItem)) {
-			root = FXMLLoader.load(getClass().getResource("/DatabaseTableView.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../../userManagement/view/DatabaseTableView.fxml"));
+		}
+		else if (event.getSource().equals(firewallItem)) {
+			root = FXMLLoader.load(getClass().getResource("../../basicFirewall/view/BasicFirewallView.fxml"));
+		}
+		else if (event.getSource().equals(secureItem)) {
+			root = FXMLLoader.load(getClass().getResource("../../view/"));
 		}
 		else if (event.getSource().equals(auditItem)) {
 			root = FXMLLoader.load(getClass().getResource("../../view/AuditLog.fxml"));
 		}
-		
-		//XZ's Feature
-		
 		else if (event.getSource().equals(backupItem)) {
 			root = FXMLLoader.load(getClass().getResource("../../view/BackupMaker.fxml"));
-		}
-		else if (event.getSource().equals(settingsItem)) {
-			root = FXMLLoader.load(getClass().getResource("../../view/"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			stage.setX(450);
@@ -527,14 +559,4 @@ public class DatabaseTableViewController {
 		stage.setScene(new Scene(root));
  	    stage.show();
 	}
-	
-	@FXML
-    void generateNewSaltKeys(MouseEvent event) {
-		if (event.getClickCount() == 2) //Checking double click
-	    {
-			System.out.println(event.getSource().getClass().getName().toString());
-			System.out.println(dataTable.getSelectionModel().getSelectedItem().getSalt());
-			System.out.println(dataTable.getSelectionModel().getSelectedItem().getKeys());
-	    }
-    }
 }

@@ -126,7 +126,7 @@ public class DefaultLayoutController {
 			root = FXMLLoader.load(getClass().getResource("../userManagement/view/DatabaseTableView.fxml"));
 		}
 		else if (event.getSource().equals(firewallItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/"));
+			root = FXMLLoader.load(getClass().getResource("../basicFirewall/view/BasicFirewallView.fxml"));
 		}
 		else if (event.getSource().equals(secureItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/"));
