@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupScheduler.BsController">
+<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupLocations.BlController">
    <children>
       <AnchorPane prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -273,112 +273,73 @@
                      <children>
                         <AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #222222;">
                            <children>
-                              <GridPane layoutX="290.0" layoutY="125.0" prefHeight="270.0" prefWidth="360.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
+                              <JFXTextArea fx:id="taAudit" layoutX="350.0" layoutY="125.0" maxWidth="300.0" minWidth="200.0" prefHeight="50.0" prefWidth="300.0" />
+                              <JFXTextArea fx:id="taCloud" layoutX="350.0" layoutY="225.0" maxWidth="300.0" minWidth="200.0" prefHeight="50.0" prefWidth="300.0" />
+                              <JFXTextArea fx:id="taMessage" layoutX="350.0" layoutY="325.0" maxWidth="300.0" minWidth="200.0" prefHeight="50.0" prefWidth="300.0" />
+                              <JFXTextArea fx:id="taUser" layoutX="350.0" layoutY="425.0" maxWidth="300.0" minWidth="200.0" prefHeight="50.0" prefWidth="300.0" />
+                              <JFXButton fx:id="btnFindAudit" buttonType="RAISED" layoutX="698.0" layoutY="107.0" onAction="#doFindAudit" ripplerFill="#9a27b0" text="+" textFill="#dddddd">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="btnFindCloud" buttonType="RAISED" layoutX="700.0" layoutY="207.0" onAction="#doFindCloud" ripplerFill="#9a27b0" text="+" textFill="#dddddd">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="btnFindMessage" buttonType="RAISED" layoutX="700.0" layoutY="307.0" onAction="#doFindMessage" ripplerFill="#9a27b0" text="+" textFill="#dddddd">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="btnDoFindUser" buttonType="RAISED" layoutX="700.0" layoutY="407.0" onAction="#doFindUser" ripplerFill="#9a27b0" text="+" textFill="#dddddd">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </JFXButton>
+                              <GridPane layoutX="200.0" layoutY="100.0" prefHeight="400.0" prefWidth="150.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
+                                </rowConstraints>
                                  <children>
-                                    <JFXButton fx:id="btnAddBackup" buttonType="RAISED" onAction="#doAddBackup" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="+" textAlignment="JUSTIFY" textFill="#dddddd" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                    <Text fill="#cccccc" strokeType="OUTSIDE" strokeWidth="0.0" text="Audit">
                                        <font>
-                                          <Font name="Noto Sans" size="40.0" />
+                                          <Font size="32.0" />
                                        </font>
-                                    </JFXButton>
-                                    <JFXButton fx:id="btnSelAudit" onAction="#doSelAudit" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Audit Logs" textFill="#cccccc" GridPane.columnIndex="1">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                    </Text>
+                                    <Text fill="#cccccc" strokeType="OUTSIDE" strokeWidth="0.0" text="Cloud" GridPane.rowIndex="1">
                                        <font>
-                                          <Font name="Noto Sans" size="12.0" />
+                                          <Font size="32.0" />
                                        </font>
-                                    </JFXButton>
-                                    <JFXButton fx:id="btnSelUserData" onAction="#doSelUserData" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="User Data" textFill="#cccccc">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                    </Text>
+                                    <Text fill="#cccccc" strokeType="OUTSIDE" strokeWidth="0.0" text="Message" GridPane.rowIndex="2">
                                        <font>
-                                          <Font name="Noto Sans" size="12.0" />
+                                          <Font size="32.0" />
                                        </font>
-                                    </JFXButton>
-                                    <JFXButton fx:id="btnSelCloud" onAction="#doSelCloud" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Cloud Files" textFill="#cccccc" GridPane.rowIndex="1">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
+                                    </Text>
+                                    <Text fill="#cccccc" strokeType="OUTSIDE" strokeWidth="0.0" text="User" GridPane.rowIndex="3">
                                        <font>
-                                          <Font name="Noto Sans" size="12.0" />
+                                          <Font size="32.0" />
                                        </font>
-                                    </JFXButton>
-                                    <JFXButton fx:id="btnSelWeb" onAction="#doSelWeb" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Website" textFill="#cccccc" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <font>
-                                          <Font name="Noto Sans" size="12.0" />
-                                       </font>
-                                    </JFXButton>
+                                    </Text>
                                  </children>
                               </GridPane>
-                              <Text fill="#eeeeee" layoutX="290.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual Backup">
-                                 <font>
-                                    <Font name="Noto Sans" size="20.0" />
-                                 </font>
-                              </Text>
                               <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="1160.0" layoutY="600.0" onAction="#gotoBack" ripplerFill="#9a27b0" text="&lt;" textFill="#dddddd">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnThing" buttonType="RAISED" layoutX="1000.0" layoutY="600.0" onAction="#openIt" ripplerFill="#9a27b0" text="&lt;" textFill="#dddddd">
+                              <JFXButton fx:id="btnAccept" buttonType="RAISED" layoutX="796.0" layoutY="600.0" onAction="#doAccept" ripplerFill="#9a27b0" text="ACCEPT" textFill="#dddddd">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnRestore" layoutX="670.0" layoutY="415.0" onAction="#doRestore" ripplerFill="#9a27b0" text="Restore" textFill="#dddddd">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </JFXButton>
-                              <GridPane layoutY="50.0" prefHeight="180.0" prefWidth="240.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <JFXButton fx:id="btnSchedule" buttonType="RAISED" onAction="#gotoSchedule" ripplerFill="#9a27b0" text="Scheduler" textFill="#dddddd" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </JFXButton>
-                                    <JFXButton fx:id="btnManual" buttonType="RAISED" onAction="#gotoManual" ripplerFill="#9a27b0" text="Backup Manager" textFill="#dddddd">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </JFXButton>
-                                 </children>
-                              </GridPane>
-                              <JFXButton fx:id="btnScrollLeft" layoutX="720.0" layoutY="420.0" onAction="#doScrollLeft" ripplerFill="#9a27b0" text="&lt;" textFill="#cccccc">
-                                 <font>
-                                    <Font size="40.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="btnScrollRight" layoutX="802.0" layoutY="420.0" onAction="#doScrollRight" ripplerFill="#9a27b0" text="&gt;" textFill="#cccccc">
-                                 <font>
-                                    <Font size="40.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXCheckBox fx:id="chbEnableBase" layoutX="290.0" layoutY="430.0" onAction="#doEnableBase" prefHeight="50.0" prefWidth="155.0" text="Base Backup" textFill="WHITE" />
                            </children>
                         </AnchorPane>
                      </children>

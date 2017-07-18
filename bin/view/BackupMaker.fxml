@@ -55,6 +55,18 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </TextFlow>
+            <TextFlow layoutX="70.0" layoutY="5.0" onMouseClicked="#showSidebar">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Backup Manager" wrappingWidth="960.0000046491623">
+                     <font>
+                        <Font name="Noto Sans" size="48.0" />
+                     </font>
+                  </Text>
+               </children>
+            </TextFlow>
          </children>
       </AnchorPane>
       <HBox layoutY="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
@@ -65,7 +77,7 @@
                      <children>
                         <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
-                              <Insets top="200.0" />
+                              <Insets />
                            </VBox.margin>
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -77,6 +89,75 @@
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="User Management" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="bmItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../images/BasLogo.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Manager" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="bsItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../images/BasLogo.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Scheduler" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="blItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../images/BasLogo.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Locations" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -117,26 +198,6 @@
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Audit Log" textAlignment="CENTER" textFill="WHITE">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </HBox>
-                        <HBox fx:id="backupItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                           <children>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                                 <image>
-                                    <Image url="@../images/BasLogo.png" />
-                                 </image>
-                              </ImageView>
-                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Maker" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -249,11 +310,6 @@
                                     </JFXButton>
                                  </children>
                               </GridPane>
-                              <Text fill="WHITE" layoutX="240.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Backup Manager" wrappingWidth="960.0000046491623">
-                                 <font>
-                                    <Font name="Noto Sans" size="48.0" />
-                                 </font>
-                              </Text>
                               <Text fill="#eeeeee" layoutX="290.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual Backup">
                                  <font>
                                     <Font name="Noto Sans" size="20.0" />
@@ -335,18 +391,6 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
-                                 <children>
-                                    <JFXButton fx:id="btnSchedule" buttonType="RAISED" onAction="#gotoSchedule" ripplerFill="#9a27b0" text="Scheduler" textFill="#dddddd" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </JFXButton>
-                                    <JFXButton fx:id="btnManual" buttonType="RAISED" onAction="#gotoManual" ripplerFill="#9a27b0" text="Backup Manager" textFill="#dddddd">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </JFXButton>
-                                 </children>
                               </GridPane>
                               <JFXButton fx:id="btnScrollLeft" layoutX="720.0" layoutY="420.0" onAction="#doScrollLeft" ripplerFill="#9a27b0" text="&lt;" textFill="#cccccc">
                                  <font>

@@ -28,7 +28,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextFlow;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
@@ -385,6 +384,12 @@ public class PurpleBController {
 	private HBox settingsItem;
 	@FXML
 	private HBox logoutItem;
+	@FXML
+	private HBox bsItem;
+	@FXML
+	private HBox bmItem;
+	@FXML
+	private HBox blItem;
 
 	private boolean openClose = false;
 
@@ -460,10 +465,15 @@ public class PurpleBController {
 		else if (event.getSource().equals(auditItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
 		}
-		
+		else if (event.getSource().equals(bsItem)) {
+			root = FXMLLoader.load(getClass().getResource("../view/Backup Scheduler.fxml"));
+		}
+		else if (event.getSource().equals(blItem)) {
+			root = FXMLLoader.load(getClass().getResource("../view/BackupLocations.fxml"));
+		}
 		//XZ's Feature
 		
-		else if (event.getSource().equals(backupItem)) {
+		else if (event.getSource().equals(bmItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
 		}
 		else if (event.getSource().equals(settingsItem)) {
