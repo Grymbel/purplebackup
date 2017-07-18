@@ -27,11 +27,11 @@ public class AuditLogController {
 	@FXML
 	private HBox userItem;
 	@FXML
+	private HBox firewallItem;
+	@FXML
 	private HBox auditItem;
 	@FXML
 	private HBox backupItem;
-	@FXML
-	private HBox settingsItem;
 	@FXML
 	private HBox logoutItem;
 	
@@ -40,7 +40,6 @@ public class AuditLogController {
 	@FXML
 	public void showSidebar(MouseEvent event) {
 		if (openClose == false) {
-			System.out.println("Clicked to open sidebar.");
 			openClose = true;
 			Timeline timeline = new Timeline();
 			KeyValue sidebarNavValue = new KeyValue(sidebarNav.layoutXProperty(), 0);
@@ -51,7 +50,6 @@ public class AuditLogController {
 			timeline.play();
 		}
 		else {
-			System.out.println("Clicked to close sidebar.");
 			openClose = false;
 			Timeline timeline = new Timeline();
 			KeyValue sidebarNavValue = new KeyValue(sidebarNav.layoutXProperty(), -240);
@@ -68,14 +66,17 @@ public class AuditLogController {
 		if (event.getSource().equals(userItem)) {
 			userItem.setStyle("-fx-background-color: #673AB7");
 		}
+		else if (event.getSource().equals(firewallItem)) {
+			firewallItem.setStyle("-fx-background-color: #673AB7");
+		}
+		
+		//XZ's Feature
+		
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(backupItem)) {
 			backupItem.setStyle("-fx-background-color: #673AB7");
-		}
-		else if (event.getSource().equals(settingsItem)) {
-			settingsItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #673AB7");
@@ -87,14 +88,17 @@ public class AuditLogController {
 		if (event.getSource().equals(userItem)) {
 			userItem.setStyle("-fx-background-color: #9575CD");
 		}
+		else if (event.getSource().equals(firewallItem)) {
+			firewallItem.setStyle("-fx-background-color: #9575CD");
+		}
+		
+		//XZ's Feature
+		
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(backupItem)) {
 			backupItem.setStyle("-fx-background-color: #9575CD");
-		}
-		else if (event.getSource().equals(settingsItem)) {
-			settingsItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #9575CD");
@@ -108,17 +112,17 @@ public class AuditLogController {
 		if (event.getSource().equals(userItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/DatabaseTableView.fxml"));
 		}
-		else if (event.getSource().equals(auditItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
+		else if (event.getSource().equals(firewallItem)) {
+			root = FXMLLoader.load(getClass().getResource("../view/"));
 		}
 		
 		//XZ's Feature
 		
+		else if (event.getSource().equals(auditItem)) {
+			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
+		}
 		else if (event.getSource().equals(backupItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
-		}
-		else if (event.getSource().equals(settingsItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			stage.setX(450);
