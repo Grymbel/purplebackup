@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class WhiteBlackListDAO {
 	final private String filePath = "src/basicFirewall/WhiteBlackList.txt";
 	final private String fileCommitPath = "C:/Users/Wei Xuan/workspace/Servers/Tomcat v9.0 Server at localhost-config/server.xml";
+	final private String fileCommitPath2 = "C:/Apache24/conf/whiteblacklist/whitelist.conf";
 	private File file;
 	
 	public WhiteBlackListDAO() throws IOException{
@@ -68,7 +69,6 @@ public class WhiteBlackListDAO {
 		ArrayList<String> lines = new ArrayList<String>(Files.readAllLines(file2.toPath()));
 		String combineLine = "\t\t<Valve className=\"org.apache.catalina.valves.RemoteAddrValve\" deny=\"";
 		ArrayList<String> blackList = getBlackListArray();
-		ArrayList<String> whiteList = getWhiteListArray();
 		if(blackList.size() > 0){
 			for(int i=0; i < blackList.size(); i++){
 				if(i == 0)
@@ -77,17 +77,24 @@ public class WhiteBlackListDAO {
 					combineLine += "|" + blackList.get(i);
 			}
 		}
-		combineLine += "\" allow=\"";
-		if(whiteList.size() > 0){
-			for(int i=0; i < whiteList.size(); i++){
-				if(i == 0)
-					combineLine += whiteList.get(i);
-				else
-					combineLine += "|" + whiteList.get(i);
-			}
-		}
 		combineLine += "\" />";
 		lines.set(150, combineLine);
 		Files.write(file2.toPath(), lines);
+		
+		File file3 = new File(fileCommitPath2);
+		ArrayList<String> lines2 = new ArrayList<String>(Files.readAllLines(file3.toPath()));
+		String combineLine2 = "\tSecRule REMOTE_ADDR \"@ipMatch ";
+		ArrayList<String> whiteList = getWhiteListArray();
+		if(whiteList.size() > 0){
+			for(int i=0; i < whiteList.size(); i++){
+				if(i == 0)
+					combineLine2 += whiteList.get(i);
+				else
+					combineLine2 += "," + whiteList.get(i);
+			}
+		}
+		combineLine2 += "\" phase:1,nolog,allow,ctl:ruleEngine=Off,id:999945";
+		lines2.set(1, combineLine2);
+		Files.write(file3.toPath(), lines2);
 	}
 }
