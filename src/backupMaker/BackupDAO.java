@@ -14,6 +14,7 @@ public class BackupDAO {
 	
 	public BackupDAO(){
 	}
+	//Returns ResultSet for table displayed
 	public ArrayList<BackupObject> getExistingBackups(){
 		ArrayList<BackupObject> existing = new ArrayList<BackupObject>();
 		DBConnect dbc = new DBConnect();
@@ -40,7 +41,7 @@ public class BackupDAO {
 		}
 		return null;
 	}
-	
+	//Manually backup the supplied backup object
 	public static void manualBackup(BackupObject bcko){
 			DBConnect dbc = new DBConnect();
 			try {
@@ -60,7 +61,7 @@ public class BackupDAO {
 		File file = new File("src/output/"+dirName);
 		file.mkdir();
 	}
-	
+	//Reads off the current text file. Will change to SQLite when I make the app
 	public String[] getTargetDirs(){
 		String[] toRet=new String[5];
 		String buffer;

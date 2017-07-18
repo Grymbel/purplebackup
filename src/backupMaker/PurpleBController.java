@@ -103,6 +103,7 @@ public class PurpleBController {
 			allBackups.addAll(bdao.getExistingBackups());
 		ObservableList<BackupObject> data = bmtable.getItems();
 		int todo;
+		//For page formatting 
 		if(allBackups.size()>10){
 			todo=10;
 		}
@@ -124,7 +125,7 @@ public class PurpleBController {
     
     @FXML
 	protected void addBackupObject() {
-		//Display object constructor
+		//Display object constructor for table
         ObservableList<BackupObject> data = bmtable.getItems();
         data.add(new BackupObject(bo.getUserBackup(),bo.getCloudBackup(),bo.getWebBackup(),bo.getAuditBackup(),bo.getCreationDate(),bo.getIsBase()));
     }
@@ -331,6 +332,7 @@ public class PurpleBController {
     	}
     }
     
+    //Looks good
     public void colorSwap(JFXButton jfxb){
     	Paint color1 = jfxb.getRipplerFill();
     	Paint color2 = jfxb.getTextFill();

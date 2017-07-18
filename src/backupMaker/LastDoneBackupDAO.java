@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import database.DBConnect;
 
 public class LastDoneBackupDAO {
+	//Reads most recent info on backups
 	public String ldbRead(){
 			DBConnect dbc = new DBConnect();
 			String toRet;
@@ -23,7 +24,7 @@ public class LastDoneBackupDAO {
 			}
 		return null;
 	}
-	
+	//Gets a list of all base backups to see where to start the incremental
 	public ArrayList<Integer> getBases(){
 		ArrayList<Integer> bases = new ArrayList<Integer>();
 		DBConnect dbc = new DBConnect();

@@ -1,5 +1,5 @@
 package backupMaker;
-
+//Object for easy references
 import java.util.ArrayList;
 import java.util.Scanner;
 

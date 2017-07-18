@@ -104,8 +104,16 @@ public class Zipper{
 
         try{
         	System.out.println("Zip it only");
-           	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);;
-           	mdw.writeMD();
+        	ArrayList<String> toSay = new ArrayList<String>();
+        	String[] strings = new File(sourceDir).list();
+        	
+        	for(String s : strings){
+        		toSay.add(s);
+        	}
+        	
+        	MDWriter mdw0 = new MDWriter(toSay,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);
+        	mdw0.writeMD();
+           	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);
            	mdw.writeDelta();
            	
            	FileOutputStream fos = new FileOutputStream(zipFile);

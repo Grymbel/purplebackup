@@ -17,6 +17,7 @@ public class BackupObject {
 	
 	private String userTarget,cloudTarget,webTarget,auditTarget;
 	
+	//Empty constructor 
 	public BackupObject(){
 		this.userBackup=false;
 		this.cloudBackup=false;
@@ -27,6 +28,7 @@ public class BackupObject {
 		this.creationDate = 0;
 	}
 	
+	//Fills the display for the tables
 	public BackupObject(boolean userBackupSTR, boolean cloudBackupSTR, boolean webBackupSTR, boolean auditBackupSTR, long dateOfC, boolean isBaseSTR){
 	
 		this.setUserBackup(userBackupSTR);
@@ -74,6 +76,7 @@ public class BackupObject {
 		BackupDAO.makeDir(dirName);
 	}
 	
+	//Starts the restoration of the supplied id
 	public void restore(int id){
 		System.out.println("RESTORING " + id);
 		LastDoneBackup ldb = new LastDoneBackup();
@@ -113,11 +116,6 @@ public class BackupObject {
 				c++;
 				DBConnect dbc = new DBConnect();
 				ResultSet res = dbc.getFileDeltaRange(rangeStart, id);
-				//Extract the int ID
-				//Get from the delta database: File, Action, Target, matching the backup ID
-				//Location is made of starter, ID and target
-				//Form a line containing: Action, File
-				//Read the corresponding delta
 				while(res.next()){
 					String action = res.getString("deltaAction");
 					if(action.equals("DEL")){
@@ -143,9 +141,10 @@ public class BackupObject {
 		}
 	}
 	
+	//Makes a base for the incremental 
 	public void makeBaseBackup(long time){
 		LastDoneBackup ldb = new LastDoneBackup();
-		int base = ldb.getLastID()+1;
+		int base = ldb.getLastID();
 		System.out.println("BASE "+base);
 		//Zip all and put it in the output dir
 		this.initBackupLocations();
@@ -175,6 +174,7 @@ public class BackupObject {
 		z5.zipUp();
 	}
 	
+	//For first-ever backup. Independent of other files
 	public void makeBaseBackupFirst(long time){
 		System.out.println("FIRST");
 		//Zip all and put it in the output dir
@@ -195,10 +195,11 @@ public class BackupObject {
 		z5.zipUp();
 	}
 	
+	//Makes manual backup of the object. Takes in time to standardise
 	public void makeManualBackup(long time){
 		LastDoneBackup ldb = new LastDoneBackup();
 		int id = ldb.getLastID()+1;
-		System.out.println("MANUAL");
+		System.out.println("MANUAL FOR: " +id);
 		
 		this.initBackupLocations();
 		BackupDAO.manualBackup(this);
@@ -242,9 +243,10 @@ public class BackupObject {
 		return toRet;
 	}
 	
+	//Loads locations
 	public void initBackupLocations(){
 		BackupDAO backs = new BackupDAO();
-		String[] targets = new String[5];
+		String[] targets = new String[4];
 		targets=backs.getTargetDirs();
 		
 		this.auditTarget=targets[0];
@@ -253,6 +255,7 @@ public class BackupObject {
 		this.webTarget=targets[3];
 	}
 	
+	//Finds and returns the archive in the dir
 	public String getArchive(File node){
 		File[] files = node.listFiles();
 		String toRet="";
