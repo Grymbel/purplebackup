@@ -19,6 +19,184 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupLocations.BlController">
    <children>
+      <AnchorPane prefHeight="800.0" prefWidth="1280.0">
+         <children>
+            <AnchorPane prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <TextFlow layoutX="1013.0" maxHeight="70.0" minHeight="70.0" prefHeight="70.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label alignment="CENTER" maxHeight="70.0" minHeight="70.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="70.0" text="Purpleboard" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </TextFlow>
+                  <TextFlow layoutX="1210.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/BasLogo.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </TextFlow>
+                  <TextFlow fx:id="sideIcon" onMouseClicked="#showSidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/BasLogo.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </TextFlow>
+               </children>
+            </AnchorPane>
+            <HBox layoutY="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+               <children>
+                  <AnchorPane>
+                     <children>
+                        <VBox fx:id="sidebarNav" layoutX="-240.0" prefWidth="240.0" spacing="20.0" style="-fx-background-color: #9575CD;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets top="200.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/UserManage.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="User Management" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
+                              <HBox fx:id="firewallItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/Firewall.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Firewall" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
+                              <HBox maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/Secure.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="XZ's Feature" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
+                              <HBox fx:id="auditItem1" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/Log.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Audit Log" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
+                              <HBox fx:id="backupItem1" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/Backup.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Maker" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
+                              <HBox fx:id="logoutItem1" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/Logout.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Logout" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+                  <VBox minHeight="800.0" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #EDE7F6;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <VBox VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
       <AnchorPane prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <TextFlow layoutX="1013.0" maxHeight="70.0" minHeight="70.0" prefHeight="70.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="0.0">
@@ -56,7 +234,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Backup Manager" wrappingWidth="960.0000046491623">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Backup Locations" wrappingWidth="960.0000046491623">
                      <font>
                         <Font name="Noto Sans" size="48.0" />
                      </font>
@@ -275,7 +453,7 @@
                            <children>
                               <JFXTextArea fx:id="taAudit" layoutX="350.0" layoutY="125.0" maxWidth="300.0" minWidth="200.0" prefHeight="50.0" prefWidth="300.0" />
                               <JFXTextArea fx:id="taCloud" layoutX="350.0" layoutY="225.0" maxWidth="300.0" minWidth="200.0" prefHeight="50.0" prefWidth="300.0" />
-                              <JFXTextArea fx:id="taMessage" layoutX="350.0" layoutY="325.0" maxWidth="300.0" minWidth="200.0" prefHeight="50.0" prefWidth="300.0" />
+                              <JFXTextArea fx:id="taWeb" layoutX="350.0" layoutY="325.0" maxWidth="300.0" minWidth="200.0" prefHeight="50.0" prefWidth="300.0" />
                               <JFXTextArea fx:id="taUser" layoutX="350.0" layoutY="425.0" maxWidth="300.0" minWidth="200.0" prefHeight="50.0" prefWidth="300.0" />
                               <JFXButton fx:id="btnFindAudit" buttonType="RAISED" layoutX="698.0" layoutY="107.0" onAction="#doFindAudit" ripplerFill="#9a27b0" text="+" textFill="#dddddd">
                                  <font>
@@ -287,7 +465,7 @@
                                     <Font size="40.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnFindMessage" buttonType="RAISED" layoutX="700.0" layoutY="307.0" onAction="#doFindMessage" ripplerFill="#9a27b0" text="+" textFill="#dddddd">
+                              <JFXButton fx:id="btnFindWeb" buttonType="RAISED" layoutX="700.0" layoutY="307.0" onAction="#doFindWeb" ripplerFill="#9a27b0" text="+" textFill="#dddddd">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
@@ -318,7 +496,7 @@
                                           <Font size="32.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#cccccc" strokeType="OUTSIDE" strokeWidth="0.0" text="Message" GridPane.rowIndex="2">
+                                    <Text fill="#cccccc" strokeType="OUTSIDE" strokeWidth="0.0" text="Web" GridPane.rowIndex="2">
                                        <font>
                                           <Font size="32.0" />
                                        </font>

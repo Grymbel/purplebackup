@@ -294,19 +294,6 @@ public class PurpleBController {
     }
 
     @FXML
-    void gotoSchedule(ActionEvent event) {
-    	try {
-        	Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-    		Parent root;
-    			root = FXMLLoader.load(getClass().getResource("../view/Backup Scheduler.fxml"));
-    		stage.setScene(new Scene(root,1280,720));
-     	    stage.show();
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    		}
-    }
-
-    @FXML
     void gotoManual(ActionEvent event){
     	
     }

@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.sqlite.SQLiteException;
+
 import backupMaker.BackupObject;
 
 public class DBConnect {
@@ -93,6 +95,18 @@ public class DBConnect {
 		 return res;
 	 }
 	 
+	 public ResultSet getFileLocation() throws SQLException{
+		 Statement state = con.createStatement();
+		 ResultSet res = state.executeQuery("select * from fileLocation;");
+		 return res;
+	 }
+	 
+	 public void setFileLocation(String relDir, String fileURL) throws SQLException{
+		 fileURL.replace(":", "$");
+		 System.out.println(fileURL);
+		 Statement state = con.createStatement();
+		 state.executeUpdate("update fileLocation set fileURL = "+fileURL+" where relDir = "+relDir);
+	 }
 	 public void addFileDelta(int backupID, String deltaAction, String fileLine, String fileDigest, String targetDir) throws SQLException{
 		 PreparedStatement prep = con.prepareStatement("insert into fileDelta(backupID, deltaAction, fileLine, fileDigest, targetDir) values (?,?,?,?,?)");
 		 prep.setInt(1,backupID);
@@ -164,7 +178,7 @@ public class DBConnect {
 				  state4.executeUpdate("create table fileDelta(id integer, backupid integer, deltaaction varchar(3), fileLine varchar(250), fileDigest varChar(128), targetDir varchar(50), primary key(id))");
 				  
 				  System.out.println("Made fileDelta");
-				  
+		
 				  // inserting some sample data
 				  PreparedStatement prep = con.prepareStatement("insert into Backups(id, audit, cloud, user, web, creation, isBase) values(?,?,?,?,?,?,?);");
 				  prep.setInt(1, 0);
@@ -179,8 +193,22 @@ public class DBConnect {
 				  BackupObject bo =new BackupObject();
 					 bo.makeBaseBackupFirst(time);
 			 }
+			 Statement state1 = con.createStatement();
+			 ResultSet res1 = state1.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='filelocation'");
 			 
+			 if(!res1.next()){
+				 try{
+				 Statement state5 = con.createStatement();
+				  state5.executeUpdate("create table fileLocation(id integer, relDir varchar(16), target varchar(200))");
+				  
+				  System.out.println("Made fileLocation");
+				 }
+				 catch(SQLiteException s){
+					 
+				 }
+			 }
 		 }
+		 
 	 }
 	 
 }
