@@ -102,7 +102,6 @@ public class DBConnect {
 	 }
 	 
 	 public void setFileLocation(String relDir, String fileURL) throws SQLException{
-		 fileURL.replace(":", "$");
 		 System.out.println(fileURL);
 		 Statement state = con.createStatement();
 		 state.executeUpdate("update fileLocation set fileURL = "+fileURL+" where relDir = "+relDir);

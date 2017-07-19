@@ -1,6 +1,5 @@
 package backupMaker;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -27,9 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextFlow;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.util.Duration;
 
 public class PurpleBController {
@@ -40,15 +37,9 @@ public class PurpleBController {
 	private int pageNo;
 	
 	private ArrayList<BackupObject> allBackups;
-	
-	@FXML
-	private JFXButton btnThing;
-	
-    @FXML
-    private JFXButton btnAddBackup;
 
     @FXML
-    private JFXButton btnSelMsg;
+    private JFXButton btnAddBackup;
 
     @FXML
     private JFXButton btnSelAudit;
@@ -103,8 +94,6 @@ public class PurpleBController {
 
     @FXML
     private JFXCheckBox chbEnableBase;
-    
-    private Window scene;
     
     public void initialize(){
     	DBConnect dbc = new DBConnect();
@@ -233,7 +222,6 @@ public class PurpleBController {
     	ArrayList<JFXButton> buttons = new ArrayList<JFXButton>();
 		buttons.add(btnSelAudit);
 		buttons.add(btnSelCloud);
-		buttons.add(btnSelMsg);
 		buttons.add(btnSelUserData);
 		buttons.add(btnSelWeb);
 		
@@ -294,11 +282,6 @@ public class PurpleBController {
     }
 
     @FXML
-    void gotoManual(ActionEvent event){
-    	
-    }
-    
-    @FXML
     void doScrollLeft(ActionEvent event){
     	int minBackups;
     	if((this.pageNo-1)>=0){
@@ -333,15 +316,6 @@ public class PurpleBController {
     	this.pageNo=this.pageNo+1;
 
     	}
-    }
-    
-    @FXML
-    public void openIt(ActionEvent event) {
-    	DirectoryChooser chooser = new DirectoryChooser();
-    	chooser.setTitle("JavaFX Projects");
-    	File selectedDirectory = chooser.showDialog(scene);
-    	
-    	System.out.println(selectedDirectory);
     }
     
     //Looks good

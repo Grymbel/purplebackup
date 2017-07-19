@@ -320,11 +320,6 @@
                                     <Font size="40.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnThing" buttonType="RAISED" layoutX="1000.0" layoutY="600.0" onAction="#openIt" ripplerFill="#9a27b0" text="&lt;" textFill="#dddddd">
-                                 <font>
-                                    <Font size="40.0" />
-                                 </font>
-                              </JFXButton>
                               <JFXButton fx:id="btnRestore" layoutX="670.0" layoutY="415.0" onAction="#doRestore" ripplerFill="#9a27b0" text="Restore" textFill="#dddddd">
                                  <font>
                                     <Font size="16.0" />

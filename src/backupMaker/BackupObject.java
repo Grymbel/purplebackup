@@ -144,7 +144,7 @@ public class BackupObject {
 	//Makes a base for the incremental 
 	public void makeBaseBackup(long time){
 		LastDoneBackup ldb = new LastDoneBackup();
-		int base = ldb.getLastID();
+		int base = ldb.getLastID()+1;
 		System.out.println("BASE "+base);
 		//Zip all and put it in the output dir
 		this.initBackupLocations();
