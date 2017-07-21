@@ -104,7 +104,7 @@ public class DBConnect {
 	 public void setFileLocation(String relDir, String fileURL) throws SQLException{
 		 System.out.println(fileURL);
 		 Statement state = con.createStatement();
-		 state.executeUpdate("update fileLocation set fileURL = "+fileURL+" where relDir = "+relDir);
+		 state.executeUpdate("update fileLocation set target = '"+fileURL+"' where relDir = '"+relDir+"';");
 	 }
 	 public void addFileDelta(int backupID, String deltaAction, String fileLine, String fileDigest, String targetDir) throws SQLException{
 		 PreparedStatement prep = con.prepareStatement("insert into fileDelta(backupID, deltaAction, fileLine, fileDigest, targetDir) values (?,?,?,?,?)");
@@ -146,6 +146,8 @@ public class DBConnect {
 	 }
 	 
 	 private void initialise() throws SQLException {
+		 long time=0;
+		 boolean doBackup = false;
 		 if( !hasData ) {
 			 hasData = true;
 			 // check for database table
@@ -153,7 +155,7 @@ public class DBConnect {
 			 ResultSet res = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='Backups'");
 			 if( !res.next()) {
 				 System.out.println("Building tables with prepopulated values.");
-				 long time = System.currentTimeMillis();
+				 time = System.currentTimeMillis();
 				 
 				 
 				 // need to build the tables
@@ -189,8 +191,7 @@ public class DBConnect {
 				  prep.setBoolean(7, true);
 				  prep.execute();
 				  
-				  BackupObject bo =new BackupObject();
-					 bo.makeBaseBackupFirst(time);
+				  doBackup=true;
 			 }
 			 Statement state1 = con.createStatement();
 			 ResultSet res1 = state1.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='filelocation'");
@@ -198,13 +199,40 @@ public class DBConnect {
 			 if(!res1.next()){
 				 try{
 				 Statement state5 = con.createStatement();
-				  state5.executeUpdate("create table fileLocation(id integer, relDir varchar(16), target varchar(200))");
+				 
+				 try{
+				  state5.executeUpdate("create table fileLocation(id integer, relDir varchar(16), target varchar(200), primary key(id))");
 				  
 				  System.out.println("Made fileLocation");
 				 }
-				 catch(SQLiteException s){
-					 
+				 catch(Exception e){
 				 }
+				  
+				  PreparedStatement prep = con.prepareStatement("insert into fileLocation(relDir, target) values(?,?);");
+
+				  prep.setString(1,"audit");
+				  prep.setString(2,"src/sampleTarget/auditTarget");
+				  prep.execute();
+				  
+				  prep.setString(1,"cloud");
+				  prep.setString(2,"src/sampleTarget/cloudTarget");
+				  prep.execute();
+				  
+				  prep.setString(1,"user");
+				  prep.setString(2,"src/sampleTarget/userTarget");
+				  prep.execute();
+				  
+				  prep.setString(1,"web");
+				  prep.setString(2,"src/sampleTarget/webTarget0");
+				  prep.execute();
+				 }
+				 catch(SQLiteException s){
+					 s.printStackTrace();
+				 }
+			 }
+			 if(doBackup){
+			 BackupObject bo =new BackupObject();
+			 bo.makeBaseBackupFirst(time);
 			 }
 		 }
 		 

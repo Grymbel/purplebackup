@@ -92,7 +92,7 @@ public class BlController{
 
 		private boolean openClose = false;
 
-		public void initialise(){
+		public void initialize(){
 			DBConnect dbc = new DBConnect();
 			try {
 				ResultSet res = dbc.getFileLocation();

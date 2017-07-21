@@ -1,12 +1,9 @@
 package backupMaker;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import database.DBConnect;
 
@@ -63,25 +60,31 @@ public class BackupDAO {
 	}
 	//Reads off the current text file. Will change to SQLite when I make the app
 	public String[] getTargetDirs(){
-		String[] toRet=new String[5];
-		String buffer;
-		try {
-			FileReader fr = new FileReader("src/output/targetLocations.txt");
+		String[] toRet=new String[4];
+		
+			DBConnect dbc = new DBConnect();
 			
-			Scanner sc = new Scanner(fr);
-			sc.useDelimiter(";");
-			int c=0;
-			while(sc.hasNextLine()){
-				buffer=sc.nextLine();
-				toRet[c]=buffer.replace(";", "");
-				c++;
+			try {
+				ResultSet toRead = dbc.getFileLocation();
+				while(toRead.next()){
+				String test = toRead.getString("relDir");
+				
+				if(test.equals("audit")){
+					toRet[0]=toRead.getString("target");
+				}
+				if(test.equals("cloud")){
+					toRet[1]=toRead.getString("target");
+				}
+				if(test.equals("user")){
+					toRet[2]=toRead.getString("target");
+				}
+				if(test.equals("web")){
+					toRet[3]=toRead.getString("target");
+				}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-			
-			sc.close();
 			return toRet;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return toRet;
 	}
 }
