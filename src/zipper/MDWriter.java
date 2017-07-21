@@ -40,7 +40,6 @@ public class MDWriter {
 	}
 
 	public boolean writeMD(){
-		System.out.println("writeMD Called");
 		if(filesAcquired!=null&&filesDigest!=null){	
 				DBConnect dbc = new DBConnect();
 				for(int y=0;y<filesAcquired.size();y++){

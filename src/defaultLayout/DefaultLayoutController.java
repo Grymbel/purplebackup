@@ -14,12 +14,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class DefaultLayoutController {
 	@FXML
-	private ImageView sideIcon;
+	private TextFlow sideIcon;
 	@FXML
 	private ImageView closeIcon;
 	@FXML

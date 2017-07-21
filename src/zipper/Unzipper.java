@@ -4,9 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class Unzipper
 {
@@ -20,6 +26,16 @@ public class Unzipper
     }
     
     public void unZipIt(){
+    	AESThing aes;
+    	boolean doRecrypt = false;
+    	try {
+    		aes = new AESThing("!@#$MySecr3tPassw0rd", 16, "AES");
+    		aes.decryptFile(new File(inputZip));
+			aes.writeToFile(new File(inputZip));
+			doRecrypt = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 
      byte[] buffer = new byte[1024];
 
@@ -41,9 +57,7 @@ public class Unzipper
 
     	   String fileName = ze.getName();
            File newFile = new File(outputDir + File.separator + fileName);
-
-           System.out.println("file unzip : "+ newFile.getAbsoluteFile());
-
+           
             new File(newFile.getParent()).mkdirs();
 
             FileOutputStream fos = new FileOutputStream(newFile);
@@ -60,6 +74,22 @@ public class Unzipper
         zis.closeEntry();
     	zis.close();
 
+    	if(doRecrypt){
+    		try {
+    			aes = new AESThing("!@#$MySecr3tPassw0rd", 16, "AES");
+				aes.encryptFile(new File(inputZip));
+			} catch (InvalidKeyException e) {
+				e.printStackTrace();
+			} catch (IllegalBlockSizeException e) {
+				e.printStackTrace();
+			} catch (BadPaddingException e) {
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			} catch (NoSuchPaddingException e) {
+				e.printStackTrace();
+			}
+    	}
     	System.out.println("Done");
 
     }catch(IOException ex){

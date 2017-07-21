@@ -124,7 +124,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </HBox>
-                              <HBox fx:id="auditItem1" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                              <HBox fx:id="auditItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
                                  <children>
                                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                        <HBox.margin>
@@ -144,7 +144,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </HBox>
-                              <HBox fx:id="backupItem1" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                              <HBox fx:id="bmItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
                                  <children>
                                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                        <HBox.margin>
@@ -164,7 +164,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </HBox>
-                              <HBox fx:id="logoutItem1" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                              <HBox fx:id="logoutItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
                                  <children>
                                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                        <HBox.margin>
@@ -272,7 +272,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
-                        <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                        <HBox fx:id="bmItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -295,7 +295,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
-                        <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                        <HBox fx:id="bsItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -318,7 +318,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
-                        <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                        <HBox fx:id="blItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>

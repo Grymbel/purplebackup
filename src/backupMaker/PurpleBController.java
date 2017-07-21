@@ -427,7 +427,7 @@ public class PurpleBController {
 			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
 		}
 		else if (event.getSource().equals(bsItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/Backup Scheduler.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../view/BackupScheduler.fxml"));
 		}
 		else if (event.getSource().equals(blItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/BackupLocations.fxml"));

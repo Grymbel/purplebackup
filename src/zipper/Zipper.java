@@ -34,8 +34,6 @@ public class Zipper{
     	this.outputFile=outputFile;
     	this.outputZip=outputDirFull+outputFile;
     	this.backupID=backupID;
-    	
-    	System.out.println(outputDir+" "+outputDirFull);
     }
     
     public Zipper(String source, String outputDir1,String outputDir2, String outputFile, int backupID,boolean isBase){
@@ -68,11 +66,7 @@ public class Zipper{
     	FileOutputStream fos = new FileOutputStream(zipFile);
     	ZipOutputStream zos = new ZipOutputStream(fos);
 
-    	System.out.println("Output to Zip : " + zipFile);
-
     	for(String file : this.fileList){
-
-    		System.out.println("File Added : " + file);
     		ZipEntry ze= new ZipEntry(file);
         	zos.putNextEntry(ze);
 
@@ -92,6 +86,12 @@ public class Zipper{
 
     	zos.closeEntry();
     	zos.close();
+    	try {
+			AESThing aes = new AESThing("!@#$MySecr3tPassw0rd", 16, "AES");
+			aes.encryptFile(new File(zipFile));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     	System.out.println("Done");
     }catch(IOException ex){
        ex.printStackTrace();
@@ -129,7 +129,6 @@ public class Zipper{
            		String action = res.getString("deltaAction");
            		if(action.equals("ADD")||action.equals("UDT")){
            	fileList.add(res.getString("fileLine"));
-           	System.out.println("Zipping: " + fileList);
            		}
            	}
 			} catch (SQLException e) {
@@ -152,6 +151,13 @@ public class Zipper{
 
        	zos.closeEntry();
        	zos.close();
+       	
+       	try {
+			AESThing aes = new AESThing("!@#$MySecr3tPassw0rd", 16, "AES");
+			aes.encryptFile(new File(zipFile));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
        	System.out.println("Done");
        }catch(IOException ex){
           ex.printStackTrace();

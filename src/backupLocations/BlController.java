@@ -305,10 +305,12 @@ public class BlController{
 				root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
 			}
 			else if (event.getSource().equals(bsItem)) {
-				root = FXMLLoader.load(getClass().getResource("../view/Backup Scheduler.fxml"));
+				root = FXMLLoader.load(getClass().getResource("../view/BackupScheduler.fxml"));
+				System.out.println("BSITEM");
 			}
 			else if (event.getSource().equals(blItem)) {
 				root = FXMLLoader.load(getClass().getResource("../view/BackupLocations.fxml"));
+				System.out.println("BLITEM");
 			}
 			//XZ's Feature
 			
