@@ -76,6 +76,22 @@ public class BackupObject {
 		BackupDAO.makeDir(dirName);
 	}
 	
+	public String printer(){
+		String toRet="";
+		if(this.auditBackup){
+			toRet=toRet+"Audit ";
+		}
+		if(this.cloudBackup){
+			toRet=toRet+"Cloud ";
+		}
+		if(this.userBackup){
+			toRet=toRet+"User ";
+		}
+		if(this.webBackup){
+			toRet=toRet+"Web ";
+		}
+		return toRet;
+	}
 	//Starts the restoration of the supplied id
 	public void restore(int id){
 		System.out.println("RESTORING " + id);

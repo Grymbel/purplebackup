@@ -14,6 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -77,13 +79,27 @@ public class BsController {
     private JFXButton btnBack;
 
     @FXML
-    private JFXButton btnRestore;
+    private JFXButton btnCancel;
     
     @FXML
     private JFXDatePicker datePicker;
     
+    @FXML
+    private JFXDatePicker timePicker;
+    
+    @FXML
+    private TextField taInterval;
+    
+    @FXML
+    private TextField taName;
+    
+    @FXML
+    private TableView<ScheduleObject> bsTable;
+    
     public void initialize(){
-    	//Init the database
+    	timePicker.setShowTime(true);
+    	taInterval.setPromptText("Set -1 for infinite");
+    	
     	
     }
     
@@ -93,7 +109,7 @@ public class BsController {
     }
 
     @FXML
-    void doRestore(ActionEvent event) {
+    void doCancel(ActionEvent event) {
     	//Convert to remove a scheduled object
     }
 

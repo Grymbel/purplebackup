@@ -234,6 +234,21 @@ public class DBConnect {
 			 BackupObject bo =new BackupObject();
 			 bo.makeBaseBackupFirst(time);
 			 }
+			 //
+			 Statement state2 = con.createStatement();
+			 ResultSet res2 = state2.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='Schedule'");
+			 
+			 if(!res2.next()){
+				 try{
+				 Statement state6 = con.createStatement();
+				 
+				  state6.executeUpdate("create table Schedule(id integer, sname varchar(40), maxTimes integer, timesDone integer, dayTime long, interval long, startingDay long, lastDone long, primary key(id))");
+				  
+				  System.out.println("Made Schedule");
+				 }
+				 catch(Exception e){
+				 }
+			 }
 		 }
 		 
 	 }
