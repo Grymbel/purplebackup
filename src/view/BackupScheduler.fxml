@@ -19,6 +19,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import backupMaker.FormattedTableCellFactory?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupScheduler.BsController">
    <children>
@@ -276,7 +278,7 @@
                      <children>
                         <AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #222222;">
                            <children>
-                              <GridPane layoutX="10.0" layoutY="120.0" prefHeight="195.0" prefWidth="360.0">
+                              <GridPane layoutX="10.0" layoutY="120.0" prefHeight="240.0" prefWidth="360.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="160.4285888671875" minWidth="10.0" prefWidth="160.4285888671875" />
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.57147216796875" minWidth="10.0" prefWidth="206.5714111328125" />
@@ -286,6 +288,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
                                     <JFXDatePicker fx:id="datePicker" defaultColor="#9575cd" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -312,9 +315,15 @@
                                        </font>
                                     </Text>
                                     <TextField fx:id="taName" GridPane.columnIndex="1" />
+                                    <Text fill="#eeeeee" strokeType="OUTSIDE" strokeWidth="0.0" text="Repeat" GridPane.rowIndex="4">
+                                       <font>
+                                          <Font name="Noto Sans" size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <TextField fx:id="taRepeat" promptText="Put -1 for infinite" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                  </children>
                               </GridPane>
-                              <GridPane layoutX="10.0" layoutY="360.0" prefHeight="270.0" prefWidth="360.0">
+                              <GridPane layoutX="10.0" layoutY="400.0" prefHeight="270.0" prefWidth="360.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -394,15 +403,54 @@
                               </Text>
                               <TableView fx:id="bsTable" layoutX="406.0" layoutY="72.0" prefHeight="410.0" prefWidth="825.0">
                                 <columns>
-                                  <TableColumn prefWidth="186.0" text="Name" />
-                                  <TableColumn prefWidth="71.42852783203125" text="Max Times" />
-                                    <TableColumn prefWidth="71.42852783203125" text="Times Done" />
-                                    <TableColumn prefWidth="94.28570556640625" text="Time Of Day" />
-                                    <TableColumn prefWidth="141.857177734375" text="Next Instance" />
-                                    <TableColumn prefWidth="71.428466796875" text="Audit" />
-                                    <TableColumn prefWidth="57.571533203125" text="Cloud" />
-                                    <TableColumn prefWidth="58.428466796875" text="Web" />
-                                    <TableColumn prefWidth="70.7142333984375" text="User" />
+                                  <TableColumn fx:id="colName" prefWidth="186.0" text="Name">
+                                 	 <cellValueFactory>
+                						<PropertyValueFactory property="name" />
+                					 </cellValueFactory>
+                					 <cellFactory>
+                						<FormattedTableCellFactory alignment="center"/>
+                					 </cellFactory>
+                				  </TableColumn>
+                                  <TableColumn fx:id="colMaxT" prefWidth="72.0" text="Max Times">
+                                  <cellValueFactory>
+                						<PropertyValueFactory property="maxTimes" />
+                					 </cellValueFactory>
+                					 <cellFactory>
+                						<FormattedTableCellFactory alignment="center"/>
+                					 </cellFactory>
+                				  </TableColumn>
+                                    <TableColumn fx:id="colTDone" prefWidth="74.0" text="Times Done">
+                                    <cellValueFactory>
+                						<PropertyValueFactory property="timesDone" />
+                					 </cellValueFactory>
+                					 <cellFactory>
+                						<FormattedTableCellFactory alignment="center"/>
+                					 </cellFactory>
+                				  </TableColumn>
+                                    <TableColumn fx:id="colTofDay" prefWidth="94.0" text="Time Of Day">
+                                    <cellValueFactory>
+                						<PropertyValueFactory property="dayTimeSTR" />
+                					 </cellValueFactory>
+                					 <cellFactory>
+                						<FormattedTableCellFactory alignment="center"/>
+                					 </cellFactory>
+                				  </TableColumn>
+                                    <TableColumn fx:id="colNextInstance" prefWidth="217.0" text="Next Instance">
+                                    <cellValueFactory>
+                						<PropertyValueFactory property="nextInstanceSTR" />
+                					 </cellValueFactory>
+                					 <cellFactory>
+                						<FormattedTableCellFactory alignment="center"/>
+                					 </cellFactory>
+                				  </TableColumn>
+                                    <TableColumn fx:id="colBooleans" prefWidth="180" text="Contents">
+                                    <cellValueFactory>
+                						<PropertyValueFactory property="boSTR" />
+                					 </cellValueFactory>
+                					 <cellFactory>
+                						<FormattedTableCellFactory alignment="center"/>
+                					 </cellFactory>
+                				  </TableColumn>
                                 </columns>
                               </TableView>
                            </children>

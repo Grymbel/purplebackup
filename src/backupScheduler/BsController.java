@@ -1,25 +1,33 @@
 package backupScheduler;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 
+import backupMaker.BackupObject;
+import database.DBConnect;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -94,23 +102,132 @@ public class BsController {
     private TextField taName;
     
     @FXML
+    private TextField taRepeat;
+    
+    @FXML
     private TableView<ScheduleObject> bsTable;
+    
+    @FXML
+    private TableColumn<ScheduleObject, String> colName;
+
+    @FXML
+    private TableColumn<ScheduleObject, Integer> colMaxT;
+
+    @FXML
+    private TableColumn<ScheduleObject, Integer> colTDone;
+
+    @FXML
+    private TableColumn<ScheduleObject, String> colTofDay;
+
+    @FXML
+    private TableColumn<ScheduleObject, String> colNextInstance;
+
+    @FXML
+    private TableColumn<ScheduleObject, String> colBooleans;
+    
+    private BackupObject bo;
+    
+    private ArrayList<ScheduleObject> scheduleList;
+	private int noOfPages;
+	private int pageNo;
     
     public void initialize(){
     	timePicker.setShowTime(true);
-    	taInterval.setPromptText("Set -1 for infinite");
+    	this.bo = new BackupObject();
     	
+    	DBConnect dbc = new DBConnect();
+    	this.scheduleList = new ArrayList<ScheduleObject>();
     	
+    	try {
+			ResultSet res = dbc.getAllSchedules();
+			
+			while(res.next()){
+				BackupObject bo = new BackupObject();
+				
+				bo.setAuditBackup(res.getBoolean("audit"));
+				bo.setCloudBackup(res.getBoolean("cloud"));
+				bo.setUserBackup(res.getBoolean("user"));
+				bo.setWebBackup(res.getBoolean("web"));
+				
+				ScheduleObject so = new ScheduleObject(
+						res.getString("sname"),
+						res.getInt("maxtimes"), 
+						res.getInt("timesDone"), 
+						res.getLong("dayTime"), 
+						res.getLong("interval"), 
+						res.getLong("startingDay"), 
+						bo);
+				
+				scheduleList.add(so);
+			}
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+    	
+    	ObservableList<ScheduleObject> data = bsTable.getItems();
+		int todo;
+		//For page formatting 
+		if(scheduleList.size()>10){
+			todo=10;
+		}
+		else{
+			todo=scheduleList.size();
+		}
+		for(int i=0;i<todo;i++){
+	    data.add(scheduleList.get(i));
+		}
+		
+		this.noOfPages = (data.size()/10)+1;
+		this.pageNo = 0;
+		if(noOfPages>1){
+			btnScrollLeft.setVisible(true);
+			btnScrollRight.setVisible(true);
+		}
     }
     
     @FXML
     void doAddBackup(ActionEvent event) {
-    	System.out.println(datePicker.getValue());
+    	if(MillisConverter.getLongDate(datePicker.getValue().toString()) > System.currentTimeMillis()){
+    	try{
+    	ScheduleObject so = new ScheduleObject(
+    			taName.getText(),
+    			Integer.parseInt(taRepeat.getText()),
+    			MillisConverter.getLongTime(timePicker.getTime().toString()),
+    			MillisConverter.getDaysToLong(Integer.parseInt(taInterval.getText())),
+    			MillisConverter.getLongDate(datePicker.getValue().toString()),
+    			this.bo
+    			);
+
+    	DBConnect dbc = new DBConnect();
+    	dbc.addSchedule(so);
+    	
+    	ObservableList<ScheduleObject> data = bsTable.getItems();
+    	data.add(so);
+    	}catch(Exception e){
+    		System.err.println(e.getMessage());
+    	}
+    	}
     }
 
     @FXML
     void doCancel(ActionEvent event) {
     	//Convert to remove a scheduled object
+    	if(bsTable.getSelectionModel().getSelectedIndex()>=0){
+        	int selOnes = bsTable.getSelectionModel().getSelectedIndex();
+        	int sel = (pageNo*10)+selOnes;
+        	
+    		scheduleList.remove(sel);
+    		ObservableList<ScheduleObject> data = bsTable.getItems();
+    		data.clear();
+    		data.addAll(scheduleList);
+    		
+    		DBConnect dbc = new DBConnect();
+    		try {
+				dbc.removeSchedule(sel+1);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+        	}
     }
 
     @FXML
@@ -126,22 +243,26 @@ public class BsController {
 
 	@FXML
 	void doSelAudit(ActionEvent event) {
-
+		this.bo.setAuditBackup(true);
+		colorSwap((JFXButton) event.getSource());
 	}
 
 	@FXML
 	void doSelCloud(ActionEvent event) {
-
+		this.bo.setCloudBackup(true);
+		colorSwap((JFXButton) event.getSource());
     }
 
 	@FXML
     void doSelUserData(ActionEvent event) {
-
+		this.bo.setUserBackup(true);
+		colorSwap((JFXButton) event.getSource());
     }
 
     @FXML
     void doSelWeb(ActionEvent event) {
-
+    	this.bo.setWebBackup(true);
+    	colorSwap((JFXButton) event.getSource());
     }
 
     @FXML
@@ -266,4 +387,16 @@ public class BsController {
 		stage.setScene(new Scene(root));
  	    stage.show();
 	}
+	
+    public void colorSwap(JFXButton jfxb){
+    	Paint color1 = jfxb.getRipplerFill();
+    	Paint color2 = jfxb.getTextFill();
+    	if(jfxb.getTextFill()==color1){
+    		jfxb.setTextFill(color2);
+    		jfxb.setRipplerFill(color1);
+    	}else{
+    		jfxb.setTextFill(color1);
+    		jfxb.setRipplerFill(color2);
+    	}
+    }
 }

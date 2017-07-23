@@ -13,11 +13,14 @@ public class ScheduleObject {
 	private long startingDay;
 	private long lastDone;
 	
+	private long nextInstance;
+	
 	private BackupObject internalBO;
 
 	private String dayTimeSTR;
 	private String intervalSTR;
 	private String boSTR;
+	private String nextInstanceSTR;
 	
 	//For new schedules
 	public ScheduleObject(String name, int maxTimes, long dayTime, long interval, long startingDay, BackupObject bo){
@@ -27,14 +30,24 @@ public class ScheduleObject {
 		this.interval=interval;
 		this.startingDay=startingDay;
 		
-		this.remainingTimes=maxTimes;
+		if(maxTimes!=-1){
+			this.remainingTimes=maxTimes-timesDone;
+			}
+			else{
+				this.remainingTimes=Integer.MAX_VALUE;
+			}
 		this.timesDone=0;
 		
 		this.internalBO=bo;
 		
 		this.boSTR=this.internalBO.printer();
 		this.intervalSTR=MillisConverter.getDays(this.interval);
-		this.dayTimeSTR=MillisConverter.getDaysHours(this.dayTime);
+		this.dayTimeSTR=MillisConverter.getHoursMinutes(this.dayTime);
+		
+		this.nextInstance=this.startingDay+this.dayTime;
+		
+		System.out.println(this.startingDay+" "+this.dayTime);
+		this.setNextInstanceSTR(MillisConverter.getStringFromLong(this.nextInstance));
 	}
 	
 	//For imports
@@ -57,11 +70,31 @@ public class ScheduleObject {
 		
 		this.boSTR=this.internalBO.printer();
 		this.intervalSTR=MillisConverter.getDays(this.interval);
-		this.dayTimeSTR=MillisConverter.getDaysHours(this.dayTime);
+		this.dayTimeSTR=MillisConverter.getHoursMinutes(this.dayTime);
+		
+		
+		
+		if(this.nextInstance!=0){
+		this.nextInstanceSTR=MillisConverter.getStringFromLong(this.nextInstance);
+		}
+		else{
+			this.nextInstanceSTR="Uncalculated";
+		}
 	}
 	
 	public ScheduleObject(){
 		//Blank
+	}
+	
+	public String toString(){
+		String toRet ="[";
+		toRet = toRet + this.maxTimes +"; " + this.remainingTimes +"; " + this.timesDone +"] ";
+		
+		toRet = toRet + "[" + this.dayTime +"; " + this.interval + "; " + this.startingDay +"; " + this.lastDone +"] ";
+		
+		toRet = toRet + "["+this.internalBO+"]";
+		
+		return toRet;
 	}
 	public long getNextTime(){
 		return startingDay+dayTime+(timesDone*interval);
@@ -160,6 +193,22 @@ public class ScheduleObject {
 
 	public void setBoSTR(String boSTR) {
 		this.boSTR = boSTR;
+	}
+
+	public long getNextInstance() {
+		return nextInstance;
+	}
+
+	public void setNextInstance(long nextInstance) {
+		this.nextInstance = nextInstance;
+	}
+
+	public String getNextInstanceSTR() {
+		return nextInstanceSTR;
+	}
+
+	public void setNextInstanceSTR(String nextInstanceSTR) {
+		this.nextInstanceSTR = nextInstanceSTR;
 	}
 
 

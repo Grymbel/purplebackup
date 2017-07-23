@@ -10,6 +10,7 @@ import java.sql.Statement;
 import org.sqlite.SQLiteException;
 
 import backupMaker.BackupObject;
+import backupScheduler.ScheduleObject;
 
 public class DBConnect {
 	 private static Connection con;
@@ -128,13 +129,34 @@ public class DBConnect {
 		 return res;
 	 }
 	 
-	 public void debugBackups() throws SQLException{
-		 Statement state = con.createStatement();
-		 ResultSet res = state.executeQuery("select * from Backups");
+	 public void addSchedule(ScheduleObject so) throws SQLException{
+		 PreparedStatement prep = con.prepareStatement("insert into schedule(sname, maxtimes, timesdone, daytime, interval, startingday, lastdone, audit, cloud, user, web) values(?,?,?,?,?,?,?,?,?,?,?)");
+		 prep.setString(1,so.getName());
+		 prep.setInt(2, so.getMaxTimes());
+		 prep.setInt(3, so.getTimesDone());
 		 
-		 while(res.next()){
-			 System.out.print(res.getInt("id")+"|");
-		 }
+		 prep.setLong(4, so.getDayTime());
+		 prep.setLong(5, so.getInterval());
+		 prep.setLong(6, so.getStartingDay());
+		 prep.setLong(7, so.getLastDone());
+		 
+		 prep.setBoolean(8, so.getInternalBO().getAuditBackup());
+		 prep.setBoolean(9, so.getInternalBO().getCloudBackup());
+		 prep.setBoolean(10, so.getInternalBO().getUserBackup());
+		 prep.setBoolean(11, so.getInternalBO().getWebBackup());
+		 
+		 prep.execute();
+	 }
+	 
+	 public ResultSet getAllSchedules() throws SQLException{
+		 Statement state = con.createStatement();
+		 ResultSet res = state.executeQuery("select * from schedule;");
+		 return res;
+	 }
+	 
+	 public void removeSchedule(int id) throws SQLException{
+		 PreparedStatement prep = con.prepareStatement("delete from schedule where id="+id+";");
+		 prep.execute();
 	 }
 
 	 public void close(){
@@ -242,7 +264,7 @@ public class DBConnect {
 				 try{
 				 Statement state6 = con.createStatement();
 				 
-				  state6.executeUpdate("create table Schedule(id integer, sname varchar(40), maxTimes integer, timesDone integer, dayTime long, interval long, startingDay long, lastDone long, primary key(id))");
+				  state6.executeUpdate("create table Schedule(id integer, sname varchar(40), maxTimes integer, timesDone integer, dayTime long, interval long, startingDay long, lastDone long, audit boolean, cloud boolean, user boolean, web boolean, primary key(id))");
 				  
 				  System.out.println("Made Schedule");
 				 }
