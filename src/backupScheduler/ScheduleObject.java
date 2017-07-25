@@ -45,13 +45,12 @@ public class ScheduleObject {
 		this.dayTimeSTR=MillisConverter.getHoursMinutes(this.dayTime);
 		
 		this.nextInstance=this.startingDay+this.dayTime;
-		
-		System.out.println(this.startingDay+" "+this.dayTime);
+
 		this.setNextInstanceSTR(MillisConverter.getStringFromLong(this.nextInstance));
 	}
 	
 	//For imports
-	public ScheduleObject(String name, int maxTimes, int timesDone, long dayTime, long interval, long startingDay, BackupObject bo){
+	public ScheduleObject(String name, int maxTimes, int timesDone, long dayTime, long interval, long startingDay, long nextInstance, BackupObject bo){
 		this.name=name;
 		this.maxTimes=maxTimes;
 		this.timesDone=timesDone;
@@ -72,15 +71,10 @@ public class ScheduleObject {
 		this.intervalSTR=MillisConverter.getDays(this.interval);
 		this.dayTimeSTR=MillisConverter.getHoursMinutes(this.dayTime);
 		
+		this.nextInstance=nextInstance;
 		
-		
-		if(this.nextInstance!=0){
 		this.nextInstanceSTR=MillisConverter.getStringFromLong(this.nextInstance);
 		}
-		else{
-			this.nextInstanceSTR="Uncalculated";
-		}
-	}
 	
 	public ScheduleObject(){
 		//Blank

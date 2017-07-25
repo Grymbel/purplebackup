@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -131,13 +133,15 @@ public class BsController {
 	private int noOfPages;
 	private int pageNo;
     
-    public void initialize(){
+    @SuppressWarnings("unused")
+	public void initialize(){
     	timePicker.setShowTime(true);
     	this.bo = new BackupObject();
     	
+    	ScheduleClock sch = new ScheduleClock(true);
     	DBConnect dbc = new DBConnect();
     	this.scheduleList = new ArrayList<ScheduleObject>();
-    	
+    
     	try {
 			ResultSet res = dbc.getAllSchedules();
 			
@@ -156,10 +160,11 @@ public class BsController {
 						res.getLong("dayTime"), 
 						res.getLong("interval"), 
 						res.getLong("startingDay"), 
+						res.getLong("nextTime"),
 						bo);
 				
 				if(res.getLong("lastDone")==0){
-					so.setNextInstance(so.getStartingDay()+so.getDayTime());
+					so.setNextInstance(so.getNextInstance());
 					so.setNextInstanceSTR(MillisConverter.getStringFromLong(so.getNextInstance()));
 				}
 				scheduleList.add(so);
@@ -187,6 +192,11 @@ public class BsController {
 			btnScrollLeft.setVisible(true);
 			btnScrollRight.setVisible(true);
 		}
+		
+		TimerTask task = new AutoBackupProcess();
+
+    	Timer timer = new Timer();
+    	timer.schedule(task, 1000, 30000);
     }
     
     @FXML

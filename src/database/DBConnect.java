@@ -130,7 +130,7 @@ public class DBConnect {
 	 }
 	 
 	 public void addSchedule(ScheduleObject so) throws SQLException{
-		 PreparedStatement prep = con.prepareStatement("insert into schedule(sname, maxtimes, timesdone, daytime, interval, startingday, lastdone, audit, cloud, user, web) values(?,?,?,?,?,?,?,?,?,?,?)");
+		 PreparedStatement prep = con.prepareStatement("insert into schedule(sname, maxtimes, timesdone, daytime, interval, startingday, lastdone, nextTime, audit, cloud, user, web) values(?,?,?,?,?,?,?,?,?,?,?,?)");
 		 prep.setString(1,so.getName());
 		 prep.setInt(2, so.getMaxTimes());
 		 prep.setInt(3, so.getTimesDone());
@@ -140,10 +140,12 @@ public class DBConnect {
 		 prep.setLong(6, so.getStartingDay());
 		 prep.setLong(7, so.getLastDone());
 		 
-		 prep.setBoolean(8, so.getInternalBO().getAuditBackup());
-		 prep.setBoolean(9, so.getInternalBO().getCloudBackup());
-		 prep.setBoolean(10, so.getInternalBO().getUserBackup());
-		 prep.setBoolean(11, so.getInternalBO().getWebBackup());
+		 prep.setLong(8, so.getNextTime());
+		 
+		 prep.setBoolean(9, so.getInternalBO().getAuditBackup());
+		 prep.setBoolean(10, so.getInternalBO().getCloudBackup());
+		 prep.setBoolean(11, so.getInternalBO().getUserBackup());
+		 prep.setBoolean(12, so.getInternalBO().getWebBackup());
 		 
 		 prep.execute();
 	 }
@@ -158,6 +160,24 @@ public class DBConnect {
 		 PreparedStatement prep = con.prepareStatement("delete from schedule where id="+id+";");
 		 prep.execute();
 	 }
+	 
+	 public void updateScheduleSuccess(long justDone, long nextTime, int id) throws SQLException{
+		 int oldTimesDone;
+		 
+		 Statement state = con.createStatement();
+		 ResultSet res1 = state.executeQuery("select timesDone from schedule where id = "+id+";");
+		 
+		 
+		 while(res1.next()){
+			 oldTimesDone = res1.getInt("timesDone")+1;
+			 state.execute("update schedule set timesDone = "+oldTimesDone+", lastDone = "+justDone+" ,nextTime = "+nextTime+" where id = "+id);
+		 }
+	 }
+	 
+	public void updateScheduleLate(long nextTime, int id, int timesDone) throws SQLException{
+		Statement state = con.createStatement();
+		state.execute("update schedule set nextTime = "+nextTime + ", timesDone = "+timesDone+" where id = "+id);
+	}
 
 	 public void close(){
 		try {
@@ -264,7 +284,7 @@ public class DBConnect {
 				 try{
 				 Statement state6 = con.createStatement();
 				 
-				  state6.executeUpdate("create table Schedule(id integer, sname varchar(40), maxTimes integer, timesDone integer, dayTime long, interval long, startingDay long, lastDone long, audit boolean, cloud boolean, user boolean, web boolean, primary key(id))");
+				  state6.executeUpdate("create table Schedule(id integer, sname varchar(40), maxTimes integer, timesDone integer, dayTime long, interval long, startingDay long, lastDone long, nextTime long, audit boolean, cloud boolean, user boolean, web boolean, primary key(id))");
 				  
 				  System.out.println("Made Schedule");
 				 }

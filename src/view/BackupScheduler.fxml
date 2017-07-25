@@ -427,9 +427,9 @@
                 						<FormattedTableCellFactory alignment="center"/>
                 					 </cellFactory>
                 				  </TableColumn>
-                                    <TableColumn fx:id="colTofDay" prefWidth="94.0" text="Time Of Day">
+                                    <TableColumn fx:id="colTofDay" prefWidth="94.0" text="Interval">
                                     <cellValueFactory>
-                						<PropertyValueFactory property="dayTimeSTR" />
+                						<PropertyValueFactory property="intervalSTR" />
                 					 </cellValueFactory>
                 					 <cellFactory>
                 						<FormattedTableCellFactory alignment="center"/>

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.TimeZone;
 
 public class MillisConverter {
 
@@ -55,6 +56,8 @@ public class MillisConverter {
 	
 	public static long getLongDate(String s){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		TimeZone tz = TimeZone.getTimeZone("Asia/Singapore");
+		sdf.setTimeZone(tz);
 		Date date = new Date();
 		
 		try {
@@ -72,5 +75,22 @@ public class MillisConverter {
 	public static String getStringFromLong(long l){
 		Date d = new Date(l);
 		return d.toString();
+	}
+	
+	public static long getTimeDifference(){
+		long toRet = 0;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		TimeZone tz = TimeZone.getTimeZone("Asia/Singapore");
+		sdf.setTimeZone(tz);
+		Date date = new Date();
+		
+		try {
+			date = sdf.parse("2017-07-25");
+		} catch (ParseException e) {
+		}
+		
+		toRet = (System.currentTimeMillis()-date.getTime())/3600000;
+		return toRet;
 	}
 }
