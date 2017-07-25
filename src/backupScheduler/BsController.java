@@ -158,6 +158,10 @@ public class BsController {
 						res.getLong("startingDay"), 
 						bo);
 				
+				if(res.getLong("lastDone")==0){
+					so.setNextInstance(so.getStartingDay()+so.getDayTime());
+					so.setNextInstanceSTR(MillisConverter.getStringFromLong(so.getNextInstance()));
+				}
 				scheduleList.add(so);
 			}
 		} catch (SQLException e) {

@@ -1,7 +1,8 @@
 package backupScheduler;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 public class MillisConverter {
@@ -53,14 +54,15 @@ public class MillisConverter {
 	}
 	
 	public static long getLongDate(String s){
-		Scanner sc = new Scanner(s);
-		sc.useDelimiter("-");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
 		
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.set(sc.nextInt(), sc.nextInt(), sc.nextInt(),0 ,0);	
-	
-		sc.close();
-		return gc.getTimeInMillis();
+		try {
+			date = sdf.parse(s);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date.getTime();
 	}
 	
 	public static long getDaysToLong(int days){
