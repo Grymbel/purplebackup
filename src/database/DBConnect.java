@@ -18,8 +18,10 @@ public class DBConnect {
 	 
 	 private void getConnection() throws ClassNotFoundException, SQLException {
 		  // sqlite driver
-		  Class.forName("org.sqlite.JDBC");
+		  
 		  // database path, if it's new database, it will be created in the project folder
+		  Class.forName("org.sqlite.JDBC");
+		 
 		  con = DriverManager.getConnection("jdbc:sqlite:purplebackups.db");
 		  initialise();
 	 }
@@ -46,8 +48,8 @@ public class DBConnect {
 				  prep.setBoolean(4, web);
 				  prep.setString(5, creation+"");
 				  prep.setBoolean(6, isBase);
+
 				  prep.execute();
-		 
 	 }
 	 
 	 public ResultSet getAllBackups() throws SQLException, ClassNotFoundException {
@@ -75,10 +77,10 @@ public class DBConnect {
 		 return res.getInt("ldbBase");
 	 }
 	 
-	 public int highestTime() throws SQLException, ClassNotFoundException{
+	 public long highestTime() throws SQLException, ClassNotFoundException{
 		 Statement state = con.createStatement();
 		 ResultSet res = state.executeQuery("select max(creation) as ldbTime from Backups");
-		 return res.getInt("ldbTime");
+		 return res.getLong("ldbTime");
 	 }
 	 
 	 public void addFileIdx(int backupID, String fileLine, String digest, String targetDir) throws SQLException{

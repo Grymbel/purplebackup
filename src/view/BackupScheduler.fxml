@@ -61,7 +61,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Backup Manager" wrappingWidth="960.0000046491623">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Backup Scheduler" wrappingWidth="960.0000046491623">
                      <font>
                         <Font name="Noto Sans" size="48.0" />
                      </font>
@@ -99,7 +99,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
-                        <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                        <HBox fx:id="bmItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>

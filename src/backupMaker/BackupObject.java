@@ -157,6 +157,9 @@ public class BackupObject {
 		}
 	}
 	
+	public boolean isFilled(){
+		return this.auditBackup||this.cloudBackup||this.userBackup||this.webBackup;
+	}
 	//Makes a base for the incremental 
 	public void makeBaseBackup(long time){
 		LastDoneBackup ldb = new LastDoneBackup();

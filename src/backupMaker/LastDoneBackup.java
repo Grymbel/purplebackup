@@ -14,7 +14,9 @@ public class LastDoneBackup {
 		sc.useDelimiter(";");
 		
 		this.lastID=Integer.parseInt(sc.next());
-		this.lastTime=Long.parseLong(sc.next());
+		String longy = sc.next();
+		System.out.println(longy+"||"+Long.MAX_VALUE);
+		this.lastTime=Long.parseLong(longy);
 		this.baseID=Integer.parseInt(sc.next());
 		sc.close();
 	}

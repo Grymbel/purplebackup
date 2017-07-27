@@ -133,12 +133,12 @@ public class BsController {
 	private int noOfPages;
 	private int pageNo;
     
-    @SuppressWarnings("unused")
 	public void initialize(){
     	timePicker.setShowTime(true);
     	this.bo = new BackupObject();
     	
-    	ScheduleClock sch = new ScheduleClock(true);
+    	bsService();
+    	
     	DBConnect dbc = new DBConnect();
     	this.scheduleList = new ArrayList<ScheduleObject>();
     
@@ -167,7 +167,12 @@ public class BsController {
 					so.setNextInstance(so.getNextInstance());
 					so.setNextInstanceSTR(MillisConverter.getStringFromLong(so.getNextInstance()));
 				}
+				if(so.getMaxTimes()==so.getTimesDone()){
+					dbc.removeSchedule(res.getInt("id"));
+				}
+				else{
 				scheduleList.add(so);
+				}
 			}
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
@@ -193,15 +198,19 @@ public class BsController {
 			btnScrollRight.setVisible(true);
 		}
 		
-		TimerTask task = new AutoBackupProcess();
-
-    	Timer timer = new Timer();
-    	timer.schedule(task, 1000, 30000);
+		
     }
     
     @FXML
     void doAddBackup(ActionEvent event) {
-    	if(MillisConverter.getLongDate(datePicker.getValue().toString()) > System.currentTimeMillis()){
+    	boolean auth = false;
+    	try{
+    		auth = (MillisConverter.getLongDate(datePicker.getValue().toString())+MillisConverter.getLongTime(timePicker.getTime().toString()))> System.currentTimeMillis();
+    	}catch(NullPointerException e){
+    		
+    	}
+    			
+    	if(auth){
     	try{
     	ScheduleObject so = new ScheduleObject(
     			taName.getText(),
@@ -220,8 +229,30 @@ public class BsController {
     	}catch(Exception e){
     		System.err.println(e.getMessage());
     	}
+
+    	taName.setText("");
+    	taRepeat.setText("");
+    	
+    	datePicker.setValue(null);
+    	taInterval.setText("");
+    	
+    	if(this.bo.getAuditBackup()){
+    		colorSwap(btnSelAudit);
+    	}
+    	if(this.bo.getCloudBackup()){
+    		colorSwap(btnSelCloud);
+    	}
+    	if(this.bo.getUserBackup()){
+    		colorSwap(btnSelUserData);
+    	}
+    	if(this.bo.getWebBackup()){
+    		colorSwap(btnSelWeb);
+    	}
+    	
+    	this.bo = new BackupObject();
     	}
     }
+    
 
     @FXML
     void doCancel(ActionEvent event) {
@@ -284,18 +315,30 @@ public class BsController {
 
     }
 	    
+    private boolean openClose = false;
     
 	@FXML
 	public void showSidebar(MouseEvent event) {
-		closeIcon.setVisible(true);
-		sideIcon.setVisible(false);
-		Timeline timeline = new Timeline();
-		KeyValue sidebarNavValue = new KeyValue(sidebarNav.layoutXProperty(), 0);
-		
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(300), sidebarNavValue);
-		
-		timeline.getKeyFrames().addAll(keyFrame);
-		timeline.play();
+		if (openClose == false) {
+			openClose = true;
+			Timeline timeline = new Timeline();
+			KeyValue sidebarNavValue = new KeyValue(sidebarNav.layoutXProperty(), 0);
+			
+			KeyFrame keyFrame = new KeyFrame(Duration.millis(300), sidebarNavValue);
+			
+			timeline.getKeyFrames().addAll(keyFrame);
+			timeline.play();
+		}
+		else {
+			openClose = false;
+			Timeline timeline = new Timeline();
+			KeyValue sidebarNavValue = new KeyValue(sidebarNav.layoutXProperty(), -240);
+			
+			KeyFrame keyFrame = new KeyFrame(Duration.millis(300), sidebarNavValue);
+			
+			timeline.getKeyFrames().addAll(keyFrame);
+			timeline.play();
+		}
 	}
 	
 	@FXML
@@ -384,7 +427,7 @@ public class BsController {
 			root = FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
 		}
 		else if (event.getSource().equals(bsItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/Backup Scheduler.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../view/BackupScheduler.fxml"));
 		}
 		else if (event.getSource().equals(blItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/BackupLocations.fxml"));
@@ -412,5 +455,15 @@ public class BsController {
     		jfxb.setTextFill(color1);
     		jfxb.setRipplerFill(color2);
     	}
+    }
+    
+    public void bsService(){
+		ScheduleClock sch = new ScheduleClock();
+		sch.scheduleServiceFirst();
+
+    	TimerTask task = new AutoBackupProcess();
+
+    	Timer timer = new Timer();
+    	timer.schedule(task, 1000, 30000);
     }
 }
