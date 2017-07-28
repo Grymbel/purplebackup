@@ -180,6 +180,21 @@ public class DBConnect {
 		Statement state = con.createStatement();
 		state.execute("update schedule set nextTime = "+nextTime + ", timesDone = "+timesDone+" where id = "+id);
 	}
+	
+	public void addHIDS(int relID, String relDir, String hash) throws SQLException{
+		PreparedStatement prep = con.prepareStatement("insert into HIDS(relid, relDir, sha1hash)values(?,?,?)");
+		prep.setInt(1, relID);
+		prep.setString(2, relDir);
+		prep.setString(3, hash);
+		
+		prep.execute();
+	}
+	
+	public ResultSet getHashList() throws SQLException{
+		Statement state = con.createStatement();
+		ResultSet res = state.executeQuery("select * from HIDS");
+		return res;
+	}
 
 	 public void close(){
 		try {
@@ -195,6 +210,15 @@ public class DBConnect {
 		 if( !hasData ) {
 			 hasData = true;
 			 // check for database table
+			 try{
+				 Statement state4 = con.createStatement();
+				 
+				 state4.executeUpdate("create table HIDS(id integer, sha1hash varchar(128), relid integer, reldir varchar(20), primary key(id))");
+				 System.out.println("Made HIDS");
+			 }catch(Exception e){
+				 
+			 }
+			 
 			 Statement state = con.createStatement();
 			 ResultSet res = state.executeQuery("SELECT name FROM sqlite_master WHERE type='table' AND name='Backups'");
 			 if( !res.next()) {
@@ -293,8 +317,8 @@ public class DBConnect {
 				 catch(Exception e){
 				 }
 			 }
+			 }
 		 }
 		 
 	 }
 	 
-}

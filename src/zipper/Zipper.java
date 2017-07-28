@@ -92,6 +92,14 @@ public class Zipper{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+    	DBConnect dbc = new DBConnect();
+    	try {
+			dbc.addHIDS(backupID,outputFile.substring(0,outputFile.length()-4),SHA1.sha1(new File(zipFile)));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
     	System.out.println("Done");
     }catch(IOException ex){
        ex.printStackTrace();
@@ -158,6 +166,15 @@ public class Zipper{
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+
+    	try {
+    		dbc.addHIDS(backupID,outputFile.substring(0,outputFile.length()-4),SHA1.sha1(new File(zipFile)));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+    	
        	System.out.println("Done");
        }catch(IOException ex){
           ex.printStackTrace();
