@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import userManagement.dao.DatabaseDAO;
 
 public class WhiteBlackListDAO {
 	final private String filePath = "src/basicFirewall/WhiteBlackList.txt";
@@ -64,6 +66,7 @@ public class WhiteBlackListDAO {
 		fw.close();
 	}
 	
+	/*
 	public void commitRule() throws IOException{
 		File file2 = new File(fileCommitPath);
 		ArrayList<String> lines = new ArrayList<String>(Files.readAllLines(file2.toPath()));
@@ -96,5 +99,48 @@ public class WhiteBlackListDAO {
 		combineLine2 += "\" phase:1,nolog,allow,ctl:ruleEngine=Off,id:999945";
 		lines2.set(1, combineLine2);
 		Files.write(file3.toPath(), lines2);
+	}*/
+	
+	public void commitRule() throws ClassNotFoundException, SQLException, FileNotFoundException{
+		System.out.println("Commit Starting...");
+		DatabaseDAO dao = new DatabaseDAO(0);
+		ArrayList<String> as = new ArrayList<String>();
+		for(basicFirewall.model.IpAddress a:dao.getDatabaseBlacklist()){ //as (Database)
+			as.add(a.getIpAddress());
+		}
+		ArrayList<String> blackList = getBlackListArray();
+		if(as.size() == blackList.size()){
+			System.out.println("Nothing Changed...");
+			for(int i = 0; i < blackList.size(); i++){
+				String sql = "UPDATE Blacklist SET IpAddress = '" + blackList.get(i) + "' WHERE Blacklist.ID = " + (++i) +";";
+				dao.updateDatabaseData(sql);
+			}
+		}else{
+			int number = as.size() - blackList.size(); 
+			if(number < 1){ 										//-1 = 1 - 2
+				System.out.println("New IP Address Added...");
+				for(int i = 0; i < blackList.size() + number; i++){ //i = 0; i < 1; i++
+					String sql = "UPDATE Blacklist SET IpAddress = '" + blackList.get(i) + "' WHERE Blacklist.ID = " + (++i) +";";
+					dao.updateDatabaseData(sql);
+				}
+				for(int i = blackList.size() + number; i < blackList.size(); i++){ //i = 1; i < 2; i++
+					String sql = "INSERT INTO Blacklist(ID, IpAddress) VALUES (" + (i + 1) + ", \"" + blackList.get(i) + "\");";
+					dao.updateDatabaseData(sql);
+				}
+			}
+			else{													// 3 = 4 - 1
+				System.out.println("IP Address Deleted...");
+				for(int i = 0; i < blackList.size(); i++){	//i = 0; i < 1; i++
+					String sql = "UPDATE Blacklist SET IpAddress = '" + blackList.get(i) + "' WHERE Blacklist.ID = " + (++i) +";";
+					dao.updateDatabaseData(sql);
+				}
+				for(int i = blackList.size(); i < as.size(); i++){ //i = 1; i < 4; i++
+					String sql = "DELETE FROM BlackList WHERE Blacklist.ID = " + (i + 1) + ";";
+					dao.updateDatabaseData(sql);
+				}
+			}
+		}
+		System.out.println("Commit Ending...");
+		dao.close();
 	}
 }

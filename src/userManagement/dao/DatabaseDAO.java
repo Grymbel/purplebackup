@@ -1,7 +1,6 @@
 package userManagement.dao;
 
 import java.io.InputStream;
-import java.security.SecureRandom;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,8 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Random;
-
 import userManagement.model.File;
 import userManagement.model.Login;
 import userManagement.model.Student;
@@ -241,6 +238,20 @@ public class DatabaseDAO {
 		
 		rs.close();
 		return fileArray;
+	}
+	
+	public ArrayList<basicFirewall.model.IpAddress> getDatabaseBlacklist() throws SQLException{
+		ResultSet rs = getDatabaseData("SELECT * FROM Blacklist;");
+		ArrayList<basicFirewall.model.IpAddress> stringArray = new ArrayList<basicFirewall.model.IpAddress>();
+		
+		while(rs.next()){
+			String ip = rs.getString("IpAddress");
+			basicFirewall.model.IpAddress a = new basicFirewall.model.IpAddress(ip);
+			stringArray.add(a);
+		}
+		
+		rs.close();
+		return stringArray;
 	}
 	
 	public ArrayList<UserAll> convertResultSetToArrayList(ResultSet rs) throws SQLException{

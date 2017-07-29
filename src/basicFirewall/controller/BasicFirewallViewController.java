@@ -1,6 +1,7 @@
 package basicFirewall.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.jfoenix.controls.JFXButton;
@@ -66,7 +67,7 @@ public class BasicFirewallViewController {
     }
     
     @FXML
-    void addBlack(ActionEvent event) throws IOException {
+    void addBlack(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
     	String ipLine = blackField.getText();
     	if(!ipLine.isEmpty() && ipLine != ""){
     		IpAddress ip = new IpAddress(ipLine);
@@ -80,7 +81,7 @@ public class BasicFirewallViewController {
     }
 
     @FXML
-    void addWhite(ActionEvent event) throws IOException {
+    void addWhite(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
     	String ipLine = whiteField.getText();
     	if(!ipLine.isEmpty() && ipLine != ""){
 	    	Label ipAddressLbl = new Label(ipLine);
@@ -93,20 +94,20 @@ public class BasicFirewallViewController {
     }
 
     @FXML
-    void deleteBlack(ActionEvent event) throws IOException {
+    void deleteBlack(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
     	int selectedIndex = blackListView.getSelectionModel().getSelectedIndex();
     	blackListView.getItems().remove(selectedIndex);
     	updateFile();
     }
 
     @FXML
-    void deleteWhite(ActionEvent event) throws IOException {
+    void deleteWhite(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
     	int selectedIndex = whiteListView.getSelectionModel().getSelectedIndex();
     	whiteListView.getItems().remove(selectedIndex);
     	updateFile();
     }
     
-	void updateFile() throws IOException{
+	void updateFile() throws IOException, ClassNotFoundException, SQLException{
 		ArrayList<Label> whiteList = new ArrayList<Label>(whiteListView.getItems());
     	ArrayList<Label> blackList = new ArrayList<Label>(blackListView.getItems());
     	String writeToFileLine = "";

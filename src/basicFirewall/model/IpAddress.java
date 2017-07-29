@@ -1,6 +1,7 @@
 package basicFirewall.model;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import basicFirewall.dao.WhiteBlackListDAO;
@@ -39,7 +40,7 @@ public class IpAddress {
 		return ipArray;
 	}
 	
-	static public void writeToFile(String s) throws IOException{
+	static public void writeToFile(String s) throws IOException, ClassNotFoundException, SQLException{
 		WhiteBlackListDAO dao = new WhiteBlackListDAO();
 		dao.writeToFile(s);
 		dao.commitRule();
