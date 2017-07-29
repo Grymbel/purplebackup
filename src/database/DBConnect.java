@@ -182,6 +182,7 @@ public class DBConnect {
 	}
 	
 	public void addHIDS(int relID, String relDir, String hash) throws SQLException{
+		System.out.println("addHIDS");
 		PreparedStatement prep = con.prepareStatement("insert into HIDS(relid, relDir, sha1hash, resolved)values(?,?,?,?)");
 		prep.setInt(1, relID);
 		prep.setString(2, relDir);
@@ -192,24 +193,32 @@ public class DBConnect {
 	}
 	
 	public void resolveHIDS(int relID, String relDir) throws SQLException{
-		PreparedStatement prep = con.prepareStatement("update HIDS SET resolved = '1' where relid = ? and relDir = ?");
-		prep.setInt(1, relID);
-		prep.setString(2, relDir);
+		PreparedStatement prep = con.prepareStatement("update HIDS SET resolved = ? where relid = ? and relDir = ?;");
+		prep.setBoolean(1, true);
+		prep.setInt(2, relID);
+		prep.setString(3, relDir);
 		
 		prep.executeUpdate();
 	}
 	
+	public void resolveAll() throws SQLException{
+		PreparedStatement prep = con.prepareStatement("update HIDS Set resolved = ?;");
+		prep.setBoolean(1, true);
+		prep.executeUpdate();
+	}
+	
 	public void unresolveHIDS(int relID, String relDir) throws SQLException{
-		PreparedStatement prep = con.prepareStatement("update HIDS SET resolved = '0' where relid = ? and relDir = ?");
-		prep.setInt(1, relID);
-		prep.setString(2, relDir);
+		PreparedStatement prep = con.prepareStatement("update HIDS SET resolved = ? where relid = ? and relDir = ?;");
+		prep.setBoolean(1, false);
+		prep.setInt(2, relID);
+		prep.setString(3, relDir);
 		
 		prep.executeUpdate();
 	}
 	
 	public ResultSet getHashList() throws SQLException{
 		Statement state = con.createStatement();
-		ResultSet res = state.executeQuery("select sha1hash, relid, reldir from HIDS");
+		ResultSet res = state.executeQuery("select sha1hash, relid, reldir, read from HIDS");
 		return res;
 	}
 	
@@ -226,6 +235,12 @@ public class DBConnect {
 		prep.setInt(3, relid);
 		prep.setString(4, relDir);
 		
+		prep.executeUpdate();
+	}
+	
+	public void setHIDSRead() throws SQLException{
+		PreparedStatement prep = con.prepareStatement("update HIDS Set read = ?;");
+		prep.setBoolean(1, true);
 		prep.executeUpdate();
 	}
 
@@ -246,7 +261,7 @@ public class DBConnect {
 			 try{
 				 Statement state4 = con.createStatement();
 				 
-				 state4.executeUpdate("create table HIDS(id integer, sha1hash varchar(128), relid integer, reldir varchar(20), message varchar(140), resolved boolean, primary key(id))");
+				 state4.executeUpdate("create table HIDS(id integer, sha1hash varchar(128), relid integer, reldir varchar(20), message varchar(140), resolved boolean, read boolean, primary key(id))");
 				 System.out.println("Made HIDS");
 			 }catch(Exception e){
 				 

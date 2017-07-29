@@ -14,6 +14,7 @@ public class HIDSDAO {
 		ArrayList<HIDSObject> toRet = new ArrayList<HIDSObject>();
 		DBConnect dbc = new DBConnect();
 		try {
+			dbc.setHIDSRead();
 			ResultSet res = dbc.getHIDSData();
 			
 			while(res.next()){

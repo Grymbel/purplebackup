@@ -14,11 +14,13 @@ public class HIDSObject {
 	
 	private boolean resolved;
 	private String resolvedSTR;
+	private boolean read;
 
-	public HIDSObject(String hash, int relid, String relDir){
+	public HIDSObject(String hash, int relid, String relDir, boolean read){
 		this.hash=hash;
 		this.relDir=relDir;
 		this.relID=relid;
+		this.read=read;
 	}
 	
 	public HIDSObject(String hash, int relid, String relDir, String alertMessage, boolean resolved){
@@ -26,7 +28,7 @@ public class HIDSObject {
 		this.relDir=relDir;
 		this.relID=relid;
 		this.alertMessage=alertMessage;
-		
+		this.read=true;
 		this.resolved=resolved;
 		if(this.resolved){
 			this.setResolvedSTR("YES");
@@ -68,12 +70,6 @@ public class HIDSObject {
 	public void setHash(String hash) {
 		this.hash = hash;
 	}
-	public int getRelid() {
-		return relID;
-	}
-	public void setRelid(int relid) {
-		this.relID = relid;
-	}
 	public String getRelDir() {
 		return relDir;
 	}
@@ -111,5 +107,13 @@ public class HIDSObject {
 
 	public void setResolvedSTR(String resolvedSTR) {
 		this.resolvedSTR = resolvedSTR;
+	}
+
+	public boolean isRead() {
+		return read;
+	}
+
+	public void setRead(boolean read) {
+		this.read = read;
 	}
 }

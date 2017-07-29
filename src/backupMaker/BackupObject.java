@@ -2,6 +2,7 @@ package backupMaker;
 
 import java.io.File;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -162,6 +163,13 @@ public class BackupObject {
 	}
 	//Makes a base for the incremental 
 	public void makeBaseBackup(long time){
+		DBConnect dbc = new DBConnect();
+		try {
+			dbc.resolveAll();
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		dbc.close();
 		LastDoneBackup ldb = new LastDoneBackup();
 		int base = ldb.getLastID()+1;
 		System.out.println("BASE "+base);
@@ -196,6 +204,13 @@ public class BackupObject {
 	//For first-ever backup. Independent of other files
 	public void makeBaseBackupFirst(long time){
 		System.out.println("FIRST");
+		DBConnect dbc = new DBConnect();
+		try {
+			dbc.resolveAll();
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+		dbc.close();
 		//Zip all and put it in the output dir
 		this.initBackupLocations();
 		makeDir(0+"");
