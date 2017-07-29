@@ -33,9 +33,9 @@ public class Unzipper
     		aes.decryptFile(new File(inputZip));
 			aes.writeToFile(new File(inputZip));
 			doRecrypt = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
+		}catch (Exception e){
+			System.err.println(e.getMessage());
+		}
 
      byte[] buffer = new byte[1024];
 
@@ -93,7 +93,7 @@ public class Unzipper
     	System.out.println("Done");
 
     }catch(IOException ex){
-       ex.printStackTrace();
+
     }
    }
 }

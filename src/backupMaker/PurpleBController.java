@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
+import backupHIDS.HIDSService;
 import database.DBConnect;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -126,6 +127,8 @@ public class PurpleBController {
 			btnScrollLeft.setVisible(true);
 			btnScrollRight.setVisible(true);
 		}
+		
+		HIDSService.doHIDS();
     }
     
     @FXML

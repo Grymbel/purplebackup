@@ -123,10 +123,9 @@ public class BackupObject {
 			}
 		}
 		String restDir = "src/output/"+id+"RESTORE/";
-		System.out.println("DIRLIST: "+dirList);
 		int c = 0;
 		for(String str : dirList){
-			try {
+			try {				
 				String archive = getArchive(new File(str));
 				Unzipper unz = new Unzipper(archive,restDir+areas.get(c));
 				c++;
@@ -151,7 +150,8 @@ public class BackupObject {
 					}
 				}
 				unz.unZipIt();
-			} catch (Exception e) {
+		}
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
