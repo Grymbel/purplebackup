@@ -192,6 +192,12 @@ public class DBConnect {
 	
 	public ResultSet getHashList() throws SQLException{
 		Statement state = con.createStatement();
+		ResultSet res = state.executeQuery("select sha1hash, relid, reldir from HIDS");
+		return res;
+	}
+	
+	public ResultSet getHIDSData() throws SQLException{
+		Statement state = con.createStatement();
 		ResultSet res = state.executeQuery("select * from HIDS");
 		return res;
 	}
@@ -213,7 +219,7 @@ public class DBConnect {
 			 try{
 				 Statement state4 = con.createStatement();
 				 
-				 state4.executeUpdate("create table HIDS(id integer, sha1hash varchar(128), relid integer, reldir varchar(20), primary key(id))");
+				 state4.executeUpdate("create table HIDS(id integer, sha1hash varchar(128), relid integer, reldir varchar(20), message varchar(140), boolean resolve, primary key(id))");
 				 System.out.println("Made HIDS");
 			 }catch(Exception e){
 				 

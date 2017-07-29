@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXDatePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import backupMaker.FormattedTableCellFactory?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupScheduler.BsController">
+<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupHIDS.HIDSController">
    <children>
       <AnchorPane prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -61,7 +54,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Backup Scheduler" wrappingWidth="960.0000046491623">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="HIDS Logs" wrappingWidth="960.0000046491623">
                      <font>
                         <Font name="Noto Sans" size="48.0" />
                      </font>
@@ -122,7 +115,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
-                        <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                        <HBox fx:id="bsItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -145,7 +138,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
-                        <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                        <HBox fx:id="blItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -231,26 +224,6 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
-                        <HBox fx:id="backupItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                           <children>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                                 <image>
-                                    <Image url="@../images/BasLogo.png" />
-                                 </image>
-                              </ImageView>
-                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Maker" textAlignment="CENTER" textFill="WHITE">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </HBox>
                         <HBox fx:id="settingsItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -301,181 +274,34 @@
                      <children>
                         <AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #222222;">
                            <children>
-                              <GridPane layoutX="10.0" layoutY="120.0" prefHeight="240.0" prefWidth="360.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="160.4285888671875" minWidth="10.0" prefWidth="160.4285888671875" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.57147216796875" minWidth="10.0" prefWidth="206.5714111328125" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <JFXDatePicker fx:id="datePicker" defaultColor="#9575cd" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <Text fill="#eeeeee" strokeType="OUTSIDE" strokeWidth="0.0" text="Starting From" GridPane.rowIndex="3">
-                                       <font>
-                                          <Font name="Noto Sans" size="20.0" />
-                                       </font>
-                                    </Text>
-                                    <Text fill="#eeeeee" strokeType="OUTSIDE" strokeWidth="0.0" text="Interval in days" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font name="Noto Sans" size="20.0" />
-                                       </font>
-                                    </Text>
-                                    <Text fill="#eeeeee" strokeType="OUTSIDE" strokeWidth="0.0" text="Time to do" GridPane.rowIndex="2">
-                                       <font>
-                                          <Font name="Noto Sans" size="20.0" />
-                                       </font>
-                                    </Text>
-                                    <JFXDatePicker fx:id="timePicker" defaultColor="#9575cd" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField fx:id="taInterval" prefHeight="25.0" prefWidth="87.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Text fill="#eeeeee" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
-                                       <font>
-                                          <Font name="Noto Sans" size="20.0" />
-                                       </font>
-                                    </Text>
-                                    <TextField fx:id="taName" GridPane.columnIndex="1" />
-                                    <Text fill="#eeeeee" strokeType="OUTSIDE" strokeWidth="0.0" text="Repeat" GridPane.rowIndex="4">
-                                       <font>
-                                          <Font name="Noto Sans" size="20.0" />
-                                       </font>
-                                    </Text>
-                                    <TextField fx:id="taRepeat" promptText="Put -1 for infinite" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                 </children>
-                              </GridPane>
-                              <GridPane layoutX="10.0" layoutY="400.0" prefHeight="270.0" prefWidth="360.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <JFXButton fx:id="btnAddBackup" buttonType="RAISED" onAction="#doAddBackup" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="+" textAlignment="JUSTIFY" textFill="#dddddd" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <font>
-                                          <Font name="Noto Sans" size="40.0" />
-                                       </font>
-                                    </JFXButton>
-                                    <JFXButton fx:id="btnSelAudit" onAction="#doSelAudit" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Audit Logs" textFill="#cccccc" GridPane.columnIndex="1">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <font>
-                                          <Font name="Noto Sans" size="12.0" />
-                                       </font>
-                                    </JFXButton>
-                                    <JFXButton fx:id="btnSelUserData" onAction="#doSelUserData" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="User Data" textFill="#cccccc">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <font>
-                                          <Font name="Noto Sans" size="12.0" />
-                                       </font>
-                                    </JFXButton>
-                                    <JFXButton fx:id="btnSelCloud" onAction="#doSelCloud" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Cloud Files" textFill="#cccccc" GridPane.rowIndex="1">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <font>
-                                          <Font name="Noto Sans" size="12.0" />
-                                       </font>
-                                    </JFXButton>
-                                    <JFXButton fx:id="btnSelWeb" onAction="#doSelWeb" prefHeight="90.0" prefWidth="180.0" ripplerFill="#9a27b0" style="-fx-border-color: cccccc;" text="Website" textFill="#cccccc" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <font>
-                                          <Font name="Noto Sans" size="12.0" />
-                                       </font>
-                                    </JFXButton>
-                                 </children>
-                              </GridPane>
-                              <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="1160.0" layoutY="600.0" onAction="#gotoBack" ripplerFill="#9a27b0" text="&lt;" textFill="#dddddd">
+                              <TableView fx:id="bmtable" layoutX="50.0" layoutY="50.0" prefHeight="500.0" prefWidth="1180.0">
+                                 <columns>
+                                    <TableColumn id="colRelID" prefWidth="75.0" text="Backup ID" />
+                                    <TableColumn id="colRelDir" prefWidth="105.0" text="Sub Directory" />
+                                    <TableColumn id="colMessage" prefWidth="898.0" text="Error Remarks" />
+                                    <TableColumn id="colResolve" prefWidth="100.0" text="Resolve Status" />
+                                 </columns>
+            				  </TableView>
+                              <JFXButton fx:id="btnScrollLeft" layoutX="1049.0" layoutY="575.0" onAction="#doScrollLeft" ripplerFill="#9a27b0" text="&lt;" textFill="#cccccc">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnCancel" layoutX="526.0" layoutY="507.0" onAction="#doCancel" ripplerFill="#9a27b0" text="Cancel Scheduled" textFill="#dddddd">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="btnScrollLeft" layoutX="506.0" layoutY="544.0" onAction="#doScrollLeft" ripplerFill="#9a27b0" text="&lt;" textFill="#cccccc">
+                              <JFXButton fx:id="btnScrollRight" layoutX="1131.0" layoutY="575.0" onAction="#doScrollRight" ripplerFill="#9a27b0" text="&gt;" textFill="#cccccc">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnScrollRight" layoutX="599.0" layoutY="544.0" onAction="#doScrollRight" ripplerFill="#9a27b0" text="&gt;" textFill="#cccccc">
+                              <JFXButton fx:id="btnResolve" layoutX="50.0" layoutY="575.0" onAction="#doResolve" ripplerFill="#9a27b0" text="Resolve" textFill="#cccccc">
                                  <font>
-                                    <Font size="40.0" />
+                                    <Font size="24.0" />
                                  </font>
                               </JFXButton>
-                              <Text fill="#eeeeee" layoutX="10.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedule Backup">
+                              <JFXButton fx:id="btnUnesolve" layoutX="208.0" layoutY="577.0" onAction="#doUnresolve" ripplerFill="#9a27b0" text="Unresolve" textFill="#cccccc">
                                  <font>
-                                    <Font name="Noto Sans" size="20.0" />
+                                    <Font size="24.0" />
                                  </font>
-                              </Text>
-                              <TableView fx:id="bsTable" layoutX="406.0" layoutY="72.0" prefHeight="410.0" prefWidth="825.0">
-                                <columns>
-                                  <TableColumn fx:id="colName" prefWidth="186.0" text="Name">
-                                 	 <cellValueFactory>
-                						<PropertyValueFactory property="name" />
-                					 </cellValueFactory>
-                					 <cellFactory>
-                						<FormattedTableCellFactory alignment="center"/>
-                					 </cellFactory>
-                				  </TableColumn>
-                                  <TableColumn fx:id="colMaxT" prefWidth="72.0" text="Max Times">
-                                  <cellValueFactory>
-                						<PropertyValueFactory property="maxTimes" />
-                					 </cellValueFactory>
-                					 <cellFactory>
-                						<FormattedTableCellFactory alignment="center"/>
-                					 </cellFactory>
-                				  </TableColumn>
-                                    <TableColumn fx:id="colTDone" prefWidth="74.0" text="Times Done">
-                                    <cellValueFactory>
-                						<PropertyValueFactory property="timesDone" />
-                					 </cellValueFactory>
-                					 <cellFactory>
-                						<FormattedTableCellFactory alignment="center"/>
-                					 </cellFactory>
-                				  </TableColumn>
-                                    <TableColumn fx:id="colTofDay" prefWidth="94.0" text="Interval">
-                                    <cellValueFactory>
-                						<PropertyValueFactory property="intervalSTR" />
-                					 </cellValueFactory>
-                					 <cellFactory>
-                						<FormattedTableCellFactory alignment="center"/>
-                					 </cellFactory>
-                				  </TableColumn>
-                                    <TableColumn fx:id="colNextInstance" prefWidth="217.0" text="Next Instance">
-                                    <cellValueFactory>
-                						<PropertyValueFactory property="nextInstanceSTR" />
-                					 </cellValueFactory>
-                					 <cellFactory>
-                						<FormattedTableCellFactory alignment="center"/>
-                					 </cellFactory>
-                				  </TableColumn>
-                                    <TableColumn fx:id="colBooleans" prefWidth="180" text="Contents">
-                                    <cellValueFactory>
-                						<PropertyValueFactory property="boSTR" />
-                					 </cellValueFactory>
-                					 <cellFactory>
-                						<FormattedTableCellFactory alignment="center"/>
-                					 </cellFactory>
-                				  </TableColumn>
-                                </columns>
-                              </TableView>
+                              </JFXButton>
                            </children>
                         </AnchorPane>
                      </children>

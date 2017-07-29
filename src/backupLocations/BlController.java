@@ -59,6 +59,8 @@ public class BlController{
 		private HBox bmItem;
 		@FXML
 		private HBox blItem;
+		@FXML
+		private HBox hidsItem;
 		  @FXML
 		    private JFXTextArea taAudit;
 
@@ -306,11 +308,12 @@ public class BlController{
 			}
 			else if (event.getSource().equals(bsItem)) {
 				root = FXMLLoader.load(getClass().getResource("../view/BackupScheduler.fxml"));
-				System.out.println("BSITEM");
 			}
 			else if (event.getSource().equals(blItem)) {
 				root = FXMLLoader.load(getClass().getResource("../view/BackupLocations.fxml"));
-				System.out.println("BLITEM");
+			}
+			else if (event.getSource().equals(hidsItem)) {
+				root = FXMLLoader.load(getClass().getResource("../view/BackupHIDS.fxml"));
 			}
 			//XZ's Feature
 			

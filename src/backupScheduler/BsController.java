@@ -63,6 +63,8 @@ public class BsController {
 	private HBox bmItem;
 	@FXML
 	private HBox blItem;
+	@FXML
+	private HBox hidsItem;
 
     @FXML
     private JFXButton btnScrollLeft;
@@ -431,6 +433,9 @@ public class BsController {
 		}
 		else if (event.getSource().equals(blItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/BackupLocations.fxml"));
+		}
+		else if (event.getSource().equals(hidsItem)) {
+			root = FXMLLoader.load(getClass().getResource("../view/BackupHIDS.fxml"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			stage.setX(450);
