@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
 import backupHIDS.HIDSService;
-import database.DBConnect;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -97,8 +96,6 @@ public class PurpleBController {
     private JFXCheckBox chbEnableBase;
     
     public void initialize(){
-    	DBConnect dbc = new DBConnect();
-    	dbc.close();
     	bo = new BackupObject();
     	allBackups=new ArrayList<BackupObject>();
 

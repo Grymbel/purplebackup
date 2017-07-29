@@ -1,12 +1,13 @@
 package backupHIDS;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
-import backupMaker.BackupObject;
+import database.DBConnect;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -32,22 +33,14 @@ public class HIDSController {
 	private int noOfPages;
 	private int pageNo;
 	
-	private ArrayList<BackupObject> allBackups;
+	private ArrayList<HIDSObject> allEntries;
+	private ArrayList<HIDSObject> crudeEntries;
 
     @FXML
-    private JFXButton btnAddBackup;
+    private JFXButton btnResolve;
 
     @FXML
-    private JFXButton btnSelAudit;
-
-    @FXML
-    private JFXButton btnSelUserData;
-
-    @FXML
-    private JFXButton btnSelCloud;
-
-    @FXML
-    private JFXButton btnSelWeb;
+    private JFXButton btnUnresolve;
     
     @FXML
     private JFXButton btnScrollLeft;
@@ -56,25 +49,19 @@ public class HIDSController {
     private JFXButton btnScrollRight;
 
     @FXML
-    private TableView<BackupObject> bmtable;
+    private TableView<HIDSObject> HIDSTable;
 
     @FXML
-    private TableColumn<BackupObject, String> colDate;
+    private TableColumn<HIDSObject, Integer> colRelID;
 
     @FXML
-    private TableColumn<BackupObject, String> colUser;
+    private TableColumn<HIDSObject, String> colRelDir;
 
     @FXML
-    private TableColumn<BackupObject, String> colCloud;
+    private TableColumn<HIDSObject, String> colMessage;
 
     @FXML
-    private TableColumn<BackupObject, String> colWeb;
-
-    @FXML
-    private TableColumn<BackupObject, String> colAudit;
-    
-    @FXML
-    private TableColumn<BackupObject, String> colIsBase;
+    private TableColumn<HIDSObject, String> colResolve;
 
     @FXML
     private JFXButton btnSchedule;
@@ -89,18 +76,93 @@ public class HIDSController {
     private JFXCheckBox chbEnableBase;
     
     public void initialize(){
+    	allEntries=new ArrayList<HIDSObject>();
+    	crudeEntries=new ArrayList<HIDSObject>();
+    	btnScrollLeft.setVisible(false);
+    	btnScrollRight.setVisible(false);
     	
+    		HIDSDAO hdao = new HIDSDAO();
+    		
+			crudeEntries.addAll(hdao.getAllHIDSEntries());
+			for(HIDSObject hso : crudeEntries){
+				if(hso.getAlertMessage()!=null){
+				allEntries.add(hso);
+				}
+			}
+		ObservableList<HIDSObject> data = HIDSTable.getItems();
+		int todo;
+		//For page formatting 
+		if(allEntries.size()>10){
+			todo=10;
+		}
+		else{
+			todo=allEntries.size();
+		}
+		for(int i=0;i<todo;i++){
+	    data.add(allEntries.get(i));
+		}
+		
+		this.noOfPages = (data.size()/10)+1;
+		this.pageNo = 0;
+		if(noOfPages>1){
+			btnScrollLeft.setVisible(true);
+			btnScrollRight.setVisible(true);
+		}
     }
 
     @FXML
+    void doResolve(ActionEvent event){
+    	if(HIDSTable.getSelectionModel().getSelectedIndex()>=0){
+        	int selOnes = HIDSTable.getSelectionModel().getSelectedIndex();
+        	int sel = (pageNo*10)+selOnes;
+        	
+    		allEntries.get(sel).setResolved(true);
+    		allEntries.get(sel).setResolvedSTR("YES");
+    		
+    		ObservableList<HIDSObject> data = HIDSTable.getItems();
+    		data.clear();
+    		data.addAll(allEntries);
+    		
+    		DBConnect dbc = new DBConnect();
+    		try {
+				dbc.resolveHIDS(allEntries.get(sel).getRelID(), allEntries.get(sel).getRelDir());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+        	}
+    }
+    
+    @FXML
+    void doUnresolve(ActionEvent event){
+    	if(HIDSTable.getSelectionModel().getSelectedIndex()>=0){
+        	int selOnes = HIDSTable.getSelectionModel().getSelectedIndex();
+        	int sel = (pageNo*10)+selOnes;
+        	
+    		allEntries.get(sel).setResolved(false);
+    		allEntries.get(sel).setResolvedSTR("NO");
+    		
+    		ObservableList<HIDSObject> data = HIDSTable.getItems();
+    		data.clear();
+    		data.addAll(allEntries);
+    		
+    		DBConnect dbc = new DBConnect();
+    		try {
+				dbc.unresolveHIDS(allEntries.get(sel).getRelID(), allEntries.get(sel).getRelDir());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+        	}
+    }
+    
+    @FXML
     void doScrollLeft(ActionEvent event){
-    	int minBackups;
+    	int minEntries;
     	if((this.pageNo-1)>=0){
-    	minBackups = (pageNo-1)*10;
-    	ObservableList<BackupObject> data = bmtable.getItems();
+    	minEntries = (pageNo-1)*10;
+    	ObservableList<HIDSObject> data = HIDSTable.getItems();
 		data.clear();
-    	for(int y =minBackups;y<pageNo*10;y++){
-    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getCreationDate(),allBackups.get(y).getIsBase()));
+    	for(int y =minEntries;y<pageNo*10;y++){
+    		data.add(allEntries.get(y));
     	}
     	this.pageNo=this.pageNo-1;
     	}
@@ -111,18 +173,18 @@ public class HIDSController {
     
     @FXML
     void doScrollRight(ActionEvent event){
-    	int maxBackups = allBackups.size();
-    	if(maxBackups>=noOfPages*10){
-    	maxBackups = pageNo*10;
+    	int maxEntries = allEntries.size();
+    	if(maxEntries>=noOfPages*10){
+    	maxEntries = pageNo*10;
     	}
     	else{
-    		maxBackups = allBackups.size();
+    		maxEntries = allEntries.size();
     	}
-    	if(maxBackups>=(pageNo+1)*10){
-    		ObservableList<BackupObject> data = bmtable.getItems();
+    	if(maxEntries>=(pageNo+1)*10){
+    		ObservableList<HIDSObject> data = HIDSTable.getItems();
     		data.clear();
-    	for(int y =(noOfPages-1)*10;y<maxBackups;y++){
-    		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getCreationDate(),allBackups.get(y).getIsBase()));
+    	for(int y =(noOfPages-1)*10;y<maxEntries;y++){
+    		data.add(allEntries.get(y));
     	}
     	this.pageNo=this.pageNo+1;
 
@@ -150,8 +212,6 @@ public class HIDSController {
 	private HBox userItem;
 	@FXML
 	private HBox auditItem;
-	@FXML
-	private HBox backupItem;
 	@FXML
 	private HBox settingsItem;
 	@FXML
@@ -199,8 +259,8 @@ public class HIDSController {
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #673AB7");
 		}
-		else if (event.getSource().equals(backupItem)) {
-			backupItem.setStyle("-fx-background-color: #673AB7");
+		else if (event.getSource().equals(bmItem)) {
+			bmItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(settingsItem)) {
 			settingsItem.setStyle("-fx-background-color: #673AB7");
@@ -218,8 +278,8 @@ public class HIDSController {
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #9575CD");
 		}
-		else if (event.getSource().equals(backupItem)) {
-			backupItem.setStyle("-fx-background-color: #9575CD");
+		else if (event.getSource().equals(bmItem)) {
+			bmItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(settingsItem)) {
 			settingsItem.setStyle("-fx-background-color: #9575CD");

@@ -14,6 +14,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import backupMaker.FormattedTableCellFactory?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupHIDS.HIDSController">
    <children>
@@ -274,12 +276,40 @@
                      <children>
                         <AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #222222;">
                            <children>
-                              <TableView fx:id="bmtable" layoutX="50.0" layoutY="50.0" prefHeight="500.0" prefWidth="1180.0">
+                              <TableView fx:id="HIDSTable" layoutX="50.0" layoutY="50.0" prefHeight="500.0" prefWidth="1180.0">
                                  <columns>
-                                    <TableColumn id="colRelID" prefWidth="75.0" text="Backup ID" />
-                                    <TableColumn id="colRelDir" prefWidth="105.0" text="Sub Directory" />
-                                    <TableColumn id="colMessage" prefWidth="898.0" text="Error Remarks" />
-                                    <TableColumn id="colResolve" prefWidth="100.0" text="Resolve Status" />
+                                    <TableColumn id="colRelID" prefWidth="75.0" text="Backup ID">
+                                   		<cellValueFactory>
+                							<PropertyValueFactory property="relID" />
+                						</cellValueFactory>
+                						<cellFactory>
+                							<FormattedTableCellFactory alignment="center"/>
+                						</cellFactory>
+                                    </TableColumn>
+                                    <TableColumn id="colRelDir" prefWidth="105.0" text="Sub Directory">
+                                    	<cellValueFactory>
+                							<PropertyValueFactory property="relDir" />
+                						</cellValueFactory>
+                						<cellFactory>
+                							<FormattedTableCellFactory alignment="center"/>
+                						</cellFactory>
+                                    </TableColumn>
+                                    <TableColumn id="colMessage" prefWidth="898.0" text="Error Remarks">
+                                    	<cellValueFactory>
+                							<PropertyValueFactory property="alertMessage" />
+                						</cellValueFactory>
+                						<cellFactory>
+                							<FormattedTableCellFactory alignment="center"/>
+                						</cellFactory>
+                                    </TableColumn>
+                                    <TableColumn id="colResolve" prefWidth="100.0" text="Resolve Status">
+                                    	<cellValueFactory>
+                							<PropertyValueFactory property="resolvedSTR" />
+                						</cellValueFactory>
+                						<cellFactory>
+                							<FormattedTableCellFactory alignment="center"/>
+                						</cellFactory>
+                                    </TableColumn>
                                  </columns>
             				  </TableView>
                               <JFXButton fx:id="btnScrollLeft" layoutX="1049.0" layoutY="575.0" onAction="#doScrollLeft" ripplerFill="#9a27b0" text="&lt;" textFill="#cccccc">
@@ -297,7 +327,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnUnesolve" layoutX="208.0" layoutY="577.0" onAction="#doUnresolve" ripplerFill="#9a27b0" text="Unresolve" textFill="#cccccc">
+                              <JFXButton fx:id="btnUnresolve" layoutX="208.0" layoutY="577.0" onAction="#doUnresolve" ripplerFill="#9a27b0" text="Unresolve" textFill="#cccccc">
                                  <font>
                                     <Font size="24.0" />
                                  </font>

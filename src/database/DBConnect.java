@@ -182,12 +182,29 @@ public class DBConnect {
 	}
 	
 	public void addHIDS(int relID, String relDir, String hash) throws SQLException{
-		PreparedStatement prep = con.prepareStatement("insert into HIDS(relid, relDir, sha1hash)values(?,?,?)");
+		PreparedStatement prep = con.prepareStatement("insert into HIDS(relid, relDir, sha1hash, resolved)values(?,?,?,?)");
 		prep.setInt(1, relID);
 		prep.setString(2, relDir);
 		prep.setString(3, hash);
+		prep.setBoolean(4, true);
 		
 		prep.execute();
+	}
+	
+	public void resolveHIDS(int relID, String relDir) throws SQLException{
+		PreparedStatement prep = con.prepareStatement("update HIDS SET resolved = '1' where relid = ? and relDir = ?");
+		prep.setInt(1, relID);
+		prep.setString(2, relDir);
+		
+		prep.executeUpdate();
+	}
+	
+	public void unresolveHIDS(int relID, String relDir) throws SQLException{
+		PreparedStatement prep = con.prepareStatement("update HIDS SET resolved = '0' where relid = ? and relDir = ?");
+		prep.setInt(1, relID);
+		prep.setString(2, relDir);
+		
+		prep.executeUpdate();
 	}
 	
 	public ResultSet getHashList() throws SQLException{
@@ -200,6 +217,16 @@ public class DBConnect {
 		Statement state = con.createStatement();
 		ResultSet res = state.executeQuery("select * from HIDS");
 		return res;
+	}
+	
+	public void setHIDSAlert(int relid, String relDir, String message) throws SQLException{
+		PreparedStatement prep = con.prepareStatement("update HIDS SET message = ?, resolved = ? where relid = ? and relDir = ?");
+		prep.setString(1, message);
+		prep.setBoolean(2, false);
+		prep.setInt(3, relid);
+		prep.setString(4, relDir);
+		
+		prep.executeUpdate();
 	}
 
 	 public void close(){
@@ -219,7 +246,7 @@ public class DBConnect {
 			 try{
 				 Statement state4 = con.createStatement();
 				 
-				 state4.executeUpdate("create table HIDS(id integer, sha1hash varchar(128), relid integer, reldir varchar(20), message varchar(140), boolean resolve, primary key(id))");
+				 state4.executeUpdate("create table HIDS(id integer, sha1hash varchar(128), relid integer, reldir varchar(20), message varchar(140), resolved boolean, primary key(id))");
 				 System.out.println("Made HIDS");
 			 }catch(Exception e){
 				 
