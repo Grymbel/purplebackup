@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -31,6 +32,9 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
+import zipper.AESThing;
+import zipper.KeyReader;
+import zipper.SHA1;
 
 public class BlController{
 	private File auditURL;
@@ -86,10 +90,10 @@ public class BlController{
 		    private JFXButton btnDoFindUser;
 
 		    @FXML
-		    private JFXButton btnBack;
-
-		    @FXML
 		    private JFXButton btnAccept;
+		    
+		    @FXML
+		    private JFXButton btnRecrypt;
 
 
 		private boolean openClose = false;
@@ -167,6 +171,43 @@ public class BlController{
 			}
 	    }
 
+		@FXML
+		void doRecrypt(ActionEvent event){
+			Alert alert = new Alert(AlertType.CONFIRMATION, "Recrypting backups encrypts backups with a different random key for security purposes. Proceed?", ButtonType.YES, ButtonType.NO);
+			alert.showAndWait();
+
+			if (alert.getResult() == ButtonType.YES) {
+				try {
+					AESThing aes = new AESThing();
+					DBConnect dbc = new DBConnect();
+					ResultSet res = dbc.getHIDSData();
+
+					ResultSet res2 = dbc.getHIDSData();
+					while(res.next()){
+						String todo = "src/output/"+res.getInt("relID")+"/"+res.getString("relDir")+"/"+res.getString("relDir")+".zip";
+						System.out.println(todo);
+						aes.decryptFile(new File(todo));
+						aes.writeToFile(new File(todo));
+					}
+					
+					KeyReader.genKey();
+					AESThing aes2 = new AESThing();
+					
+					while(res2.next()){
+						String todo = "src/output/"+res2.getInt("relID")+"/"+res2.getString("relDir")+"/"+res2.getString("relDir")+".zip";
+						System.out.println("Encrypting "+todo.toString());
+						aes2.encryptFile(new File(todo));
+						dbc.updateHash(res2.getInt("relID"), res2.getString("relDir"), SHA1.sha1(new File(todo)));
+					}
+					
+					
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			}
+		
 	    @FXML
 	    void doFindAudit(ActionEvent event) {
 	    	File auditTest = getDir();

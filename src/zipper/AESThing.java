@@ -5,24 +5,38 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 public class AESThing {
 	private SecretKeySpec secretKey;
 	private Cipher cipher;
 
-	public AESThing(String secret, int length, String algorithm)
-			throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException {
+	public AESThing(){
+		try{
+		String secret;
+		int length=16;
+		if(KeyReader.gotKey()){
+		secret = KeyReader.getKey();
+		}
+		else{
+			KeyReader.genKey();
+			secret = KeyReader.getKey();
+		}
+		
 		byte[] key = new byte[length];
 		key = fixSecret(secret, length);
-		this.secretKey = new SecretKeySpec(key, algorithm);
-		this.cipher = Cipher.getInstance(algorithm);
+		this.secretKey = new SecretKeySpec(key, "AES");
+		this.cipher = Cipher.getInstance("AES");
+
+		}catch(Exception e){
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	private byte[] fixSecret(String s, int length) throws UnsupportedEncodingException {
@@ -45,7 +59,7 @@ public class AESThing {
 			throws InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
 		this.cipher.init(Cipher.DECRYPT_MODE, this.secretKey);
 	}
-
+	
 	public void writeToFile(File f) throws IOException, IllegalBlockSizeException, BadPaddingException {
 		FileInputStream in = new FileInputStream(f);
 		byte[] input = new byte[(int) f.length()];
@@ -58,6 +72,13 @@ public class AESThing {
 		out.flush();
 		out.close();
 		in.close();
+	}
+	
+	public static ArrayList<String> getArchives(){
+		Zipper zip = new Zipper();
+		zip.genFileList(new File("src/output/"));
+		ArrayList<String> strings = (ArrayList<String>) zip.getFileList();
+		return strings;
 	}
 
 }

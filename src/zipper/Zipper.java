@@ -47,6 +47,10 @@ public class Zipper{
     	this.backupID=backupID;
     	this.isBase=isBase;
     }
+    
+    public Zipper(){
+    	fileList = new ArrayList<String>();
+    }
 
     public void zipUp(){
     	this.generateFileList(new File(sourceDir));
@@ -55,6 +59,7 @@ public class Zipper{
     	}
     	else{
     		this.zipIt(outputZip);
+    		System.out.println("Selective zip");
     	}
     }
     public void zipItAll(String zipFile){
@@ -79,7 +84,6 @@ public class Zipper{
 
         	in.close();
     	}
-    	System.out.println("Zip it all");
     	MDWriter mdw = new MDWriter((ArrayList<String>) fileList,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);
     	mdw.writeMD();
     	mdw.writeDelta();
@@ -87,7 +91,7 @@ public class Zipper{
     	zos.closeEntry();
     	zos.close();
     	try {
-			AESThing aes = new AESThing("!@#$MySecr3tPassw0rd", 16, "AES");
+			AESThing aes = new AESThing();
 			aes.encryptFile(new File(zipFile));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -100,7 +104,6 @@ public class Zipper{
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-    	System.out.println("Done");
     }catch(IOException ex){
        ex.printStackTrace();
     }
@@ -161,7 +164,7 @@ public class Zipper{
        	zos.close();
        	
        	try {
-			AESThing aes = new AESThing("!@#$MySecr3tPassw0rd", 16, "AES");
+			AESThing aes = new AESThing();
 			aes.encryptFile(new File(zipFile));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -200,6 +203,19 @@ public class Zipper{
 	}
 
     }
+    
+    public void genFileList(File node){
+    	if(node.isFile()){
+    		fileList.add(node.getPath().toString());
+    	}
+
+    	if(node.isDirectory()){
+    		String[] subNote = node.list();
+    		for(String filename : subNote){
+    			genFileList(new File(node, filename));
+    		}
+    	}
+        }
 
     private String generateZipEntry(String file){
     	return file.substring(sourceDir.length()+1, file.length());

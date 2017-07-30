@@ -116,18 +116,19 @@ public class BackupObject {
 		for(int i = rangeStart;i<=id;i++){
 		File node = new File("src/output/"+i+"/");
 		
-
+			System.out.println("src/output/"+i+"/");
 			String[] subNote = node.list();
 			for(String filename : subNote){
 				dirList.add(new File(node, filename).toString());
 				areas.add(filename);
 			}
 		}
-		String restDir = "src/output/"+id+"RESTORE/";
+		String restDir = "src/restored/"+id+"RESTORE/";
 		int c = 0;
 		for(String str : dirList){
 			try {				
 				String archive = getArchive(new File(str));
+				System.out.println(archive+restDir+areas.get(c));
 				Unzipper unz = new Unzipper(archive,restDir+areas.get(c));
 				c++;
 				DBConnect dbc = new DBConnect();

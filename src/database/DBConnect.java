@@ -182,7 +182,6 @@ public class DBConnect {
 	}
 	
 	public void addHIDS(int relID, String relDir, String hash) throws SQLException{
-		System.out.println("addHIDS");
 		PreparedStatement prep = con.prepareStatement("insert into HIDS(relid, relDir, sha1hash, resolved)values(?,?,?,?)");
 		prep.setInt(1, relID);
 		prep.setString(2, relDir);
@@ -190,6 +189,15 @@ public class DBConnect {
 		prep.setBoolean(4, true);
 		
 		prep.execute();
+	}
+	
+	public void updateHash(int relID, String relDir, String hash) throws SQLException{
+		PreparedStatement prep = con.prepareStatement("update HIDS SET sha1hash = ? where relid = ? and relDir = ?;");
+		prep.setString(1, hash);
+		prep.setInt(2, relID);
+		prep.setString(3, relDir);
+		
+		prep.executeUpdate();
 	}
 	
 	public void resolveHIDS(int relID, String relDir) throws SQLException{
