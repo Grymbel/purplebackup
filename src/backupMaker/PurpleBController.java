@@ -376,8 +376,6 @@ public class PurpleBController {
 	@FXML
 	private HBox auditItem;
 	@FXML
-	private HBox backupItem;
-	@FXML
 	private HBox settingsItem;
 	@FXML
 	private HBox logoutItem;
@@ -389,6 +387,8 @@ public class PurpleBController {
 	private HBox blItem;
 	@FXML
 	private HBox hidsItem;
+	@FXML
+	private HBox firewallItem;
 
 	private boolean openClose = false;
 
@@ -424,14 +424,26 @@ public class PurpleBController {
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #673AB7");
 		}
-		else if (event.getSource().equals(backupItem)) {
-			backupItem.setStyle("-fx-background-color: #673AB7");
+		else if (event.getSource().equals(bmItem)) {
+			bmItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(bsItem)) {
+			bsItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(blItem)) {
+			blItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(hidsItem)) {
+			hidsItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(settingsItem)) {
 			settingsItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(firewallItem)) {
+			firewallItem.setStyle("-fx-background-color: #673AB7");
 		}
 	}
 	
@@ -443,14 +455,26 @@ public class PurpleBController {
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #9575CD");
 		}
-		else if (event.getSource().equals(backupItem)) {
-			backupItem.setStyle("-fx-background-color: #9575CD");
+		else if (event.getSource().equals(bmItem)) {
+			bmItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(bsItem)) {
+			bsItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(blItem)) {
+			blItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(hidsItem)) {
+			hidsItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(settingsItem)) {
 			settingsItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(firewallItem)) {
+			firewallItem.setStyle("-fx-background-color: #9575CD");
 		}
 	}
 	

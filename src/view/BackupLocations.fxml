@@ -57,137 +57,7 @@
             </AnchorPane>
             <HBox layoutY="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
                <children>
-                  <AnchorPane>
-                     <children>
-                        <VBox fx:id="sidebarNav" layoutX="-240.0" prefWidth="240.0" spacing="20.0" style="-fx-background-color: #9575CD;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets top="200.0" />
-                                 </VBox.margin>
-                                 <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                       <image>
-                                          <Image url="@../images/UserManage.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="User Management" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </HBox>
-                              <HBox fx:id="firewallItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                                 <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                       <image>
-                                          <Image url="@../images/Firewall.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Firewall" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </HBox>
-                              <HBox maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                                 <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                       <image>
-                                          <Image url="@../images/Secure.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="XZ's Feature" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </HBox>
-                              <HBox fx:id="auditItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                                 <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                       <image>
-                                          <Image url="@../images/Log.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Audit Log" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </HBox>
-                              <HBox fx:id="bmItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                                 <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                       <image>
-                                          <Image url="@../images/Backup.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Maker" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </HBox>
-                              <HBox fx:id="logoutItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                                 <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                       <image>
-                                          <Image url="@../images/Logout.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Logout" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
+                  <AnchorPane />
                   <VBox minHeight="800.0" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #EDE7F6;" HBox.hgrow="ALWAYS">
                      <children>
                         <VBox VBox.vgrow="ALWAYS" />
@@ -259,7 +129,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                  <image>
-                                    <Image url="@../images/BasLogo.png" />
+                                    <Image url="@../images/UserManage.png" />
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="User Management" textAlignment="CENTER" textFill="WHITE">
@@ -272,6 +142,26 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
+                        <HBox fx:id="firewallItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                                 <children>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                       <image>
+                                          <Image url="@../images/Firewall.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Firewall" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
                         <HBox fx:id="bmItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets />
@@ -282,7 +172,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                  <image>
-                                    <Image url="@../images/BasLogo.png" />
+                                    <Image url="@../images/Backup.png" />
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Manager" textAlignment="CENTER" textFill="WHITE">
@@ -305,7 +195,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                  <image>
-                                    <Image url="@../images/BasLogo.png" />
+                                    <Image url="@../images/Backup.png" />
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Scheduler" textAlignment="CENTER" textFill="WHITE">
@@ -328,7 +218,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                  <image>
-                                    <Image url="@../images/BasLogo.png" />
+                                    <Image url="@../images/Backup.png" />
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Locations" textAlignment="CENTER" textFill="WHITE">
@@ -351,7 +241,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                  <image>
-                                    <Image url="@../images/BasLogo.png" />
+                                    <Image url="@../images/hids.png" />
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup HIDS" textAlignment="CENTER" textFill="WHITE">
@@ -371,7 +261,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                  <image>
-                                    <Image url="@../images/BasLogo.png" />
+                                    <Image url="@../images/Secure.png" />
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="XZ's Feature" textAlignment="CENTER" textFill="WHITE">
@@ -391,30 +281,10 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                  <image>
-                                    <Image url="@../images/BasLogo.png" />
+                                    <Image url="@../images/Log.png" />
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Audit Log" textAlignment="CENTER" textFill="WHITE">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </HBox>
-                        <HBox fx:id="bmItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                           <children>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                                 <image>
-                                    <Image url="@../images/BasLogo.png" />
-                                 </image>
-                              </ImageView>
-                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Maker" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -431,7 +301,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                  <image>
-                                    <Image url="@../images/BasLogo.png" />
+                                    <Image url="@../images/settings.png" />
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Settings" textAlignment="CENTER" textFill="WHITE">
@@ -451,7 +321,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                  <image>
-                                    <Image url="@../images/BasLogo.png" />
+                                    <Image url="@../images/Logout.png" />
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Logout" textAlignment="CENTER" textFill="WHITE">
