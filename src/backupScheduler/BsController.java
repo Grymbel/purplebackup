@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -34,7 +32,7 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class BsController {
+public class BsController extends StartupServices{
     @FXML
     private TextFlow sideIcon;
 	@FXML
@@ -460,15 +458,5 @@ public class BsController {
     		jfxb.setTextFill(color1);
     		jfxb.setRipplerFill(color2);
     	}
-    }
-    
-    public void bsService(){
-		ScheduleClock sch = new ScheduleClock();
-		sch.scheduleServiceFirst();
-
-    	TimerTask task = new AutoBackupProcess();
-
-    	Timer timer = new Timer();
-    	timer.schedule(task, 1000, 30000);
     }
 }
