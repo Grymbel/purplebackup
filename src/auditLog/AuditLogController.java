@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -38,8 +39,15 @@ public class AuditLogController {
 	private HBox backupItem;
 	@FXML
 	private HBox logoutItem;
+	@FXML
+	private TableView auditTable;
 	
 	//private boolean openClose = false;
+	
+	@FXML
+	public void initialize() {
+		
+	}
 
 	@FXML
 	public void showSidebar(MouseEvent event) {
