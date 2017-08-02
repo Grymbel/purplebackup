@@ -12,7 +12,7 @@ public class PurpleboardApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Parent root;
-		root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
+		root = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.getIcons().add(new Image("/images/BasLogo.png"));

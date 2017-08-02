@@ -10,8 +10,11 @@ import com.jfoenix.controls.JFXListView;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -51,11 +54,11 @@ public class AuditLogController {
 	private JFXListView<HBox> logListView;
 	
 	//private boolean openClose = false;
-	String string = null;
+	final ObservableList observableList = FXCollections.observableArrayList();
 	@FXML
 	public void initialize() {
 		ArrayList<AuditLogModel> dataList = AuditLogModel.getAllData();
-		Collections.reverse(dataList);
+		
 		for (AuditLogModel aLM : dataList) {
 			HBox hWrap = new HBox();
 			Label dateTimeLbl = new Label(aLM.getDateTime());
@@ -75,6 +78,8 @@ public class AuditLogController {
 			userActLbl.setPrefHeight(10);
 			userActLbl.setAlignment(Pos.CENTER);
 			userActLbl.setFont(new Font("System", 18));
+			//hWrap.setStyle("-fx-border-color: black");
+			HBox.setMargin(dateTimeLbl, new Insets(15,0,0,0));
 			
 			vWrap.getChildren().add(userActLbl);
 			vWrap.getChildren().add(ipLbl);
@@ -82,6 +87,12 @@ public class AuditLogController {
 			hWrap.getChildren().add(vWrap);
 			logListView.getItems().add(hWrap);
 			
+			if (aLM.getActivity().equals("Attempted cross-site scripting")) {
+				//hWrap.setStyle("-fx-border-color: red");
+				dateTimeLbl.setStyle("-fx-text-fill: red");
+				ipLbl.setStyle("-fx-text-fill: red");
+				userActLbl.setStyle("-fx-text-fill: red");
+			}
 		}
 	}
 
