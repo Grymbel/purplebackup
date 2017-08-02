@@ -42,7 +42,7 @@ public class LoginDAO {
 	}
 	
 	public LoginModel getAdmin(String username) {
-		ArrayList<LoginModel> dataList = new ArrayList<LoginModel>();
+		ArrayList<LoginModel> dataList = getAllData();
 		LoginModel loginModel = null;
 		for (LoginModel l : dataList) {
 			if (l.getUsername().equals(username)) {
@@ -69,7 +69,7 @@ public class LoginDAO {
 	}
 	
 	public void updateAdmin(LoginModel loginModel) {
-		ArrayList<LoginModel> dataList = new ArrayList<LoginModel>();
+		ArrayList<LoginModel> dataList = getAllData();
 		for (int i = 0; i < dataList.size(); i++) {
 			LoginModel l = dataList.get(i);
 			if (l.getUsername().equals(loginModel.getUsername())) {
@@ -81,11 +81,19 @@ public class LoginDAO {
 	
 	public static void main(String[] args) {
 		LoginDAO loginDAO = new LoginDAO();
+		/*
 		ArrayList<LoginModel> dataList = loginDAO.getAllData();
 		for (LoginModel loginModel : dataList) {
 			System.out.println("Username: " + loginModel.getUsername());
 			System.out.println("Password: " + loginModel.getPassword());
 			System.out.println("Salt: " + loginModel.getSalt());
 		}
+		*/
+		LoginModel loginModel = loginDAO.getAdmin("Admin");
+		loginModel.setPassword("Administrator");
+		loginDAO.updateAdmin(loginModel);
+		System.out.println("Username: " + loginModel.getUsername());
+		System.out.println("Password: " + loginModel.getPassword());
+		System.out.println("Salt: " + loginModel.getSalt());
 	}
 }

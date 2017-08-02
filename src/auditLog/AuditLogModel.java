@@ -1,6 +1,9 @@
 package auditLog;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Stack;
 
 public class AuditLogModel {
 	private String dateTime;
@@ -68,6 +71,17 @@ public class AuditLogModel {
 		setIpAddress(aLM.getIpAddress());
 		setUsername(aLM.getUsername());
 		setActivity(aLM.getActivity());
+	}
+	
+	public static void main(String [] args) {
+		Stack<AuditLogModel> S1 = new Stack<AuditLogModel>();
+		ArrayList<AuditLogModel> dataList = AuditLogModel.getAllData();
+		Collections.reverse(dataList);
+		for (AuditLogModel aLM : dataList) {
+			String dateTime = aLM.getDateTime();
+			System.out.println(dateTime);
+		}
+		
 	}
 	
 }

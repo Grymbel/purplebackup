@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AuditLogDAO {
-	private static File dataFile;
+	private File dataFile;
 	
 	public AuditLogDAO() {
-		Path dPath = FileSystems.getDefault().getPath("");
+		Path dPath = FileSystems.getDefault().getPath("Log4j2Log.log");
 		dataFile = new File(dPath.toString()); 
 	}
 	
@@ -41,7 +41,7 @@ public class AuditLogDAO {
 	}
 	
 	public AuditLogModel getData(String dateTime) {
-		ArrayList<AuditLogModel> dataList = new ArrayList<AuditLogModel>();
+		ArrayList<AuditLogModel> dataList = getAllData();
 		AuditLogModel aLM = null;
 		for (AuditLogModel a : dataList) {
 			if (a.getDateTime().equals(dateTime)) {
@@ -50,5 +50,16 @@ public class AuditLogDAO {
 			}
 		}
 		return aLM;
+	}
+	
+	public static void main(String [] args) {
+		AuditLogDAO dao = new AuditLogDAO();
+		ArrayList<AuditLogModel> dataList = dao.getAllData();
+		for (AuditLogModel model : dataList) {
+			System.out.println("Date & Time: " + model.getDateTime());
+			System.out.println("IP Address: " + model.getIpAddress());
+			System.out.println("Username: " + model.getUsername());
+			System.out.println("Activity: " + model.getActivity());
+		}
 	}
 }

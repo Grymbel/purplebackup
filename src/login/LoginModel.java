@@ -81,11 +81,14 @@ public class LoginModel {
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {
+		/*
 		LoginModel loginModel = new LoginModel();
 		loginModel.getCurrentAdmin();
 		loginModel.setPassword("Admin");
 		loginModel.setSalt("Salt");
 		loginModel.updateAdmin();
+		*/
+		
 	}
 
 }

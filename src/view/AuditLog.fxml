@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -225,14 +224,16 @@
                         <Insets />
                      </VBox.margin>
                      <children>
-                        <TableView fx:id="auditTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
-                          <columns>
-                            <TableColumn prefWidth="330.0" resizable="false" text="Date &amp; Time" />
-                            <TableColumn prefWidth="330.0" resizable="false" text="IP Address" />
-                              <TableColumn prefWidth="330.0" resizable="false" text="Username" />
-                              <TableColumn prefWidth="330.0" resizable="false" text="Activity" />
-                          </columns>
-                        </TableView>
+                        <TextFlow prefHeight="70.0" prefWidth="200.0" textAlignment="CENTER" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label prefHeight="70.0" prefWidth="200.0" text="Audit Log" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </TextFlow>
+                        <JFXListView fx:id="logListView" layoutX="300.0" layoutY="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="70.0" />
                      </children>
                   </AnchorPane>
                </children>

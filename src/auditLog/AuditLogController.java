@@ -1,20 +1,28 @@
 package auditLog;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Stack;
+
+import com.jfoenix.controls.JFXListView;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -40,13 +48,41 @@ public class AuditLogController {
 	@FXML
 	private HBox logoutItem;
 	@FXML
-	private TableView auditTable;
+	private JFXListView<HBox> logListView;
 	
 	//private boolean openClose = false;
-	
+	String string = null;
 	@FXML
 	public void initialize() {
-		
+		ArrayList<AuditLogModel> dataList = AuditLogModel.getAllData();
+		Collections.reverse(dataList);
+		for (AuditLogModel aLM : dataList) {
+			HBox hWrap = new HBox();
+			Label dateTimeLbl = new Label(aLM.getDateTime());
+			VBox vWrap = new VBox();
+			Label ipLbl = new Label(aLM.getIpAddress());
+			Label userActLbl = new Label(aLM.getUsername() + " " + aLM.getActivity());
+			
+			dateTimeLbl.setPrefWidth(600);
+			dateTimeLbl.setPrefHeight(10);
+			dateTimeLbl.setAlignment(Pos.CENTER);
+			dateTimeLbl.setFont(new Font("System", 18));
+			ipLbl.setPrefWidth(660);
+			ipLbl.setPrefHeight(10);
+			ipLbl.setAlignment(Pos.CENTER);
+			ipLbl.setFont(new Font("System", 18));
+			userActLbl.setPrefWidth(660);
+			userActLbl.setPrefHeight(10);
+			userActLbl.setAlignment(Pos.CENTER);
+			userActLbl.setFont(new Font("System", 18));
+			
+			vWrap.getChildren().add(userActLbl);
+			vWrap.getChildren().add(ipLbl);
+			hWrap.getChildren().add(dateTimeLbl);
+			hWrap.getChildren().add(vWrap);
+			logListView.getItems().add(hWrap);
+			
+		}
 	}
 
 	@FXML
