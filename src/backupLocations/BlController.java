@@ -41,6 +41,7 @@ public class BlController{
 	private File cloudURL;
 	private File userURL;
 	private File webURL;
+	private File restoreURL;
 
 	private Window scene;
 	 	@FXML
@@ -78,6 +79,9 @@ public class BlController{
 
 		    @FXML
 		    private JFXTextArea taUser;
+		    
+		    @FXML
+		    private JFXTextArea taRestore;
 
 		    @FXML
 		    private JFXButton btnFindAudit;
@@ -90,6 +94,9 @@ public class BlController{
 
 		    @FXML
 		    private JFXButton btnDoFindUser;
+		    
+		    @FXML
+		    private JFXButton btnDoFindRestore;
 
 		    @FXML
 		    private JFXButton btnAccept;
@@ -118,6 +125,9 @@ public class BlController{
 				if(test.equals("cloud")){
 					this.cloudURL=new File(res.getString("target"));
 				}
+				if(test.equals("restore")){
+					this.restoreURL=new File(res.getString("target"));
+				}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -127,8 +137,30 @@ public class BlController{
 			taCloud.setText(cloudURL.toString());
 			taUser.setText(userURL.toString());
 			taWeb.setText(webURL.toString());
+			taRestore.setText(restoreURL.toString());
 			
 			dbc.close();
+		}
+		
+		@FXML
+		void doSetRestore(ActionEvent event){
+			if(nonNullCheck(restoreURL)){
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Error");
+				alert.setHeaderText("Null values");
+				alert.setContentText("Spaces and file locations cannot be left empty");
+	
+				alert.showAndWait();
+			}
+			else{
+				DBConnect dbc = new DBConnect();
+				try {
+					dbc.setFileLocation("restore", restoreURL.toString());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		@FXML
 	    void doAccept(ActionEvent event) {
@@ -138,10 +170,10 @@ public class BlController{
 			nonNullCheck(cloudURL)||
 			nonNullCheck(userURL)){
 				
-				Alert alert = new Alert(AlertType.ERROR);
+				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Error");
 				alert.setHeaderText("Null values");
-				alert.setContentText("Spaces cannot be left null");
+				alert.setContentText("Spaces and file locations cannot be left empty");
 	
 				alert.showAndWait();
 			}
@@ -154,7 +186,7 @@ public class BlController{
 					dbc.setFileLocation("web", webURL.toString());
 					dbc.setFileLocation("cloud", cloudURL.toString());
 					
-					Alert alert = new Alert(AlertType.ERROR);
+					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Success");
 					alert.setHeaderText("Success");
 					alert.setContentText("Success");
@@ -212,35 +244,57 @@ public class BlController{
 		
 	    @FXML
 	    void doFindAudit(ActionEvent event) {
+	    	try{
 	    	File auditTest = getDir();
 	    	this.auditURL = auditTest;
 	    	taAudit.setText(auditTest.toString());
+	    	}catch(NullPointerException e){
+	    		
+	    	}
 	    }
 
 	    @FXML
 	    void doFindCloud(ActionEvent event) {
+	    	try{
 	    	File cloudTest = getDir();
 	    	this.cloudURL = cloudTest;
 	    	taCloud.setText(cloudTest.toString());
+	    }catch(NullPointerException e){
+    		
+    	}
 	    }
 
 	    @FXML
 	    void doFindWeb(ActionEvent event) {
+	    	try{
 	    	File webTest = getDir();
 	    	this.webURL=webTest;
 	    	taWeb.setText(webTest.toString());
+	    }catch(NullPointerException e){
+    		
+    	}
 	    }
 
 	    @FXML
 	    void doFindUser(ActionEvent event) {
+	    try{
 	    	File userTest = getDir();
 	    	this.userURL=userTest;
 	    	taUser.setText(userTest.toString());
+	    }catch(NullPointerException e){
+    		
+    	}
 	    }
-
+	    
 	    @FXML
-	    void gotoBack(ActionEvent event) {
-
+	    void doFindRestore(ActionEvent event) {
+	    	try{
+	    	File restoreTest = getDir();
+	    	this.restoreURL=restoreTest;
+	    	taRestore.setText(restoreTest.toString());
+	    	}catch(NullPointerException e){
+	    		
+	    	}
 	    }
 	    
 	    public File getDir(){

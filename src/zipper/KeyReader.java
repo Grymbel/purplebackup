@@ -68,7 +68,6 @@ public static void genKey() {
         salt.append(chars.charAt(index));
     }
     String saltStr = salt.toString();
-    System.out.println(saltStr);
     
     try {
 		FileWriter fw = new FileWriter("src/zipper/the.key");

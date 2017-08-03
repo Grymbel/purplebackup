@@ -104,10 +104,18 @@ public class DBConnect {
 		 return res;
 	 }
 	 
+	 public String getRestorePath() throws SQLException{
+		 Statement state = con.createStatement();
+		 ResultSet res = state.executeQuery("select * from fileLocation where reldir ='restore';");
+		 return res.getString("target");
+	 }
+	 
 	 public void setFileLocation(String relDir, String fileURL) throws SQLException{
 		 System.out.println(fileURL);
-		 Statement state = con.createStatement();
-		 state.executeUpdate("update fileLocation set target = '"+fileURL+"' where relDir = '"+relDir+"';");
+		 PreparedStatement state = con.prepareStatement("update fileLocation set target = '?' where relDir = '?';");
+		 state.setString(1, relDir);
+		 state.setString(2, fileURL);
+		 state.execute();
 	 }
 	 public void addFileDelta(int backupID, String deltaAction, String fileLine, String fileDigest, String targetDir) throws SQLException{
 		 PreparedStatement prep = con.prepareStatement("insert into fileDelta(backupID, deltaAction, fileLine, fileDigest, targetDir) values (?,?,?,?,?)");
@@ -327,11 +335,6 @@ public class DBConnect {
 				 try{
 				  state5.executeUpdate("create table fileLocation(id integer, relDir varchar(16), target varchar(200), primary key(id))");
 				  
-				  System.out.println("Made fileLocation");
-				 }
-				 catch(Exception e){
-				 }
-				  
 				  PreparedStatement prep = con.prepareStatement("insert into fileLocation(relDir, target) values(?,?);");
 
 				  prep.setString(1,"audit");
@@ -349,6 +352,15 @@ public class DBConnect {
 				  prep.setString(1,"web");
 				  prep.setString(2,"src/sampleTarget/webTarget0");
 				  prep.execute();
+				  
+				  prep.setString(1,"restore");
+				  prep.setString(2,"src/restore");
+				  prep.execute();
+				  
+				  System.out.println("Made fileLocation");
+				 }
+				 catch(Exception e){
+				 }
 				 }
 				 catch(SQLiteException s){
 					 s.printStackTrace();
