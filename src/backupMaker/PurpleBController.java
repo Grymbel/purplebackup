@@ -139,7 +139,6 @@ public class PurpleBController {
 			btnScrollRight.setVisible(true);
 		}
 		
-		HIDSService.doHIDS();
     }
     
     @FXML

@@ -41,13 +41,10 @@ public class HomePageController{
 	//private int clickCount = 0;
 	public void initialize(){
 		DBLocker.unlockDB();
-		doStartupServices();
-	}
-	
-	public void doStartupServices(){
 		HIDSService.doHIDS();
 		TimerAccess.startTimer();
 	}
+
 	@FXML
 	public void changePage(MouseEvent event) throws IOException {
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();

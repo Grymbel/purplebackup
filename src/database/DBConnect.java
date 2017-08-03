@@ -27,6 +27,7 @@ public class DBConnect {
 	 }
 	 
 	 public DBConnect(){
+		 System.out.println("Opening DBConnect");
 		 try {
 			getConnection();
 		} catch (ClassNotFoundException e) {

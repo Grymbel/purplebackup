@@ -48,7 +48,7 @@ public class HIDSService {
     		alert.setHeaderText("A new base backup is advised");
     		alert.setContentText(toAlert);
 
-    		alert.showAndWait();
+    		alert.show();
 		}
 	}
 }
