@@ -8,8 +8,6 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 
-import backupHIDS.HIDSService;
-import backupScheduler.StartupServices;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
@@ -27,7 +25,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class LoginController extends StartupServices{
+public class LoginController{
 	@FXML
 	private JFXTextField userID;
 	
@@ -44,11 +42,6 @@ public class LoginController extends StartupServices{
 	@FXML
 	//Visibility = false
 	private JFXSpinner loginSpinner;
-	
-	public void doStartupServices(){
-		HIDSService.doHIDS();
-		bsService();
-	}
 	
 	@FXML
 	public void initialize() {
@@ -109,7 +102,6 @@ public class LoginController extends StartupServices{
 						Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 						Parent root = null;
 						try {
-							doStartupServices();
 							root = (Parent)FXMLLoader.load(getClass().getResource("../view/HomePage.fxml"));
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -179,7 +171,6 @@ public class LoginController extends StartupServices{
 							Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 							Parent root = null;
 							try {
-								doStartupServices();
 								root = (Parent)FXMLLoader.load(getClass().getResource("../view/HomePage.fxml"));
 							} catch (IOException e) {
 								e.printStackTrace();

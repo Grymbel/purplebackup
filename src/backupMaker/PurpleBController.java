@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
 import backupHIDS.HIDSService;
+import backupScheduler.TimerAccess;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -34,6 +35,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
+import zipper.DBLocker;
 
 public class PurpleBController {
 	
@@ -506,6 +508,8 @@ public class PurpleBController {
 			root = FXMLLoader.load(getClass().getResource("../view/"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
+			DBLocker.lockDB();
+			TimerAccess.closeTime();
 			stage.setX(450);
 			stage.setY(128);
 			stage.setWidth(1020);

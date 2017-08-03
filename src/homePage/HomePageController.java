@@ -1,7 +1,8 @@
 package homePage;
 
 import java.io.IOException;
-
+import backupHIDS.HIDSService;
+import backupScheduler.TimerAccess;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -10,14 +11,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import zipper.DBLocker;
 
-public class HomePageController {
+public class HomePageController{
 	@FXML
 	private VBox navMenu;
 	@FXML
@@ -38,7 +39,15 @@ public class HomePageController {
 	private TextFlow header;
 	
 	//private int clickCount = 0;
+	public void initialize(){
+		DBLocker.unlockDB();
+		doStartupServices();
+	}
 	
+	public void doStartupServices(){
+		HIDSService.doHIDS();
+		TimerAccess.startTimer();
+	}
 	@FXML
 	public void changePage(MouseEvent event) throws IOException {
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
