@@ -7,18 +7,18 @@ import java.util.Scanner;
 
 public class LoginModel {
 	private String username;
-	private String password;
 	private String salt;
+	private String password;
 	
 	public LoginModel() {
 		super();
 	}
 
-	public LoginModel(String username, String password, String salt) {
+	public LoginModel(String username, String salt, String password) {
 		super();
 		this.username = username;
-		this.password = password;
 		this.salt = salt;
+		this.password = password;
 	}
 
 	public String getUsername() {
@@ -47,7 +47,7 @@ public class LoginModel {
 	
 	@Override
 	public String toString() {
-		return username + ";" + password + ";" + salt;
+		return username + ";" + salt + ";" + password;
 	}
 	
 	public static ArrayList<LoginModel> getAllData() {
@@ -58,8 +58,8 @@ public class LoginModel {
 	public void getData() {
 		LoginDAO loginDAO = new LoginDAO();
 		LoginModel loginModel = loginDAO.getAdmin(username);
-		setPassword(loginModel.getPassword());
 		setSalt(loginModel.getSalt());
+		setPassword(loginModel.getPassword());
 	}
 	
 	public void updateAdmin() {
@@ -81,13 +81,6 @@ public class LoginModel {
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		/*
-		LoginModel loginModel = new LoginModel();
-		loginModel.getCurrentAdmin();
-		loginModel.setPassword("Admin");
-		loginModel.setSalt("Salt");
-		loginModel.updateAdmin();
-		*/
 		
 	}
 

@@ -1,6 +1,7 @@
 package login;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -69,6 +70,20 @@ public class LoginController extends StartupServices{
 	public void goToHomePage(ActionEvent event) {
 		String Username = userID.getText();
 		String Password = passID.getText();
+		String storedUsername = null;
+		String storedSalt = null;
+		String storedPassword = null;
+		HashPass HP = new HashPass();
+		
+		ArrayList<LoginModel> list = LoginModel.getAllData();
+		for (LoginModel model : list) {
+			storedUsername = model.getUsername();
+			storedSalt = model.getSalt();
+			storedPassword = model.getPassword();
+		}
+		
+		byte [] decodedSalt = HP.getDecodedSalt(storedSalt);
+		String hashedPassword = HP.getHashedPassword(Password, decodedSalt);
 		
 		if (Username.equals(null) || Username.equals("")) {
 			errorMessage.setVisible(true);
@@ -81,7 +96,7 @@ public class LoginController extends StartupServices{
 			System.out.println("Password is null");
 		}
 		else {
-			if (Username.equals("Admin") && Password.equals("Admin")) {
+			if (Username.equals(storedUsername) && hashedPassword.equals(storedPassword)) {
 				System.out.println("Username and Password is correct");
 				btnLogin.setDisable(true);
 				btnLogin.setVisible(false);
@@ -125,6 +140,20 @@ public class LoginController extends StartupServices{
 		if (event.getCode().getName().equals("Enter")) {
 			String Username = userID.getText();
 			String Password = passID.getText();
+			String storedUsername = null;
+			String storedSalt = null;
+			String storedPassword = null;
+			HashPass HP = new HashPass();
+			
+			ArrayList<LoginModel> list = LoginModel.getAllData();
+			for (LoginModel model : list) {
+				storedUsername = model.getUsername();
+				storedSalt = model.getSalt();
+				storedPassword = model.getPassword();
+			}
+			
+			byte [] decodedSalt = HP.getDecodedSalt(storedSalt);
+			String hashedPassword = HP.getHashedPassword(Password, decodedSalt);
 			
 			if (Username.equals(null) || Username.equals("")) {
 				errorMessage.setVisible(true);
@@ -137,7 +166,7 @@ public class LoginController extends StartupServices{
 				System.out.println("Password is null");
 			}
 			else {
-				if (Username.equals("Admin") && Password.equals("Admin")) {
+				if (Username.equals(storedUsername) && hashedPassword.equals(storedPassword)) {
 					System.out.println("Username and Password is correct");
 					btnLogin.setDisable(true);
 					btnLogin.setVisible(false);

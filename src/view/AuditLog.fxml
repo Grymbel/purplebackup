@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
@@ -224,15 +225,30 @@
                         <Insets />
                      </VBox.margin>
                      <children>
-                        <TextFlow prefHeight="70.0" prefWidth="200.0" textAlignment="CENTER" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="0.0">
+                        <HBox layoutX="300.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label prefHeight="70.0" prefWidth="200.0" text="Audit Log" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="36.0" />
-                                 </font>
-                              </Label>
+                              <TextFlow prefHeight="70.0" prefWidth="200.0" textAlignment="CENTER">
+                                 <children>
+                                    <Label prefHeight="70.0" prefWidth="200.0" text="Audit Log" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="36.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </TextFlow>
+                              <HBox alignment="CENTER_RIGHT" prefHeight="70.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label prefWidth="100.0" text="Filter by: ">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXComboBox fx:id="cherStud" onAction="#comboSelect" prefHeight="35.0" prefWidth="150.0" />
+                                    <JFXComboBox fx:id="normSusp" onAction="#comboSelect" prefHeight="35.0" prefWidth="150.0" />
+                                 </children>
+                              </HBox>
                            </children>
-                        </TextFlow>
+                        </HBox>
                         <JFXListView fx:id="logListView" layoutX="300.0" layoutY="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="70.0" />
                      </children>
                   </AnchorPane>

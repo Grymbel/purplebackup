@@ -28,9 +28,9 @@ public class LoginDAO {
 				record = in.nextLine();
 				fields = record.split(";");
 				String username = fields[0];
-				String password = fields[1];
-				String salt = fields[2];
-				LoginModel loginModel = new LoginModel(username, password, salt);
+				String salt = fields[1];
+				String password = fields[2];
+				LoginModel loginModel = new LoginModel(username, salt, password);
 				dataList.add(loginModel);
 			}
 			in.close();
