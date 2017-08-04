@@ -20,40 +20,13 @@ public class WhiteBlackListDAO {
 		file = new File(filePath);
 	}
 	
-	public ArrayList<String> getWhiteListArray() throws FileNotFoundException{
-		ArrayList<String> whiteListArray = new ArrayList<String>();
-		Scanner sc = new Scanner(file);
-		sc.useDelimiter(",");
-		if(sc.hasNext()){
-			String line = sc.next();
-			Scanner sc2 = new Scanner(line);
-			sc2.useDelimiter(">");
-			while(sc2.hasNext()){
-				String line2 = sc2.next(); 
-				whiteListArray.add(line2);
-			}
-			sc2.close();
-		}
-		sc.close();
-		return whiteListArray;
-	}
-	
 	public ArrayList<String> getBlackListArray() throws FileNotFoundException{
 		ArrayList<String> blackListArray = new ArrayList<String>();
 		Scanner sc = new Scanner(file);
 		sc.useDelimiter(",");
 		if(sc.hasNext()){
-			sc.next();
-			if(sc.hasNext()){
-				String line = sc.next();
-				Scanner sc2 = new Scanner(line);
-				sc2.useDelimiter(">");
-				while(sc2.hasNext()){
-					String line2 = sc2.next();
-					blackListArray.add(line2);
-				}
-				sc2.close();
-			}
+			String line = sc.next();
+			blackListArray.add(line);
 		}
 		sc.close();
 		return blackListArray;
