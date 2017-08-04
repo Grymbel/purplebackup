@@ -112,10 +112,10 @@ public class DBConnect {
 	 }
 	 
 	 public void setFileLocation(String relDir, String fileURL) throws SQLException{
-		 System.out.println(fileURL);
-		 PreparedStatement state = con.prepareStatement("update fileLocation set target = '?' where relDir = '?';");
-		 state.setString(1, relDir);
-		 state.setString(2, fileURL);
+		 System.out.println(relDir+"|"+fileURL);
+		 PreparedStatement state = con.prepareStatement("update fileLocation set target = ? where relDir = ?;");
+		 state.setString(1, fileURL);
+		 state.setString(2, relDir);
 		 state.execute();
 	 }
 	 public void addFileDelta(int backupID, String deltaAction, String fileLine, String fileDigest, String targetDir) throws SQLException{

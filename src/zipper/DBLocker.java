@@ -40,8 +40,6 @@ public class DBLocker {
 			boolean errorless = true;
 			try {
 				aes.decryptFile(new File("purplebackups.db"));
-				
-				System.out.println("Unlocked DB");
 			} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException e) {
 				errorless=false;
 				e.printStackTrace();
@@ -49,6 +47,7 @@ public class DBLocker {
 			if(errorless){
 			aes.writeToFile(new File("purplebackups.db"));
 			}
+			System.out.println("Unlocked DB");
 		} catch (IOException | IllegalBlockSizeException | BadPaddingException e) {
 			e.printStackTrace();
 		}
