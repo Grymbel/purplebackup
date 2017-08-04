@@ -11,6 +11,7 @@ import java.util.Set;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 
+import backupScheduler.TimerAccess;
 import database.DBConnect;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -23,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -31,12 +33,17 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
+import zipper.AESThing;
+import zipper.DBLocker;
+import zipper.KeyReader;
+import zipper.SHA1;
 
 public class BlController{
 	private File auditURL;
 	private File cloudURL;
 	private File userURL;
 	private File webURL;
+	private File restoreURL;
 
 	private Window scene;
 	 	@FXML
@@ -61,6 +68,8 @@ public class BlController{
 		private HBox blItem;
 		@FXML
 		private HBox hidsItem;
+		@FXML
+		private HBox firewallItem;
 		  @FXML
 		    private JFXTextArea taAudit;
 
@@ -72,6 +81,9 @@ public class BlController{
 
 		    @FXML
 		    private JFXTextArea taUser;
+		    
+		    @FXML
+		    private JFXTextArea taRestore;
 
 		    @FXML
 		    private JFXButton btnFindAudit;
@@ -84,12 +96,15 @@ public class BlController{
 
 		    @FXML
 		    private JFXButton btnDoFindUser;
-
+		    
 		    @FXML
-		    private JFXButton btnBack;
+		    private JFXButton btnDoFindRestore;
 
 		    @FXML
 		    private JFXButton btnAccept;
+		    
+		    @FXML
+		    private JFXButton btnRecrypt;
 
 
 		private boolean openClose = false;
@@ -112,6 +127,9 @@ public class BlController{
 				if(test.equals("cloud")){
 					this.cloudURL=new File(res.getString("target"));
 				}
+				if(test.equals("restore")){
+					this.restoreURL=new File(res.getString("target"));
+				}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -121,8 +139,30 @@ public class BlController{
 			taCloud.setText(cloudURL.toString());
 			taUser.setText(userURL.toString());
 			taWeb.setText(webURL.toString());
+			taRestore.setText(restoreURL.toString());
 			
 			dbc.close();
+		}
+		
+		@FXML
+		void doSetRestore(ActionEvent event){
+			if(nonNullCheck(restoreURL)){
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Error");
+				alert.setHeaderText("Null values");
+				alert.setContentText("Spaces and file locations cannot be left empty");
+	
+				alert.showAndWait();
+			}
+			else{
+				DBConnect dbc = new DBConnect();
+				try {
+					dbc.setFileLocation("restore", restoreURL.toString());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		@FXML
 	    void doAccept(ActionEvent event) {
@@ -132,10 +172,10 @@ public class BlController{
 			nonNullCheck(cloudURL)||
 			nonNullCheck(userURL)){
 				
-				Alert alert = new Alert(AlertType.ERROR);
+				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Error");
 				alert.setHeaderText("Null values");
-				alert.setContentText("Spaces cannot be left null");
+				alert.setContentText("Spaces and file locations cannot be left empty");
 	
 				alert.showAndWait();
 			}
@@ -148,7 +188,7 @@ public class BlController{
 					dbc.setFileLocation("web", webURL.toString());
 					dbc.setFileLocation("cloud", cloudURL.toString());
 					
-					Alert alert = new Alert(AlertType.ERROR);
+					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Success");
 					alert.setHeaderText("Success");
 					alert.setContentText("Success");
@@ -167,37 +207,96 @@ public class BlController{
 			}
 	    }
 
+		@FXML
+		void doRecrypt(ActionEvent event){
+			Alert alert = new Alert(AlertType.CONFIRMATION, "Recrypting backups encrypts backups with a different random key for security purposes. Proceed?", ButtonType.YES, ButtonType.NO);
+			alert.showAndWait();
+
+			if (alert.getResult() == ButtonType.YES) {
+				try {
+					AESThing aes = new AESThing();
+					DBConnect dbc = new DBConnect();
+					ResultSet res = dbc.getHIDSData();
+
+					ResultSet res2 = dbc.getHIDSData();
+					while(res.next()){
+						String todo = "src/output/"+res.getInt("relID")+"/"+res.getString("relDir")+"/"+res.getString("relDir")+".zip";
+						System.out.println(todo);
+						aes.decryptFile(new File(todo));
+						aes.writeToFile(new File(todo));
+					}
+					
+					KeyReader.genKey();
+					AESThing aes2 = new AESThing();
+					
+					while(res2.next()){
+						String todo = "src/output/"+res2.getInt("relID")+"/"+res2.getString("relDir")+"/"+res2.getString("relDir")+".zip";
+						System.out.println("Encrypting "+todo.toString());
+						aes2.encryptFile(new File(todo));
+						dbc.updateHash(res2.getInt("relID"), res2.getString("relDir"), SHA1.sha1(new File(todo)));
+					}
+					
+					
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			}
+		
 	    @FXML
 	    void doFindAudit(ActionEvent event) {
+	    	try{
 	    	File auditTest = getDir();
 	    	this.auditURL = auditTest;
 	    	taAudit.setText(auditTest.toString());
+	    	}catch(NullPointerException e){
+	    		
+	    	}
 	    }
 
 	    @FXML
 	    void doFindCloud(ActionEvent event) {
+	    	try{
 	    	File cloudTest = getDir();
 	    	this.cloudURL = cloudTest;
 	    	taCloud.setText(cloudTest.toString());
+	    }catch(NullPointerException e){
+    		
+    	}
 	    }
 
 	    @FXML
 	    void doFindWeb(ActionEvent event) {
+	    	try{
 	    	File webTest = getDir();
 	    	this.webURL=webTest;
 	    	taWeb.setText(webTest.toString());
+	    }catch(NullPointerException e){
+    		
+    	}
 	    }
 
 	    @FXML
 	    void doFindUser(ActionEvent event) {
+	    try{
 	    	File userTest = getDir();
 	    	this.userURL=userTest;
 	    	taUser.setText(userTest.toString());
+	    }catch(NullPointerException e){
+    		
+    	}
 	    }
-
+	    
 	    @FXML
-	    void gotoBack(ActionEvent event) {
-
+	    void doFindRestore(ActionEvent event) {
+	    	try{
+	    	File restoreTest = getDir();
+	    	this.restoreURL=restoreTest;
+	    	taRestore.setText(restoreTest.toString());
+	    	}catch(NullPointerException e){
+	    		
+	    	}
 	    }
 	    
 	    public File getDir(){
@@ -266,14 +365,26 @@ public class BlController{
 			else if (event.getSource().equals(auditItem)) {
 				auditItem.setStyle("-fx-background-color: #673AB7");
 			}
-			else if (event.getSource().equals(backupItem)) {
-				backupItem.setStyle("-fx-background-color: #673AB7");
+			else if (event.getSource().equals(bmItem)) {
+				bmItem.setStyle("-fx-background-color: #673AB7");
+			}
+			else if (event.getSource().equals(bsItem)) {
+				bsItem.setStyle("-fx-background-color: #673AB7");
+			}
+			else if (event.getSource().equals(blItem)) {
+				blItem.setStyle("-fx-background-color: #673AB7");
+			}
+			else if (event.getSource().equals(hidsItem)) {
+				hidsItem.setStyle("-fx-background-color: #673AB7");
 			}
 			else if (event.getSource().equals(settingsItem)) {
 				settingsItem.setStyle("-fx-background-color: #673AB7");
 			}
 			else if (event.getSource().equals(logoutItem)) {
 				logoutItem.setStyle("-fx-background-color: #673AB7");
+			}
+			else if (event.getSource().equals(firewallItem)) {
+				firewallItem.setStyle("-fx-background-color: #673AB7");
 			}
 		}
 		
@@ -285,14 +396,26 @@ public class BlController{
 			else if (event.getSource().equals(auditItem)) {
 				auditItem.setStyle("-fx-background-color: #9575CD");
 			}
-			else if (event.getSource().equals(backupItem)) {
-				backupItem.setStyle("-fx-background-color: #9575CD");
+			else if (event.getSource().equals(bmItem)) {
+				bmItem.setStyle("-fx-background-color: #9575CD");
+			}
+			else if (event.getSource().equals(bsItem)) {
+				bsItem.setStyle("-fx-background-color: #9575CD");
+			}
+			else if (event.getSource().equals(blItem)) {
+				blItem.setStyle("-fx-background-color: #9575CD");
+			}
+			else if (event.getSource().equals(hidsItem)) {
+				hidsItem.setStyle("-fx-background-color: #9575CD");
 			}
 			else if (event.getSource().equals(settingsItem)) {
 				settingsItem.setStyle("-fx-background-color: #9575CD");
 			}
 			else if (event.getSource().equals(logoutItem)) {
 				logoutItem.setStyle("-fx-background-color: #9575CD");
+			}
+			else if (event.getSource().equals(firewallItem)) {
+				firewallItem.setStyle("-fx-background-color: #9575CD");
 			}
 		}
 		
@@ -324,6 +447,8 @@ public class BlController{
 				root = FXMLLoader.load(getClass().getResource("../view/"));
 			}
 			else if (event.getSource().equals(logoutItem)) {
+				DBLocker.lockDB();
+				TimerAccess.closeTime();
 				stage.setX(450);
 				stage.setY(128);
 				stage.setWidth(1020);

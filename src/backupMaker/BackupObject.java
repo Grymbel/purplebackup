@@ -116,21 +116,28 @@ public class BackupObject {
 		for(int i = rangeStart;i<=id;i++){
 		File node = new File("src/output/"+i+"/");
 		
-
+			System.out.println("src/output/"+i+"/");
 			String[] subNote = node.list();
 			for(String filename : subNote){
 				dirList.add(new File(node, filename).toString());
 				areas.add(filename);
 			}
 		}
-		String restDir = "src/output/"+id+"RESTORE/";
+		DBConnect dbc = new DBConnect();
+		String restDir = "";
+		try {
+			restDir = dbc.getRestorePath()+"/"+id+"RESTORE/";
+		}catch (Exception e) {
+				e.printStackTrace();
+			}
 		int c = 0;
 		for(String str : dirList){
 			try {				
 				String archive = getArchive(new File(str));
+				System.out.println(archive+restDir+areas.get(c));
 				Unzipper unz = new Unzipper(archive,restDir+areas.get(c));
 				c++;
-				DBConnect dbc = new DBConnect();
+				dbc = new DBConnect();
 				ResultSet res = dbc.getFileDeltaRange(rangeStart, id);
 				while(res.next()){
 					String action = res.getString("deltaAction");
@@ -157,6 +164,7 @@ public class BackupObject {
 			}
 		}
 	}
+	
 	
 	public boolean isFilled(){
 		return this.auditBackup||this.cloudBackup||this.userBackup||this.webBackup;

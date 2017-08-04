@@ -5,14 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
 public class Unzipper
 {
@@ -28,14 +26,25 @@ public class Unzipper
     public void unZipIt(){
     	AESThing aes;
     	boolean doRecrypt = false;
+    	boolean errorless = true;
+    	
+    	aes = new AESThing();
+    	
     	try {
-    		aes = new AESThing("!@#$MySecr3tPassw0rd", 16, "AES");
     		aes.decryptFile(new File(inputZip));
-			aes.writeToFile(new File(inputZip));
-			doRecrypt = true;
 		}catch (Exception e){
+			errorless=false;
 			System.err.println(e.getMessage());
 		}
+    	
+    	if(errorless){
+    		try {
+				aes.writeToFile(new File(inputZip));
+				doRecrypt = true;
+			} catch (IllegalBlockSizeException | BadPaddingException | IOException e) {
+				System.err.println(e.getMessage());
+			}
+    	}
 
      byte[] buffer = new byte[1024];
 
@@ -76,7 +85,7 @@ public class Unzipper
 
     	if(doRecrypt){
     		try {
-    			aes = new AESThing("!@#$MySecr3tPassw0rd", 16, "AES");
+    			aes = new AESThing();
 				aes.encryptFile(new File(inputZip));
 			} catch (InvalidKeyException e) {
 				e.printStackTrace();
@@ -84,16 +93,11 @@ public class Unzipper
 				e.printStackTrace();
 			} catch (BadPaddingException e) {
 				e.printStackTrace();
-			} catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
-			} catch (NoSuchPaddingException e) {
-				e.printStackTrace();
 			}
     	}
-    	System.out.println("Done");
-
     }catch(IOException ex){
-
+    	System.err.println(ex.getMessage());
+    	ex.printStackTrace();
     }
    }
 }

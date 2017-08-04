@@ -13,7 +13,6 @@ public class LastDoneBackupDAO {
 			String toRet;
 			try {
 				toRet = dbc.highestID()+";"+dbc.highestTime()+";"+dbc.highestBase()+";";
-				System.out.println("Returning: "+toRet);
 				return toRet;
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

@@ -27,6 +27,7 @@ public class DBConnect {
 	 }
 	 
 	 public DBConnect(){
+		 System.out.println("Opening DBConnect");
 		 try {
 			getConnection();
 		} catch (ClassNotFoundException e) {
@@ -93,9 +94,10 @@ public class DBConnect {
 	 }
 	 
 	 public ResultSet getFileIdx(int toGet,String targetDir) throws SQLException{
-		 Statement state = con.createStatement();
-		 ResultSet res = state.executeQuery("select fileLine, fileDigest from fileIdx where backupID = "+toGet +" and targetDir = '" +targetDir+"'");
-		 return res;
+		 PreparedStatement state = con.prepareStatement("select fileLine, fileDigest from fileIdx where backupID = ? and targetDir = ? ;");
+		 state.setInt(1, toGet);
+		 state.setString(2, targetDir);
+		 return state.executeQuery();
 	 }
 	 
 	 public ResultSet getFileLocation() throws SQLException{
@@ -104,10 +106,18 @@ public class DBConnect {
 		 return res;
 	 }
 	 
-	 public void setFileLocation(String relDir, String fileURL) throws SQLException{
-		 System.out.println(fileURL);
+	 public String getRestorePath() throws SQLException{
 		 Statement state = con.createStatement();
-		 state.executeUpdate("update fileLocation set target = '"+fileURL+"' where relDir = '"+relDir+"';");
+		 ResultSet res = state.executeQuery("select * from fileLocation where reldir ='restore';");
+		 return res.getString("target");
+	 }
+	 
+	 public void setFileLocation(String relDir, String fileURL) throws SQLException{
+		 System.out.println(relDir+"|"+fileURL);
+		 PreparedStatement state = con.prepareStatement("update fileLocation set target = ? where relDir = ?;");
+		 state.setString(1, fileURL);
+		 state.setString(2, relDir);
+		 state.execute();
 	 }
 	 public void addFileDelta(int backupID, String deltaAction, String fileLine, String fileDigest, String targetDir) throws SQLException{
 		 PreparedStatement prep = con.prepareStatement("insert into fileDelta(backupID, deltaAction, fileLine, fileDigest, targetDir) values (?,?,?,?,?)");
@@ -120,15 +130,17 @@ public class DBConnect {
 	 }
 	 
 	 public ResultSet getFileDelta(int toGet,String targetDir) throws SQLException{
-		 Statement state = con.createStatement();
-		 ResultSet res = state.executeQuery("select deltaAction, fileLine, fileDigest from fileDelta where backupID = "+toGet + " and targetDir = '" +targetDir+"'");
-		 return res;
+		 PreparedStatement state = con.prepareStatement("select deltaAction, fileLine, fileDigest from fileDelta where backupID = ? and targetDir = ? ;");
+		 state.setInt(1, toGet);
+		 state.setString(2, targetDir);
+		 return state.executeQuery();
 	 }
 	 
 	 public ResultSet getFileDeltaRange(int toGetStart,int toGetEnd) throws SQLException{
-		 Statement state = con.createStatement();
-		 ResultSet res = state.executeQuery("select deltaAction, fileLine, fileDigest from fileDelta where backupID between "+toGetStart+" and "+toGetEnd+";");
-		 return res;
+		 PreparedStatement state = con.prepareStatement("select deltaAction, fileLine, fileDigest from fileDelta where backupID between ? and ? ;");
+		 state.setInt(1, toGetStart);
+		 state.setInt(2, toGetEnd);
+		 return state.executeQuery();
 	 }
 	 
 	 public void addSchedule(ScheduleObject so) throws SQLException{
@@ -159,20 +171,28 @@ public class DBConnect {
 	 }
 	 
 	 public void removeSchedule(int id) throws SQLException{
-		 PreparedStatement prep = con.prepareStatement("delete from schedule where id="+id+";");
+		 PreparedStatement prep = con.prepareStatement("delete from schedule where id=? ;");
+		 prep.setInt(1, id);
 		 prep.execute();
 	 }
 	 
 	 public void updateScheduleSuccess(long justDone, long nextTime, int id) throws SQLException{
 		 int oldTimesDone;
 		 
-		 Statement state = con.createStatement();
-		 ResultSet res1 = state.executeQuery("select timesDone from schedule where id = "+id+";");
+		 PreparedStatement state = con.prepareStatement("select timesDone from schedule where id =? ;");
+		 state.setInt(1, id);
+		 ResultSet res1 = state.executeQuery();
 		 
 		 
 		 while(res1.next()){
 			 oldTimesDone = res1.getInt("timesDone")+1;
-			 state.execute("update schedule set timesDone = "+oldTimesDone+", lastDone = "+justDone+" ,nextTime = "+nextTime+" where id = "+id);
+			 
+			 state = con.prepareStatement("update schedule set timesDone = ?, lastDone = ? ,nextTime = ? where id =? ;");
+			 state.setInt(1, oldTimesDone);
+			 state.setLong(2, justDone);
+			 state.setLong(3, nextTime);
+			 state.setInt(4, id);
+			 state.executeUpdate();
 		 }
 	 }
 	 
@@ -182,7 +202,6 @@ public class DBConnect {
 	}
 	
 	public void addHIDS(int relID, String relDir, String hash) throws SQLException{
-		System.out.println("addHIDS");
 		PreparedStatement prep = con.prepareStatement("insert into HIDS(relid, relDir, sha1hash, resolved)values(?,?,?,?)");
 		prep.setInt(1, relID);
 		prep.setString(2, relDir);
@@ -190,6 +209,15 @@ public class DBConnect {
 		prep.setBoolean(4, true);
 		
 		prep.execute();
+	}
+	
+	public void updateHash(int relID, String relDir, String hash) throws SQLException{
+		PreparedStatement prep = con.prepareStatement("update HIDS SET sha1hash = ? where relid = ? and relDir = ?;");
+		prep.setString(1, hash);
+		prep.setInt(2, relID);
+		prep.setString(3, relDir);
+		
+		prep.executeUpdate();
 	}
 	
 	public void resolveHIDS(int relID, String relDir) throws SQLException{
@@ -319,11 +347,6 @@ public class DBConnect {
 				 try{
 				  state5.executeUpdate("create table fileLocation(id integer, relDir varchar(16), target varchar(200), primary key(id))");
 				  
-				  System.out.println("Made fileLocation");
-				 }
-				 catch(Exception e){
-				 }
-				  
 				  PreparedStatement prep = con.prepareStatement("insert into fileLocation(relDir, target) values(?,?);");
 
 				  prep.setString(1,"audit");
@@ -341,6 +364,15 @@ public class DBConnect {
 				  prep.setString(1,"web");
 				  prep.setString(2,"src/sampleTarget/webTarget0");
 				  prep.execute();
+				  
+				  prep.setString(1,"restore");
+				  prep.setString(2,"src/restore");
+				  prep.execute();
+				  
+				  System.out.println("Made fileLocation");
+				 }
+				 catch(Exception e){
+				 }
 				 }
 				 catch(SQLiteException s){
 					 s.printStackTrace();

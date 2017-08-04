@@ -1,6 +1,7 @@
 package login;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -24,7 +25,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class LoginController {
+public class LoginController{
 	@FXML
 	private JFXTextField userID;
 	
@@ -62,23 +63,36 @@ public class LoginController {
 	public void goToHomePage(ActionEvent event) {
 		String Username = userID.getText();
 		String Password = passID.getText();
+		String storedUsername = null;
+		String storedSalt = null;
+		String storedPassword = null;
+		HashPass HP = new HashPass();
+		
+		ArrayList<LoginModel> list = LoginModel.getAllData();
+		for (LoginModel model : list) {
+			storedUsername = model.getUsername();
+			storedSalt = model.getSalt();
+			storedPassword = model.getPassword();
+		}
+		
+		byte [] decodedSalt = HP.getDecodedSalt(storedSalt);
+		String hashedPassword = HP.getHashedPassword(Password, decodedSalt);
 		
 		if (Username.equals(null) || Username.equals("")) {
 			errorMessage.setVisible(true);
 			errorMessage.setText("Please enter your username.");
-			System.out.println("Username is null");
 		}
 		else if (Password.equals(null) || Password.equals("")) {
 			errorMessage.setVisible(true);
 			errorMessage.setText("Please enter your password.");
-			System.out.println("Password is null");
 		}
 		else {
-			if (Username.equals("Admin") && Password.equals("Admin")) {
+			if (Username.equals(storedUsername) && hashedPassword.equals(storedPassword)) {
 				System.out.println("Username and Password is correct");
 				btnLogin.setDisable(true);
 				btnLogin.setVisible(false);
 				loginSpinner.setVisible(true);
+				
 				Timeline timeline = new Timeline();
 				KeyFrame keyFrame = new KeyFrame(
 					Duration.seconds(2), 
@@ -116,6 +130,20 @@ public class LoginController {
 		if (event.getCode().getName().equals("Enter")) {
 			String Username = userID.getText();
 			String Password = passID.getText();
+			String storedUsername = null;
+			String storedSalt = null;
+			String storedPassword = null;
+			HashPass HP = new HashPass();
+			
+			ArrayList<LoginModel> list = LoginModel.getAllData();
+			for (LoginModel model : list) {
+				storedUsername = model.getUsername();
+				storedSalt = model.getSalt();
+				storedPassword = model.getPassword();
+			}
+			
+			byte [] decodedSalt = HP.getDecodedSalt(storedSalt);
+			String hashedPassword = HP.getHashedPassword(Password, decodedSalt);
 			
 			if (Username.equals(null) || Username.equals("")) {
 				errorMessage.setVisible(true);
@@ -128,11 +156,12 @@ public class LoginController {
 				System.out.println("Password is null");
 			}
 			else {
-				if (Username.equals("Admin") && Password.equals("Admin")) {
+				if (Username.equals(storedUsername) && hashedPassword.equals(storedPassword)) {
 					System.out.println("Username and Password is correct");
 					btnLogin.setDisable(true);
 					btnLogin.setVisible(false);
 					loginSpinner.setVisible(true);
+					
 					Timeline timeline = new Timeline();
 					KeyFrame keyFrame = new KeyFrame(
 						Duration.seconds(2), 

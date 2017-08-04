@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -33,8 +31,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import zipper.DBLocker;
 
-public class BsController {
+public class BsController{
     @FXML
     private TextFlow sideIcon;
 	@FXML
@@ -138,8 +137,6 @@ public class BsController {
 	public void initialize(){
     	timePicker.setShowTime(true);
     	this.bo = new BackupObject();
-    	
-    	bsService();
     	
     	DBConnect dbc = new DBConnect();
     	this.scheduleList = new ArrayList<ScheduleObject>();
@@ -358,51 +355,63 @@ public class BsController {
 	
 	@FXML
 	public void showHoverColor(MouseEvent event) {
-		if (event.getSource().equals(homeItem)) {
-			homeItem.setStyle("-fx-background-color: #673AB7");
-		}
-		else if (event.getSource().equals(userItem)) {
+		if (event.getSource().equals(userItem)) {
 			userItem.setStyle("-fx-background-color: #673AB7");
-		}
-		else if (event.getSource().equals(firewallItem)) {
-			firewallItem.setStyle("-fx-background-color: #673AB7");
-		}
-		else if (event.getSource().equals(secureItem)) {
-			secureItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #673AB7");
 		}
-		else if (event.getSource().equals(backupItem)) {
-			backupItem.setStyle("-fx-background-color: #673AB7");
+		else if (event.getSource().equals(bmItem)) {
+			bmItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(bsItem)) {
+			bsItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(blItem)) {
+			blItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(hidsItem)) {
+			hidsItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(settingsItem)) {
+			settingsItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(firewallItem)) {
+			firewallItem.setStyle("-fx-background-color: #673AB7");
 		}
 	}
 	
 	@FXML
 	public void hideHoverColor(MouseEvent event) {
-		if (event.getSource().equals(homeItem)) {
-			homeItem.setStyle("-fx-background-color: #9575CD");
-		}
-		else if (event.getSource().equals(userItem)) {
+		if (event.getSource().equals(userItem)) {
 			userItem.setStyle("-fx-background-color: #9575CD");
-		}
-		else if (event.getSource().equals(firewallItem)) {
-			firewallItem.setStyle("-fx-background-color: #9575CD");
-		}
-		else if (event.getSource().equals(secureItem)) {
-			secureItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #9575CD");
 		}
-		else if (event.getSource().equals(backupItem)) {
-			backupItem.setStyle("-fx-background-color: #9575CD");
+		else if (event.getSource().equals(bmItem)) {
+			bmItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(bsItem)) {
+			bsItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(blItem)) {
+			blItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(hidsItem)) {
+			hidsItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(settingsItem)) {
+			settingsItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(firewallItem)) {
+			firewallItem.setStyle("-fx-background-color: #9575CD");
 		}
 	}
 	
@@ -410,23 +419,11 @@ public class BsController {
 	public void changePage(MouseEvent event) throws IOException {
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		Parent root = null;
-		if (event.getSource().equals(homeItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/HomePage.fxml"));
-		}
 		if (event.getSource().equals(userItem)) {
 			root = FXMLLoader.load(getClass().getResource("../userManagement/view/DatabaseTableView.fxml"));
 		}
-		else if (event.getSource().equals(firewallItem)) {
-			root = FXMLLoader.load(getClass().getResource("../basicFirewall/view/BasicFirewallView.fxml"));
-		}
-		else if (event.getSource().equals(secureItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/"));
-		}
 		else if (event.getSource().equals(auditItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
-		}
-		else if (event.getSource().equals(bmItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
 		}
 		else if (event.getSource().equals(bsItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/BackupScheduler.fxml"));
@@ -437,7 +434,17 @@ public class BsController {
 		else if (event.getSource().equals(hidsItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/BackupHIDS.fxml"));
 		}
+		//XZ's Feature
+		
+		else if (event.getSource().equals(bmItem)) {
+			root = FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
+		}
+		else if (event.getSource().equals(settingsItem)) {
+			root = FXMLLoader.load(getClass().getResource("../view/"));
+		}
 		else if (event.getSource().equals(logoutItem)) {
+			DBLocker.lockDB();
+			TimerAccess.closeTime();
 			stage.setX(450);
 			stage.setY(128);
 			stage.setWidth(1020);
@@ -460,15 +467,5 @@ public class BsController {
     		jfxb.setTextFill(color1);
     		jfxb.setRipplerFill(color2);
     	}
-    }
-    
-    public void bsService(){
-		ScheduleClock sch = new ScheduleClock();
-		sch.scheduleServiceFirst();
-
-    	TimerTask task = new AutoBackupProcess();
-
-    	Timer timer = new Timer();
-    	timer.schedule(task, 1000, 30000);
     }
 }

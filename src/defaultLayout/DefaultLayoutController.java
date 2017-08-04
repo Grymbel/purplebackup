@@ -20,7 +20,7 @@ import javafx.util.Duration;
 
 public class DefaultLayoutController {
 	@FXML
-	private TextFlow sideIcon;
+	private ImageView sideIcon;
 	@FXML
 	private ImageView closeIcon;
 	@FXML
@@ -32,11 +32,11 @@ public class DefaultLayoutController {
 	@FXML
 	private HBox firewallItem;
 	@FXML
-	private HBox secureItem;
-	@FXML
 	private HBox auditItem;
 	@FXML
 	private HBox backupItem;
+	@FXML
+	private HBox secureItem;
 	@FXML
 	private HBox logoutItem;
 
@@ -77,14 +77,14 @@ public class DefaultLayoutController {
 		else if (event.getSource().equals(firewallItem)) {
 			firewallItem.setStyle("-fx-background-color: #673AB7");
 		}
-		else if (event.getSource().equals(secureItem)) {
-			secureItem.setStyle("-fx-background-color: #673AB7");
-		}
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(backupItem)) {
 			backupItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(secureItem)) {
+			secureItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #673AB7");
@@ -102,14 +102,14 @@ public class DefaultLayoutController {
 		else if (event.getSource().equals(firewallItem)) {
 			firewallItem.setStyle("-fx-background-color: #9575CD");
 		}
-		else if (event.getSource().equals(secureItem)) {
-			secureItem.setStyle("-fx-background-color: #9575CD");
-		}
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(backupItem)) {
 			backupItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(secureItem)) {
+			secureItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #9575CD");
@@ -129,14 +129,14 @@ public class DefaultLayoutController {
 		else if (event.getSource().equals(firewallItem)) {
 			root = FXMLLoader.load(getClass().getResource("../basicFirewall/view/BasicFirewallView.fxml"));
 		}
-		else if (event.getSource().equals(secureItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/"));
-		}
 		else if (event.getSource().equals(auditItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
 		}
 		else if (event.getSource().equals(backupItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
+		}
+		else if (event.getSource().equals(secureItem)) {
+			root = FXMLLoader.load(getClass().getResource("../view/Settings.fxml"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			stage.setX(450);

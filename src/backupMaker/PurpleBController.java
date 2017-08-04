@@ -1,12 +1,15 @@
 package backupMaker;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import org.apache.commons.io.FileUtils;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
-import backupHIDS.HIDSService;
+import backupScheduler.TimerAccess;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -18,6 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -26,8 +30,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextFlow;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Duration;
+import zipper.DBLocker;
 
 public class PurpleBController {
 	
@@ -37,7 +44,10 @@ public class PurpleBController {
 	private int pageNo;
 	
 	private ArrayList<BackupObject> allBackups;
-
+	private Window scene;
+	
+	private File exportURL;
+	
     @FXML
     private JFXButton btnAddBackup;
 
@@ -58,6 +68,9 @@ public class PurpleBController {
 
     @FXML
     private JFXButton btnScrollRight;
+    
+    @FXML
+    private JFXButton btnDoExport;
 
     @FXML
     private TableView<BackupObject> bmtable;
@@ -125,7 +138,6 @@ public class PurpleBController {
 			btnScrollRight.setVisible(true);
 		}
 		
-		HIDSService.doHIDS();
     }
     
     @FXML
@@ -162,14 +174,18 @@ public class PurpleBController {
     @FXML
     void doRestore(ActionEvent event) {
     	if(bmtable.getSelectionModel().getSelectedIndex()>=0){
+    		Alert alert = new Alert(AlertType.CONFIRMATION, "When your backup is restored, it is fully unencrypted and ready to use. Move it to its proper location quickly. Proceed?", ButtonType.YES, ButtonType.NO);
+			alert.showAndWait();
+
+			if (alert.getResult() == ButtonType.YES) {
     	int selOnes = bmtable.getSelectionModel().getSelectedIndex();
     	int sel = (pageNo*10)+selOnes;
     	
     	BackupDAO bdao = new BackupDAO();
 		allBackups.addAll(bdao.getExistingBackups());
-    	System.out.println(allBackups.get(sel));
     	
     	allBackups.get(sel).restore(sel);
+			}
     	}
     }
 
@@ -269,6 +285,18 @@ public class PurpleBController {
     }
     
     @FXML
+    void doFindOutput(ActionEvent event){
+    	this.exportURL = getDir();
+    	if(this.exportURL!=null){
+    	try {
+			FileUtils.copyDirectoryToDirectory(new File("src/output/"), this.exportURL);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	}
+    }
+    
+    @FXML
     void gotoBack(ActionEvent event) {
 		try {
     	Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
@@ -331,6 +359,14 @@ public class PurpleBController {
     	}
     }
     
+    public File getDir(){
+    	DirectoryChooser chooser = new DirectoryChooser();
+    	chooser.setTitle("Select a directory");
+    	File selectedDirectory = chooser.showDialog(scene);
+    	
+    	return selectedDirectory;
+    }
+    
     @FXML
 	private TextFlow sideIcon;
 	@FXML
@@ -339,8 +375,6 @@ public class PurpleBController {
 	private HBox userItem;
 	@FXML
 	private HBox auditItem;
-	@FXML
-	private HBox backupItem;
 	@FXML
 	private HBox settingsItem;
 	@FXML
@@ -353,6 +387,8 @@ public class PurpleBController {
 	private HBox blItem;
 	@FXML
 	private HBox hidsItem;
+	@FXML
+	private HBox firewallItem;
 
 	private boolean openClose = false;
 
@@ -388,14 +424,26 @@ public class PurpleBController {
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #673AB7");
 		}
-		else if (event.getSource().equals(backupItem)) {
-			backupItem.setStyle("-fx-background-color: #673AB7");
+		else if (event.getSource().equals(bmItem)) {
+			bmItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(bsItem)) {
+			bsItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(blItem)) {
+			blItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(hidsItem)) {
+			hidsItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(settingsItem)) {
 			settingsItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(firewallItem)) {
+			firewallItem.setStyle("-fx-background-color: #673AB7");
 		}
 	}
 	
@@ -407,14 +455,26 @@ public class PurpleBController {
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #9575CD");
 		}
-		else if (event.getSource().equals(backupItem)) {
-			backupItem.setStyle("-fx-background-color: #9575CD");
+		else if (event.getSource().equals(bmItem)) {
+			bmItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(bsItem)) {
+			bsItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(blItem)) {
+			blItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(hidsItem)) {
+			hidsItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(settingsItem)) {
 			settingsItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(firewallItem)) {
+			firewallItem.setStyle("-fx-background-color: #9575CD");
 		}
 	}
 	
@@ -446,6 +506,8 @@ public class PurpleBController {
 			root = FXMLLoader.load(getClass().getResource("../view/"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
+			DBLocker.lockDB();
+			TimerAccess.closeTime();
 			stage.setX(450);
 			stage.setY(128);
 			stage.setWidth(1020);
