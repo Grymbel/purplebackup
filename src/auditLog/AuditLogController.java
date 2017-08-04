@@ -1,8 +1,12 @@
 package auditLog;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Stack;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -23,6 +27,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -110,17 +115,31 @@ public class AuditLogController {
 	}
 	
 	@FXML
-	public void comboSelect(ActionEvent event) {
-		ArrayList<String> suspTimeList = new ArrayList<String>();
-		suspTimeList.add("14:49:30");
-		suspTimeList.add("14:49:45");
-		String suspStr = null;
+	public void comboSelect(ActionEvent event) throws ParseException {
+		String startTimeStr = "01:00 AM";
+		Date startTime = new SimpleDateFormat("hh:mm a").parse(startTimeStr);
+		Calendar calendar1 = Calendar.getInstance();
+	    calendar1.setTime(startTime);
+	    Date a = calendar1.getTime();
+	    
+		String endTimeStr = "06:00 AM";
+		Date endTime = new SimpleDateFormat("hh:mm a").parse(endTimeStr);
+		Calendar calendar2 = Calendar.getInstance();
+	    calendar2.setTime(endTime);
+	    Date b = calendar2.getTime();
 		
 		ArrayList<AuditLogModel> dataList = AuditLogModel.getAllData();
 		logListView.getItems().clear();
 		Collections.reverse(dataList);
+		String timeStr = null;
 		for (AuditLogModel aLM : dataList) {
-			
+			aLM.getDateTime();
+			timeStr = aLM.getDateTime().substring(11);
+			Date d = new SimpleDateFormat("hh:mm a").parse(timeStr);
+			Calendar c = Calendar.getInstance();
+		    c.setTime(d);
+		    Date y = c.getTime();
+		    
 			if (event.getSource().equals(cherStud)) {
 				if (cherStud.getValue().equals("All")) {
 					if (normSusp.getValue().equals("All")) {
@@ -129,22 +148,15 @@ public class AuditLogController {
 					}
 					else if (normSusp.getValue().equals("Normal")) {
 						System.out.println("cherStud: Selected All and Normal");
-						if (!aLM.getActivity().equals("Attempted cross-site scripting")) {
+						if (!aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
 							
 						}
 					}
 					else if (normSusp.getValue().equals("Suspicious")) {
 						System.out.println("cherStud: Selected All and Suspicious");
-						for (String str : suspTimeList) {
-							suspStr = str;
-							if (aLM.getActivity().equals("Attempted cross-site scripting") || aLM.getDateTime().contains(suspStr)) {
-								
-							}
+						if (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
+							//System.out.println(timeStr);
 						}
-						/*
-						if (aLM.getActivity().equals("Attempted cross-site scripting")) {
-						}
-						*/
 					}
 					else {
 						System.out.println("cherStud: All - Else");
@@ -159,13 +171,13 @@ public class AuditLogController {
 					}
 					else if (normSusp.getValue().equals("Normal")) {
 						System.out.println("cherStud: Selected Teachers and Normal");
-						if (aLM.getUsername().equals("Teacher") && !aLM.getActivity().equals("Attempted cross-site scripting")) {
+						if (aLM.getUsername().equals("Teacher") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
 							
 						}
 					}
 					else if (normSusp.getValue().equals("Suspicious")) {
 						System.out.println("cherStud: Selected Teachers and Suspicious");
-						if (aLM.getUsername().equals("Teacher") && aLM.getActivity().equals("Attempted cross-site scripting")) {
+						if (aLM.getUsername().equals("Teacher") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
 							
 						}
 					}
@@ -182,13 +194,13 @@ public class AuditLogController {
 					}
 					else if (normSusp.getValue().equals("Normal")) {
 						System.out.println("cherStud: Selected Students and Normal");
-						if (aLM.getUsername().equals("Student") && !aLM.getActivity().equals("Attempted cross-site scripting")) {
+						if (aLM.getUsername().equals("Student") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
 							
 						}
 					}
 					else if (normSusp.getValue().equals("Suspicious")) {
 						System.out.println("cherStud: Selected Students and Suspicious");
-						if (aLM.getUsername().equals("Student") && aLM.getActivity().equals("Attempted cross-site scripting")) {
+						if (aLM.getUsername().equals("Student") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
 							
 						}
 					}
@@ -222,19 +234,19 @@ public class AuditLogController {
 				else if (normSusp.getValue().equals("Normal")) {
 					if (cherStud.getValue().equals("All")) {
 						System.out.println("normSusp: Selected Normal and All");
-						if (!aLM.getActivity().equals("Attempted cross-site scripting")) {
+						if (!aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
 							
 						}
 					}
 					else if (cherStud.getValue().equals("Teachers")) {
 						System.out.println("normSusp: Selected Normal and Teachers");
-						if (aLM.getUsername().equals("Teacher") && !aLM.getActivity().equals("Attempted cross-site scripting")) {
+						if (aLM.getUsername().equals("Teacher") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
 							
 						}
 					}
 					else if (cherStud.getValue().equals("Students")) {
 						System.out.println("normSusp: Selected Normal and Students");
-						if (aLM.getUsername().equals("Student") && !aLM.getActivity().equals("Attempted cross-site scripting")) {
+						if (aLM.getUsername().equals("Student") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
 							
 						}
 					}
@@ -245,19 +257,19 @@ public class AuditLogController {
 				else if (normSusp.getValue().equals("Suspicious")) {
 					if (cherStud.getValue().equals("All")) {
 						System.out.println("normSusp: Selected Suspicious and All");
-						if (aLM.getActivity().equals("Attempted cross-site scripting")) {
+						if (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
 							
 						}
 					}
 					else if (cherStud.getValue().equals("Teachers")) {
 						System.out.println("normSusp: Selected Suspicious and Teachers");
-						if (aLM.getUsername().equals("Teacher") && aLM.getActivity().equals("Attempted cross-site scripting")) {
+						if (aLM.getUsername().equals("Teacher") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
 							
 						}
 					}
 					else if (cherStud.getValue().equals("Students")) {
 						System.out.println("normSusp: Selected Suspicious and Students");
-						if (aLM.getUsername().equals("Student") && aLM.getActivity().equals("Attempted cross-site scripting")) {
+						if (aLM.getUsername().equals("Student") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
 							
 						}
 					}
@@ -268,31 +280,9 @@ public class AuditLogController {
 			}
 		}
 	}
-
+	
 	@FXML
 	public void showSidebar(MouseEvent event) {
-		/*
-		if (openClose == false) {
-			openClose = true;
-			Timeline timeline = new Timeline();
-			KeyValue sidebarNavValue = new KeyValue(sidebarNav.layoutXProperty(), 0);
-			
-			KeyFrame keyFrame = new KeyFrame(Duration.millis(300), sidebarNavValue);
-			
-			timeline.getKeyFrames().addAll(keyFrame);
-			timeline.play();
-		}
-		else {
-			openClose = false;
-			Timeline timeline = new Timeline();
-			KeyValue sidebarNavValue = new KeyValue(sidebarNav.layoutXProperty(), -240);
-			
-			KeyFrame keyFrame = new KeyFrame(Duration.millis(300), sidebarNavValue);
-			
-			timeline.getKeyFrames().addAll(keyFrame);
-			timeline.play();
-		}
-		*/
 		closeIcon.setVisible(true);
 		sideIcon.setVisible(false);
 		Timeline timeline = new Timeline();
@@ -328,14 +318,14 @@ public class AuditLogController {
 		else if (event.getSource().equals(firewallItem)) {
 			firewallItem.setStyle("-fx-background-color: #673AB7");
 		}
-		else if (event.getSource().equals(secureItem)) {
-			secureItem.setStyle("-fx-background-color: #673AB7");
-		}
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(backupItem)) {
 			backupItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(secureItem)) {
+			secureItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #673AB7");
@@ -353,14 +343,14 @@ public class AuditLogController {
 		else if (event.getSource().equals(firewallItem)) {
 			firewallItem.setStyle("-fx-background-color: #9575CD");
 		}
-		else if (event.getSource().equals(secureItem)) {
-			secureItem.setStyle("-fx-background-color: #9575CD");
-		}
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(backupItem)) {
 			backupItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(secureItem)) {
+			secureItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #9575CD");
@@ -378,16 +368,16 @@ public class AuditLogController {
 			root = FXMLLoader.load(getClass().getResource("../userManagement/view/DatabaseTableView.fxml"));
 		}
 		else if (event.getSource().equals(firewallItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/"));
-		}
-		else if (event.getSource().equals(secureItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/"));
+			root = FXMLLoader.load(getClass().getResource("../basicFirewall/view/BasicFirewallView.fxml"));
 		}
 		else if (event.getSource().equals(auditItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
 		}
 		else if (event.getSource().equals(backupItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
+		}
+		else if (event.getSource().equals(secureItem)) {
+			root = FXMLLoader.load(getClass().getResource("../view/Settings.fxml"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			stage.setX(450);

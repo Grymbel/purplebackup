@@ -1,9 +1,8 @@
 package login;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class LoginModel {
 	private String username;
@@ -55,7 +54,7 @@ public class LoginModel {
 		return loginDAO.getAllData();
 	}
 	
-	public void getData() {
+	public void getAdmin() {
 		LoginDAO loginDAO = new LoginDAO();
 		LoginModel loginModel = loginDAO.getAdmin(username);
 		setSalt(loginModel.getSalt());
@@ -67,20 +66,8 @@ public class LoginModel {
 		loginDAO.updateAdmin(this);
 	}
 	
-	public LoginModel getCurrentAdmin() throws FileNotFoundException {
-		File file = new File("src/login/Login.txt");
-		Scanner sc = new Scanner(file) ;
-		String n = sc.nextLine();
-		sc.close();
-		
-		LoginDAO loginDAO = new LoginDAO();
-		LoginModel loginModel = new LoginModel();
-		loginModel = loginDAO.getAdmin(n);
-		
-		return loginModel;
-	}
-	
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws FileNotFoundException, ParseException {
+		/*
 		LoginModel model = new LoginModel();
 		ArrayList<LoginModel> list = LoginModel.getAllData();
 		for (LoginModel m : list) {
@@ -88,6 +75,6 @@ public class LoginModel {
 		}
 		model.setPassword("Something");
 		model.updateAdmin();
+		*/
 	}
-
 }

@@ -11,7 +11,7 @@ public class AuditLogDAO {
 	private File dataFile;
 	
 	public AuditLogDAO() {
-		Path dPath = FileSystems.getDefault().getPath("Log4j2Log.log");
+		Path dPath = FileSystems.getDefault().getPath("AuditLog.log");
 		dataFile = new File(dPath.toString()); 
 	}
 	
