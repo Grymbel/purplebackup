@@ -9,7 +9,6 @@ import org.apache.commons.io.FileUtils;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
-import backupHIDS.HIDSService;
 import backupScheduler.TimerAccess;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

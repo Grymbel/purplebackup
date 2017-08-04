@@ -94,9 +94,10 @@ public class DBConnect {
 	 }
 	 
 	 public ResultSet getFileIdx(int toGet,String targetDir) throws SQLException{
-		 Statement state = con.createStatement();
-		 ResultSet res = state.executeQuery("select fileLine, fileDigest from fileIdx where backupID = "+toGet +" and targetDir = '" +targetDir+"'");
-		 return res;
+		 PreparedStatement state = con.prepareStatement("select fileLine, fileDigest from fileIdx where backupID = ? and targetDir = ? ;");
+		 state.setInt(1, toGet);
+		 state.setString(2, targetDir);
+		 return state.executeQuery();
 	 }
 	 
 	 public ResultSet getFileLocation() throws SQLException{
@@ -129,15 +130,17 @@ public class DBConnect {
 	 }
 	 
 	 public ResultSet getFileDelta(int toGet,String targetDir) throws SQLException{
-		 Statement state = con.createStatement();
-		 ResultSet res = state.executeQuery("select deltaAction, fileLine, fileDigest from fileDelta where backupID = "+toGet + " and targetDir = '" +targetDir+"'");
-		 return res;
+		 PreparedStatement state = con.prepareStatement("select deltaAction, fileLine, fileDigest from fileDelta where backupID = ? and targetDir = ? ;");
+		 state.setInt(1, toGet);
+		 state.setString(2, targetDir);
+		 return state.executeQuery();
 	 }
 	 
 	 public ResultSet getFileDeltaRange(int toGetStart,int toGetEnd) throws SQLException{
-		 Statement state = con.createStatement();
-		 ResultSet res = state.executeQuery("select deltaAction, fileLine, fileDigest from fileDelta where backupID between "+toGetStart+" and "+toGetEnd+";");
-		 return res;
+		 PreparedStatement state = con.prepareStatement("select deltaAction, fileLine, fileDigest from fileDelta where backupID between ? and ? ;");
+		 state.setInt(1, toGetStart);
+		 state.setInt(2, toGetEnd);
+		 return state.executeQuery();
 	 }
 	 
 	 public void addSchedule(ScheduleObject so) throws SQLException{
@@ -168,20 +171,28 @@ public class DBConnect {
 	 }
 	 
 	 public void removeSchedule(int id) throws SQLException{
-		 PreparedStatement prep = con.prepareStatement("delete from schedule where id="+id+";");
+		 PreparedStatement prep = con.prepareStatement("delete from schedule where id=? ;");
+		 prep.setInt(1, id);
 		 prep.execute();
 	 }
 	 
 	 public void updateScheduleSuccess(long justDone, long nextTime, int id) throws SQLException{
 		 int oldTimesDone;
 		 
-		 Statement state = con.createStatement();
-		 ResultSet res1 = state.executeQuery("select timesDone from schedule where id = "+id+";");
+		 PreparedStatement state = con.prepareStatement("select timesDone from schedule where id =? ;");
+		 state.setInt(1, id);
+		 ResultSet res1 = state.executeQuery();
 		 
 		 
 		 while(res1.next()){
 			 oldTimesDone = res1.getInt("timesDone")+1;
-			 state.execute("update schedule set timesDone = "+oldTimesDone+", lastDone = "+justDone+" ,nextTime = "+nextTime+" where id = "+id);
+			 
+			 state = con.prepareStatement("update schedule set timesDone = ?, lastDone = ? ,nextTime = ? where id =? ;");
+			 state.setInt(1, oldTimesDone);
+			 state.setLong(2, justDone);
+			 state.setLong(3, nextTime);
+			 state.setInt(4, id);
+			 state.executeUpdate();
 		 }
 	 }
 	 

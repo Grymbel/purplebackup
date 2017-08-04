@@ -11,6 +11,7 @@ import java.util.Set;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 
+import backupScheduler.TimerAccess;
 import database.DBConnect;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -33,6 +34,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
 import zipper.AESThing;
+import zipper.DBLocker;
 import zipper.KeyReader;
 import zipper.SHA1;
 
@@ -445,6 +447,8 @@ public class BlController{
 				root = FXMLLoader.load(getClass().getResource("../view/"));
 			}
 			else if (event.getSource().equals(logoutItem)) {
+				DBLocker.lockDB();
+				TimerAccess.closeTime();
 				stage.setX(450);
 				stage.setY(128);
 				stage.setWidth(1020);
