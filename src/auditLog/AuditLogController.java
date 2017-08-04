@@ -60,6 +60,7 @@ public class AuditLogController {
 	private JFXComboBox<String> normSusp;
 	
 	//private boolean openClose = false;
+	
 
 	@FXML
 	public void initialize() {
@@ -110,8 +111,13 @@ public class AuditLogController {
 	
 	@FXML
 	public void comboSelect(ActionEvent event) {
+		ArrayList<String> suspTimeList = new ArrayList<String>();
+		suspTimeList.add("14:49:30");
+		suspTimeList.add("14:49:45");
+		String suspStr = null;
+		
 		ArrayList<AuditLogModel> dataList = AuditLogModel.getAllData();
-		//logListView.getItems().clear();
+		logListView.getItems().clear();
 		Collections.reverse(dataList);
 		for (AuditLogModel aLM : dataList) {
 			
@@ -129,9 +135,16 @@ public class AuditLogController {
 					}
 					else if (normSusp.getValue().equals("Suspicious")) {
 						System.out.println("cherStud: Selected All and Suspicious");
-						if (aLM.getActivity().equals("Attempted cross-site scripting")) {
-							
+						for (String str : suspTimeList) {
+							suspStr = str;
+							if (aLM.getActivity().equals("Attempted cross-site scripting") || aLM.getDateTime().contains(suspStr)) {
+								
+							}
 						}
+						/*
+						if (aLM.getActivity().equals("Attempted cross-site scripting")) {
+						}
+						*/
 					}
 					else {
 						System.out.println("cherStud: All - Else");
@@ -157,7 +170,7 @@ public class AuditLogController {
 						}
 					}
 					else {
-						
+						System.out.println("cherStud: Teachers - Else");
 					}
 				}
 				else if (cherStud.getValue().equals("Students")) {
@@ -180,7 +193,7 @@ public class AuditLogController {
 						}
 					}
 					else {
-						
+						System.out.println("cherStud: Students - Else");
 					}
 				}
 			}

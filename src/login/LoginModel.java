@@ -81,7 +81,13 @@ public class LoginModel {
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		
+		LoginModel model = new LoginModel();
+		ArrayList<LoginModel> list = LoginModel.getAllData();
+		for (LoginModel m : list) {
+			model = m;
+		}
+		model.setPassword("Something");
+		model.updateAdmin();
 	}
 
 }
