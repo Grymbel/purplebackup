@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.io.FileUtils;
 
@@ -41,6 +43,7 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 import zipper.AESThing;
 import zipper.DBLocker;
+import zipper.Unzipper;
 import zipper.Zipper;
 
 public class PurpleBController {
@@ -54,6 +57,7 @@ public class PurpleBController {
 	private Window scene;
 	
 	private File exportURL;
+	private File exportSwapURL;
 	
     @FXML
     private JFXButton btnAddBackup;
@@ -81,6 +85,12 @@ public class PurpleBController {
     
     @FXML
     private JFXButton btnActuallyDoExport;
+    
+    @FXML
+    private JFXButton btnDoImport;
+    
+    @FXML
+    private JFXButton btnActuallyDoImport;
 
     @FXML
     private TableView<BackupObject> bmtable;
@@ -124,7 +134,18 @@ public class PurpleBController {
     @FXML
     private JFXPasswordField passwordField2;
     
+    @FXML
+    private JFXPasswordField passwordField3;
+    
+    @FXML
+    private JFXPasswordField passwordField4;
+    
+    @FXML
+    private JFXPasswordField passwordField5;
+    
+    private File importFile;
     private String password;
+    private String importPassword;
     
     public void initialize(){
     	bo = new BackupObject();
@@ -135,8 +156,12 @@ public class PurpleBController {
     	
     	passwordField1.setVisible(false);
     	passwordField2.setVisible(false);
+    	passwordField3.setVisible(false);
+    	passwordField4.setVisible(false);
+    	passwordField5.setVisible(false);
     	
     	btnActuallyDoExport.setVisible(false);
+    	btnActuallyDoImport.setVisible(false);
     	
 			BackupDAO bdao = new BackupDAO();
 			allBackups.addAll(bdao.getExistingBackups());
@@ -342,16 +367,8 @@ public class PurpleBController {
     void doExport(ActionEvent event){
     	if(passwordField1.getText().equals(passwordField2.getText())){
     		password=passwordField1.getText();
-    		
-    	if(this.exportURL.list().length>0){
-    		Alert alert = new Alert(AlertType.WARNING);
-    		alert.setTitle("Export location not empty");
-    		alert.setHeaderText("To prevent issues, select an empty directory");
-    		alert.setContentText("The export directory you have chosen is not empty.");
 
-    		alert.showAndWait();
-    	}
-    	if(this.exportURL!=null&&this.exportURL.list().length==0){
+    	if(this.exportURL!=null){
         	try {    		
         		File f1 = new File("src/output/");
         		File f2 = new File("src/zipper/the.key");
@@ -379,13 +396,151 @@ public class PurpleBController {
     			e.printStackTrace();
     		}
         	}
+    	passwordField1.setText("");
+    	passwordField2.setText("");
+    	}else{
+    		Alert alert = new Alert(AlertType.WARNING);
+    		alert.setTitle("Passwords do not match");
+    		alert.setContentText("Your chosen passwords do not match");
+
+    		alert.showAndWait();
     	}
     }
     
     @FXML
     void doImport(ActionEvent event){
+    	this.importFile=getZip();
+    	if(importFile!=null){
+    	passwordField3.setVisible(true);
+    	passwordField4.setVisible(true);
+    	passwordField5.setVisible(true);
+    	
+    	passwordField3.setPromptText("Import Password");
+    	passwordField4.setPromptText("Swap Password");
+    	passwordField5.setPromptText("Confirm Swap Password");
+    	
+    	btnActuallyDoImport.setVisible(true);
+    	}
+    }
+    
+    @FXML
+    void doImporting(ActionEvent event){
+    	boolean success = false;
+    	
+    	this.exportSwapURL = getDir();
+    	if(exportSwapURL!=null){
+    	if(passwordField4.getText().equals(passwordField5.getText())){
+    	importPassword=passwordField3.getText();
+    	AESThing aes = new AESThing(importPassword);
+    	
+    	try {    		
+    		File f1 = new File("src/output/");
+    		File f2 = new File("src/zipper/the.key");
+    		File f3 = new File("purplebackups.db");
+    		
+			FileUtils.copyDirectoryToDirectory(f1 , this.exportSwapURL);
+			FileUtils.copyFileToDirectory(f2 , this.exportSwapURL);
+			FileUtils.copyFileToDirectory(f3, this.exportSwapURL);
+			
+			Zipper zip = new Zipper(this.exportSwapURL.toString());
+			System.out.println(this.exportSwapURL.exists()+" exists?");
+			zip.generateFileList(this.exportSwapURL,true);
+			zip.plainZip(this.exportSwapURL,new File(this.exportSwapURL.toString()+"/output.zip"));
+			
+			FileUtils.deleteDirectory(new File(this.exportSwapURL.toString()+"/output"));
+			new File(this.exportSwapURL.toString()+"/the.key").delete();
+			new File(this.exportSwapURL.toString()+"/purplebackups.db").delete();
+
+			try {
+				aes.encryptFile(new File(this.exportSwapURL.toString()+"/output.zip"));
+			} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	File tempUnzipLocation = new File("src/tempToUnzip");
+    	tempUnzipLocation.mkdir();
+    	
+    	File tempZip = new File("src/tempToUnzip/"+importFile.getName());
+    	System.out.println(tempZip.getName());
+    	
+    	try {
+			FileUtils.copyFileToDirectory(importFile, tempUnzipLocation);
+		} catch (IOException e1) {
+			System.err.println(e1.getMessage());
+		}
+    	boolean errorless = true;
+    	try {
+			aes.decryptFile(tempZip);
+			
+		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException e) {
+			Alert alert = new Alert(AlertType.WARNING);
+    		alert.setTitle("Cannot Decrypt!");
+    		alert.setHeaderText("Decryption failed");
+    		alert.setContentText("Wrong password or damaged input zip");
+
+    		alert.showAndWait();
+			errorless=false;
+			
+			
+		}
+    	if(errorless){
+    		try {
+				aes.writeToFile(tempZip);
+				Unzipper unz = new Unzipper(tempZip.toString(),tempUnzipLocation.toString());
+				unz.unzipImport();
+				
+				File t1 = new File(tempUnzipLocation.toString()+"/purplebackups.db");
+				File t2 = new File(tempUnzipLocation.toString()+"/the.key");
+				File t3 = new File(tempUnzipLocation.toString()+"/output");
+				
+				if(t1.exists()&&t2.exists()&&t3.exists()){
+				new File("purplebackups.db").delete();
+				new File("src/zipper/the.key").delete();
+				FileUtils.deleteDirectory(new File("src/output"));
+				
+				FileUtils.copyFile(t1, new File("purplebackups.db"));
+				FileUtils.copyFile(t2, new File("src/zipper/the.key"));
+				FileUtils.copyDirectoryToDirectory(t3, new File("src"));
+				
+				success=true;
+				System.out.println("Done!");
+				}
+				else{
+					Alert alert = new Alert(AlertType.WARNING);
+		    		alert.setTitle("Bad content");
+		    		alert.setHeaderText("Zip has invalid content");
+		    		alert.setContentText("The zip file did not contain the right files");
+
+		    		alert.showAndWait();
+				}
+			} catch (IllegalBlockSizeException | BadPaddingException | IOException e) {
+				Alert alert = new Alert(AlertType.WARNING);
+	    		alert.setTitle("Cannot Decrypt!");
+	    		alert.setHeaderText("Decryption failed");
+	    		alert.setContentText("Wrong password or damaged input zip");
+
+	    		alert.showAndWait();
+			}
+    	}
     	
     }
+    	}
+    	if(!success){
+    		try {
+				FileUtils.deleteDirectory(new File("src/tempToUnzip"));
+			} catch (IOException e) {
+
+			}
+    		try{
+    		FileUtils.cleanDirectory(new File(this.exportSwapURL.toString()));
+    		}
+    		catch(Exception e){
+    			
+    		}
+    	}
+}
     @FXML
     void doScrollLeft(ActionEvent event){
     	int minBackups;
@@ -440,6 +595,20 @@ public class PurpleBController {
     	File selectedDirectory = chooser.showDialog(scene);
     	
     	return selectedDirectory;
+    }
+    
+    public static File getZip(){
+		JFileChooser chooser = new JFileChooser();
+		File f = null;
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter("ZIP Archives", "zip");
+	    chooser.setFileFilter(filter);
+	    int returnVal = chooser.showOpenDialog(null);
+	    if(returnVal == JFileChooser.APPROVE_OPTION) {
+	       System.out.println("You chose to open this file: " +
+	            chooser.getSelectedFile().getName());
+	       f = chooser.getSelectedFile();
+	    }
+    	return f;
     }
     
     @FXML

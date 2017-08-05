@@ -207,6 +207,9 @@ public class BackupObject {
 	//For first-ever backup. Independent of other files
 	public void makeBaseBackupFirst(long time){
 		System.out.println("FIRST");
+		if(!new File("src/output/").exists()){
+			new File("src/output/").mkdir();
+		}
 		DBConnect dbc = new DBConnect();
 		try {
 			dbc.resolveAll();
