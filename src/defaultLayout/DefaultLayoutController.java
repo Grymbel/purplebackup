@@ -36,6 +36,12 @@ public class DefaultLayoutController {
 	@FXML
 	private HBox backupItem;
 	@FXML
+	private HBox bLocation;
+	@FXML
+	private HBox bScheduler;
+	@FXML
+	private HBox bHIDS;
+	@FXML
 	private HBox secureItem;
 	@FXML
 	private HBox logoutItem;
@@ -83,6 +89,15 @@ public class DefaultLayoutController {
 		else if (event.getSource().equals(backupItem)) {
 			backupItem.setStyle("-fx-background-color: #673AB7");
 		}
+		else if (event.getSource().equals(bLocation)) {
+			backupItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(bScheduler)) {
+			backupItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(bHIDS)) {
+			backupItem.setStyle("-fx-background-color: #673AB7");
+		}
 		else if (event.getSource().equals(secureItem)) {
 			secureItem.setStyle("-fx-background-color: #673AB7");
 		}
@@ -106,6 +121,15 @@ public class DefaultLayoutController {
 			auditItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(backupItem)) {
+			backupItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(bLocation)) {
+			backupItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(bScheduler)) {
+			backupItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(bHIDS)) {
 			backupItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(secureItem)) {
@@ -134,6 +158,15 @@ public class DefaultLayoutController {
 		}
 		else if (event.getSource().equals(backupItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
+		}
+		else if (event.getSource().equals(bLocation)) {
+			root = FXMLLoader.load(getClass().getResource("../view/BackupLocations.fxml"));
+		}
+		else if (event.getSource().equals(bScheduler)) {
+			root = FXMLLoader.load(getClass().getResource("../view/BackupScheduler.fxml"));
+		}
+		else if (event.getSource().equals(bHIDS)) {
+			root = FXMLLoader.load(getClass().getResource("../view/BackupHIDS.fxml"));
 		}
 		else if (event.getSource().equals(secureItem)) {
 			root = FXMLLoader.load(getClass().getResource("../view/Settings.fxml"));

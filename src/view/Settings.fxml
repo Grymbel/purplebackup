@@ -91,7 +91,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <VBox.margin>
-                              <Insets top="200.0" />
+                              <Insets top="70.0" />
                            </VBox.margin>
                         </HBox>
                         <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
@@ -177,6 +177,66 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </HBox>
+                        <HBox fx:id="bLocation" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../images/Backup.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="BackupLocation" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="bScheduler" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../images/Backup.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="BackupScheduler" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="bHIDS" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../images/Backup.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="BackupHIDS" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
                         <HBox fx:id="secureItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
                            <children>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -187,7 +247,7 @@
                                     <Image url="@../images/Secure.png" />
                                  </image>
                               </ImageView>
-                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="XZ's Feature" textAlignment="CENTER" textFill="WHITE">
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Settings" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
