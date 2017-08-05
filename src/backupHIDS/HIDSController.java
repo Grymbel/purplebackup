@@ -78,6 +78,7 @@ public class HIDSController {
     private JFXCheckBox chbEnableBase;
     
     public void initialize(){
+    	//Selects which entries to display
     	allEntries=new ArrayList<HIDSObject>();
     	crudeEntries=new ArrayList<HIDSObject>();
     	btnScrollLeft.setVisible(false);
@@ -112,6 +113,7 @@ public class HIDSController {
 		}
     }
 
+    //Resolves an issue raised by the HIDS
     @FXML
     void doResolve(ActionEvent event){
     	if(HIDSTable.getSelectionModel().getSelectedIndex()>=0){
@@ -134,6 +136,7 @@ public class HIDSController {
         	}
     }
     
+    //Un-Resolves an issue raised by the HIDS
     @FXML
     void doUnresolve(ActionEvent event){
     	if(HIDSTable.getSelectionModel().getSelectedIndex()>=0){
@@ -156,6 +159,7 @@ public class HIDSController {
         	}
     }
     
+    //Scroll Left
     @FXML
     void doScrollLeft(ActionEvent event){
     	int minEntries;
@@ -173,6 +177,7 @@ public class HIDSController {
     	}
     }
     
+    //Scroll right
     @FXML
     void doScrollRight(ActionEvent event){
     	int maxEntries = allEntries.size();
@@ -193,7 +198,7 @@ public class HIDSController {
     	}
     }
     
-    //Looks good
+    //Changes the color of the button when you click it
     public void colorSwap(JFXButton jfxb){
     	Paint color1 = jfxb.getRipplerFill();
     	Paint color2 = jfxb.getTextFill();
@@ -206,6 +211,7 @@ public class HIDSController {
     	}
     }
     
+    //Standardised sidebars, etc.
     @FXML
 	private TextFlow sideIcon;
 	@FXML

@@ -109,6 +109,7 @@ public class BlController{
 
 		private boolean openClose = false;
 
+		//Fills the text fields with previously made data
 		public void initialize(){
 			DBConnect dbc = new DBConnect();
 			try {
@@ -144,9 +145,10 @@ public class BlController{
 			dbc.close();
 		}
 		
+		//Attempts to set a new restore path
 		@FXML
 		void doSetRestore(ActionEvent event){
-			if(nonNullCheck(restoreURL)){
+			if(restoreURL==null){
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Error");
 				alert.setHeaderText("Null values");
@@ -159,11 +161,12 @@ public class BlController{
 				try {
 					dbc.setFileLocation("restore", restoreURL.toString());
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
+		
+		//Attempts to set new backup location paths
 		@FXML
 	    void doAccept(ActionEvent event) {
 			if(
@@ -207,6 +210,7 @@ public class BlController{
 			}
 	    }
 
+		//Recrypts backups with a new randomly generated key
 		@FXML
 		void doRecrypt(ActionEvent event){
 			Alert alert = new Alert(AlertType.CONFIRMATION, "Recrypting backups encrypts backups with a different random key for security purposes. Proceed?", ButtonType.YES, ButtonType.NO);
@@ -214,6 +218,7 @@ public class BlController{
 
 			if (alert.getResult() == ButtonType.YES) {
 				try {
+					//Decrypts all backups
 					AESThing aes = new AESThing();
 					DBConnect dbc = new DBConnect();
 					ResultSet res = dbc.getHIDSData();
@@ -225,7 +230,7 @@ public class BlController{
 						aes.decryptFile(new File(todo));
 						aes.writeToFile(new File(todo));
 					}
-					
+					//Makes a new key and recrypts
 					KeyReader.genKey();
 					AESThing aes2 = new AESThing();
 					
@@ -244,6 +249,7 @@ public class BlController{
 			}
 			}
 		
+		//Opens a directory picker, sets to audit textfield
 	    @FXML
 	    void doFindAudit(ActionEvent event) {
 	    	try{
@@ -255,6 +261,7 @@ public class BlController{
 	    	}
 	    }
 
+	  //Opens a directory picker, sets to cloud textfield
 	    @FXML
 	    void doFindCloud(ActionEvent event) {
 	    	try{
@@ -266,6 +273,7 @@ public class BlController{
     	}
 	    }
 
+	  //Opens a directory picker, sets to web textfield
 	    @FXML
 	    void doFindWeb(ActionEvent event) {
 	    	try{
@@ -277,6 +285,7 @@ public class BlController{
     	}
 	    }
 
+	  //Opens a directory picker, sets to user data textfield
 	    @FXML
 	    void doFindUser(ActionEvent event) {
 	    try{
@@ -288,6 +297,7 @@ public class BlController{
     	}
 	    }
 	    
+	  //Opens a directory picker, sets to restore textfield
 	    @FXML
 	    void doFindRestore(ActionEvent event) {
 	    	try{
@@ -299,6 +309,7 @@ public class BlController{
 	    	}
 	    }
 	    
+	  //Generic function to select a directory
 	    public File getDir(){
 	    	DirectoryChooser chooser = new DirectoryChooser();
 	    	chooser.setTitle("Select a directory");
@@ -307,6 +318,7 @@ public class BlController{
 	    	return selectedDirectory;
 	    }
 	    
+	    //Checks the directory selected is not null and contains files
 	    public boolean nonNullCheck(File toAuth){
 	    	if(toAuth.list()!=null){
 	    		return false;
@@ -316,6 +328,7 @@ public class BlController{
 	    	}
 	    }
 	    
+	    //Makes sure selected directories are not duplicated
 	    public boolean nonDupeCheck(){
 	    	ArrayList<String> urls = new ArrayList<String>();
 	    	
@@ -333,6 +346,8 @@ public class BlController{
 	    		return true;
 	    	}
 	    }
+	    
+	    //Sidebar code
 		@FXML
 		public void showSidebar(MouseEvent event) {
 			if (openClose == false) {

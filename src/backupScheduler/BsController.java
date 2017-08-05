@@ -135,12 +135,14 @@ public class BsController{
 	private int pageNo;
     
 	public void initialize(){
+		//Starts the timer
     	timePicker.setShowTime(true);
     	this.bo = new BackupObject();
     	
     	DBConnect dbc = new DBConnect();
     	this.scheduleList = new ArrayList<ScheduleObject>();
     
+    	//Loads the table with objects generated from the DB
     	try {
 			ResultSet res = dbc.getAllSchedules();
 			
@@ -200,6 +202,7 @@ public class BsController{
 		
     }
     
+	//Adds an entry to the schedule
     @FXML
     void doAddBackup(ActionEvent event) {
     	boolean auth = false;
@@ -211,6 +214,7 @@ public class BsController{
     			
     	if(auth){
     	try{
+    		//Writes a new schedule object
     	ScheduleObject so = new ScheduleObject(
     			taName.getText(),
     			Integer.parseInt(taRepeat.getText()),
@@ -229,6 +233,8 @@ public class BsController{
     		System.err.println(e.getMessage());
     	}
 
+    	//Cleans the UI
+    	
     	taName.setText("");
     	taRepeat.setText("");
     	
@@ -255,7 +261,7 @@ public class BsController{
 
     @FXML
     void doCancel(ActionEvent event) {
-    	//Convert to remove a scheduled object
+    	//Remove a scheduled object
     	if(bsTable.getSelectionModel().getSelectedIndex()>=0){
         	int selOnes = bsTable.getSelectionModel().getSelectedIndex();
         	int sel = (pageNo*10)+selOnes;

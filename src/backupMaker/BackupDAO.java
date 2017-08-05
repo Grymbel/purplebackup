@@ -58,7 +58,7 @@ public class BackupDAO {
 		File file = new File("src/output/"+dirName);
 		file.mkdir();
 	}
-	//Reads off the current text file. Will change to SQLite when I make the app
+	//Reads from location table in DB to see where to run the backup process on
 	public String[] getTargetDirs(){
 		String[] toRet=new String[4];
 		

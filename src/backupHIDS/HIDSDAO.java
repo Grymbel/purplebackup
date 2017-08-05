@@ -10,6 +10,8 @@ public class HIDSDAO {
 	public HIDSDAO(){
 		
 	}
+	
+	//Returns all HIDS entries
 	public ArrayList<HIDSObject> getAllHIDSEntries(){
 		ArrayList<HIDSObject> toRet = new ArrayList<HIDSObject>();
 		DBConnect dbc = new DBConnect();

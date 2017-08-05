@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
+//SHA1 hashing class
 public class SHA1 {
 	public static String sha1(final File file) throws NoSuchAlgorithmException, IOException {
 	    final MessageDigest messageDigest = MessageDigest.getInstance("SHA1");

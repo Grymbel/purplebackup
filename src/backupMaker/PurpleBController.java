@@ -147,6 +147,7 @@ public class PurpleBController {
         data.add(new BackupObject(bo.getUserBackup(),bo.getCloudBackup(),bo.getWebBackup(),bo.getAuditBackup(),bo.getCreationDate(),bo.getIsBase()));
     }
     
+    //Process of registering a manual backup
     @FXML
     void doAddBackup(ActionEvent event) {
     	long time =System.currentTimeMillis();
@@ -171,9 +172,11 @@ public class PurpleBController {
 		}
     }
 
+    //Restore a backup 
     @FXML
     void doRestore(ActionEvent event) {
     	if(bmtable.getSelectionModel().getSelectedIndex()>=0){
+    		//Asks for confirmation 
     		Alert alert = new Alert(AlertType.CONFIRMATION, "When your backup is restored, it is fully unencrypted and ready to use. Move it to its proper location quickly. Proceed?", ButtonType.YES, ButtonType.NO);
 			alert.showAndWait();
 
@@ -189,6 +192,7 @@ public class PurpleBController {
     	}
     }
 
+    //Button is highlighted and option registered
     @FXML
     void doSelAudit(ActionEvent event) {
     	colorSwap(btnSelAudit);
@@ -200,6 +204,7 @@ public class PurpleBController {
     	}
     }
 
+    //Button is highlighted and option registered
     @FXML
     void doSelCloud(ActionEvent event) {
     	colorSwap(btnSelCloud);
@@ -211,6 +216,7 @@ public class PurpleBController {
         	}
     }
 
+    //Button is highlighted and option registered
     @FXML
     void doSelUserData(ActionEvent event) {
     	colorSwap(btnSelUserData);
@@ -222,6 +228,7 @@ public class PurpleBController {
         	}
     }
 
+    //Button is highlighted and option registered
     @FXML
     void doSelWeb(ActionEvent event) {
     	colorSwap(btnSelWeb);
@@ -233,6 +240,7 @@ public class PurpleBController {
         	}
     }
 
+    //Sets up a base Backup
     @FXML
     void doEnableBase(ActionEvent event){
     	ArrayList<JFXButton> buttons = new ArrayList<JFXButton>();
@@ -284,6 +292,7 @@ public class PurpleBController {
     	}
     }
     
+    //Allows export to backup to external media
     @FXML
     void doFindOutput(ActionEvent event){
     	this.exportURL = getDir();
@@ -294,19 +303,6 @@ public class PurpleBController {
 			e.printStackTrace();
 		}
     	}
-    }
-    
-    @FXML
-    void gotoBack(ActionEvent event) {
-		try {
-    	Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-		Parent root;
-			root = FXMLLoader.load(getClass().getResource("../view/HomePage.fxml"));
-		stage.setScene(new Scene(root,1920,1080));
- 	    stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
     }
 
     @FXML
@@ -359,6 +355,7 @@ public class PurpleBController {
     	}
     }
     
+    //Generic directory selection method
     public File getDir(){
     	DirectoryChooser chooser = new DirectoryChooser();
     	chooser.setTitle("Select a directory");

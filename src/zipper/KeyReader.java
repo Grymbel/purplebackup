@@ -12,6 +12,10 @@ import java.util.Scanner;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 
+//Key management class
+/*
+ * Lock, Unlock, Get, Generate, Check for existing
+ */
 public class KeyReader {
 	
 public static void lockKey(){
@@ -20,7 +24,6 @@ public static void lockKey(){
 	try {
 		aes.encryptKey();
 	} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 }

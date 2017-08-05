@@ -14,12 +14,14 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
+//My AES Encryption class
 public class AESThing {
 	private SecretKeySpec secretKey;
 	private Cipher cipher;
 	
 	private SecretKeySpec secretKeyAlt;
 
+	//Loads the cipher and key for the database
 	public AESThing(boolean thing){
 		int length=16;
 		
@@ -34,6 +36,8 @@ public class AESThing {
 			e.printStackTrace();
 		}
 	}
+	
+	//Loads the cipher and key for backups
 	public AESThing(){
 		try{
 		String secret;
@@ -56,6 +60,7 @@ public class AESThing {
 		}
 	}
 
+	//Pads the secret
 	private byte[] fixSecret(String s, int length) throws UnsupportedEncodingException {
 		if (s.length() < length) {
 			int missingLength = length - s.length();
@@ -66,17 +71,24 @@ public class AESThing {
 		return s.substring(0, length).getBytes("UTF-8");
 	}
 
+	//Encrypts the file
 	public void encryptFile(File f)
 			throws InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
 		this.cipher.init(Cipher.ENCRYPT_MODE, this.secretKey);
 		this.writeToFile(f);
 	}
 
+	//Decrypts the file
+	/*
+	 * I decided to split decrypting and writing files as unsuccessfully decrypted files
+	 * can accidentally overwrite the decryption target to nothing.
+	 */
 	public void decryptFile(File f)
 			throws InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
 		this.cipher.init(Cipher.DECRYPT_MODE, this.secretKey);
 	}
 	
+	//Writes the encrypted/decrypted file
 	public void writeToFile(File f) throws IOException, IllegalBlockSizeException, BadPaddingException {
 		FileInputStream in = new FileInputStream(f);
 		byte[] input = new byte[(int) f.length()];
@@ -91,6 +103,7 @@ public class AESThing {
 		in.close();
 	}
 	
+	//Checks for zip files in the output
 	public static ArrayList<String> getArchives(){
 		Zipper zip = new Zipper();
 		zip.genFileList(new File("src/output/"));
@@ -98,17 +111,20 @@ public class AESThing {
 		return strings;
 	}
 
+	//Protects the key
 	public void encryptKey()
 			throws InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
 		this.cipher.init(Cipher.ENCRYPT_MODE, this.secretKeyAlt);
 		this.writeToFile(new File("src/zipper/the.key"));
 	}
 
+	//Opens the key for use
 	public void decryptKey()
 			throws InvalidKeyException, IOException, IllegalBlockSizeException, BadPaddingException {
 		this.cipher.init(Cipher.DECRYPT_MODE, this.secretKeyAlt);
 	}
 	
+	//Edits the key
 	public void writeToKey() throws IOException, IllegalBlockSizeException, BadPaddingException {
 		File f = new File("src/zipper/the.key");
 		FileInputStream in = new FileInputStream(f);

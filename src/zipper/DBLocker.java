@@ -9,31 +9,31 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 
 public class DBLocker {
-	private static File existance = new File("src/database/existance");
+	//The existence of this file means the DB is unencrypted
+	private static File existence = new File("src/database/existence");
 	
 	public static void lockDB(){
 		System.out.println("Starting lock");
-		if(existance.exists()){
+		if(existence.exists()){
 			System.out.println("Lock process");
 		AESThing aes = new AESThing();
 		try {
 			aes.encryptFile(new File("purplebackups.db"));
 			System.out.println("Locked DB");
 		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		existance.delete();
+		existence.delete();
 		}
 	}
 	public static void unlockDB(){
 		System.out.println("Starting unlock");
-		if(!existance.exists()){
+		if(!existence.exists()){
 			System.out.println("Unlock process");
 		FileWriter fw;
 		try {
-			fw = new FileWriter("src/database/existance");
-			fw.write("Existance");
+			fw = new FileWriter("src/database/existence");
+			fw.write("Existence");
 			fw.close();
 			
 			AESThing aes = new AESThing();

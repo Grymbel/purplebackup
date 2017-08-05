@@ -12,6 +12,7 @@ import java.util.zip.ZipInputStream;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 
+//Unzipping and decryption
 public class Unzipper
 {
     List<String> fileList;
@@ -83,6 +84,7 @@ public class Unzipper
         zis.closeEntry();
     	zis.close();
 
+    	//Re-encrypts the read file
     	if(doRecrypt){
     		try {
     			aes = new AESThing();

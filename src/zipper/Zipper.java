@@ -14,6 +14,7 @@ import java.util.zip.ZipOutputStream;
 
 import database.DBConnect;
 
+//Zipping and encryption
 public class Zipper{
 	List<String> fileList;
 	List<String> digestList;
@@ -62,6 +63,7 @@ public class Zipper{
     		System.out.println("Selective zip");
     	}
     }
+    //Zips the whole directory without logic
     public void zipItAll(String zipFile){
 
      byte[] buffer = new byte[1024];
@@ -109,6 +111,7 @@ public class Zipper{
     }
    }
     
+    //Zips on the changed files
     public void zipIt(String zipFile){
 
         byte[] buffer = new byte[1024];
@@ -170,6 +173,7 @@ public class Zipper{
 			e.printStackTrace();
 		} 
 
+       	//Updates the HIDS
     	try {
     		dbc.addHIDS(backupID,outputFile.substring(0,outputFile.length()-4),SHA1.sha1(new File(zipFile)));
 		} catch (SQLException e) {
@@ -183,6 +187,8 @@ public class Zipper{
           ex.printStackTrace();
        }
       }
+    
+    //Lists all files in directory recursively
     public void generateFileList(File node){
 	if(node.isFile()){
 		fileList.add(generateZipEntry(node.getPath().toString()));
@@ -204,6 +210,7 @@ public class Zipper{
 
     }
     
+    //Lists the whole path of all files in directory recursively
     public void genFileList(File node){
     	if(node.isFile()){
     		fileList.add(node.getPath().toString());
@@ -217,6 +224,7 @@ public class Zipper{
     	}
         }
 
+    //Cuts the length of the path
     private String generateZipEntry(String file){
     	return file.substring(sourceDir.length()+1, file.length());
     }
