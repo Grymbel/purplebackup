@@ -128,6 +128,9 @@ public class SettingsController {
 				loginModel.setSalt(newSaltStr);
 				loginModel.setPassword(newHashedPassword);
 				loginModel.updateAdmin();
+				
+				errorLbl.setStyle("-fx-text-fill : #32CD32");
+				errorLbl.setText("Password update successful");
 			}
 		}
 		else {

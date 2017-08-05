@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Stack;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
@@ -15,8 +14,6 @@ import com.jfoenix.controls.JFXListView;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +23,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -50,11 +46,11 @@ public class AuditLogController {
 	@FXML
 	private HBox firewallItem;
 	@FXML
-	private HBox secureItem;
-	@FXML
 	private HBox auditItem;
 	@FXML
 	private HBox backupItem;
+	@FXML
+	private HBox secureItem;
 	@FXML
 	private HBox logoutItem;
 	@FXML
@@ -64,20 +60,36 @@ public class AuditLogController {
 	@FXML
 	private JFXComboBox<String> normSusp;
 	
-	//private boolean openClose = false;
-	
-
 	@FXML
-	public void initialize() {
+	public void initialize() throws ParseException {
 		ArrayList<AuditLogModel> dataList = AuditLogModel.getAllData();
 		cherStud.getItems().addAll("All", "Teachers", "Students");
 		cherStud.setValue("All");
 		normSusp.getItems().addAll("All", "Normal", "Suspicious");
 		normSusp.setValue("All");
 		
+		String startTimeStr = "01:00 AM";
+		Date startTime = new SimpleDateFormat("hh:mm a").parse(startTimeStr);
+		Calendar calendar1 = Calendar.getInstance();
+	    calendar1.setTime(startTime);
+	    Date a = calendar1.getTime();
+	    
+		String endTimeStr = "06:00 AM";
+		Date endTime = new SimpleDateFormat("hh:mm a").parse(endTimeStr);
+		Calendar calendar2 = Calendar.getInstance();
+	    calendar2.setTime(endTime);
+	    Date b = calendar2.getTime();
+		
 		Collections.reverse(dataList);
+		String timeStr = null;
 		for (AuditLogModel aLM : dataList) {
-			
+			aLM.getDateTime();
+			timeStr = aLM.getDateTime().substring(11);
+			Date d = new SimpleDateFormat("hh:mm a").parse(timeStr);
+			Calendar c = Calendar.getInstance();
+		    c.setTime(d);
+		    Date y = c.getTime();
+		    
 			HBox hWrap = new HBox();
 			Label dateTimeLbl = new Label(aLM.getDateTime());
 			VBox vWrap = new VBox();
@@ -96,7 +108,6 @@ public class AuditLogController {
 			userActLbl.setPrefHeight(10);
 			userActLbl.setAlignment(Pos.CENTER);
 			userActLbl.setFont(new Font("System", 18));
-			//hWrap.setStyle("-fx-border-color: black");
 			HBox.setMargin(dateTimeLbl, new Insets(15,0,0,0));
 			
 			vWrap.getChildren().add(userActLbl);
@@ -106,10 +117,24 @@ public class AuditLogController {
 			logListView.getItems().add(hWrap);
 			
 			if (aLM.getActivity().equals("Attempted cross-site scripting")) {
-				//hWrap.setStyle("-fx-border-color: red");
 				dateTimeLbl.setStyle("-fx-text-fill: red");
 				ipLbl.setStyle("-fx-text-fill: red");
 				userActLbl.setStyle("-fx-text-fill: red");
+				Tooltip tooltip = new Tooltip("Attempted cross-site scripting");
+				aLM.hackTooltipStartTiming(tooltip);
+				dateTimeLbl.setTooltip(tooltip);
+				ipLbl.setTooltip(tooltip);
+				userActLbl.setTooltip(tooltip);
+			}
+			else if (y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
+				dateTimeLbl.setStyle("-fx-text-fill: red");
+				ipLbl.setStyle("-fx-text-fill: red");
+				userActLbl.setStyle("-fx-text-fill: red");
+				Tooltip tooltip = new Tooltip("Suspicious logging time");
+				aLM.hackTooltipStartTiming(tooltip);
+				dateTimeLbl.setTooltip(tooltip);
+				ipLbl.setTooltip(tooltip);
+				userActLbl.setTooltip(tooltip);
 			}
 		}
 	}
@@ -148,13 +173,13 @@ public class AuditLogController {
 					}
 					else if (normSusp.getValue().equals("Normal")) {
 						System.out.println("cherStud: Selected All and Normal");
-						if (!aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
+						if (!aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
 							
 						}
 					}
 					else if (normSusp.getValue().equals("Suspicious")) {
 						System.out.println("cherStud: Selected All and Suspicious");
-						if (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
+						if (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
 							//System.out.println(timeStr);
 						}
 					}
@@ -171,13 +196,13 @@ public class AuditLogController {
 					}
 					else if (normSusp.getValue().equals("Normal")) {
 						System.out.println("cherStud: Selected Teachers and Normal");
-						if (aLM.getUsername().equals("Teacher") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
+						if (aLM.getUsername().equals("Teacher") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
 							
 						}
 					}
 					else if (normSusp.getValue().equals("Suspicious")) {
 						System.out.println("cherStud: Selected Teachers and Suspicious");
-						if (aLM.getUsername().equals("Teacher") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
+						if (aLM.getUsername().equals("Teacher") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
 							
 						}
 					}
@@ -194,13 +219,13 @@ public class AuditLogController {
 					}
 					else if (normSusp.getValue().equals("Normal")) {
 						System.out.println("cherStud: Selected Students and Normal");
-						if (aLM.getUsername().equals("Student") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
+						if (aLM.getUsername().equals("Student") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
 							
 						}
 					}
 					else if (normSusp.getValue().equals("Suspicious")) {
 						System.out.println("cherStud: Selected Students and Suspicious");
-						if (aLM.getUsername().equals("Student") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
+						if (aLM.getUsername().equals("Student") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
 							
 						}
 					}
@@ -234,19 +259,19 @@ public class AuditLogController {
 				else if (normSusp.getValue().equals("Normal")) {
 					if (cherStud.getValue().equals("All")) {
 						System.out.println("normSusp: Selected Normal and All");
-						if (!aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
+						if (!aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
 							
 						}
 					}
 					else if (cherStud.getValue().equals("Teachers")) {
 						System.out.println("normSusp: Selected Normal and Teachers");
-						if (aLM.getUsername().equals("Teacher") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
+						if (aLM.getUsername().equals("Teacher") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
 							
 						}
 					}
 					else if (cherStud.getValue().equals("Students")) {
 						System.out.println("normSusp: Selected Normal and Students");
-						if (aLM.getUsername().equals("Student") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b)) {
+						if (aLM.getUsername().equals("Student") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
 							
 						}
 					}
@@ -263,13 +288,13 @@ public class AuditLogController {
 					}
 					else if (cherStud.getValue().equals("Teachers")) {
 						System.out.println("normSusp: Selected Suspicious and Teachers");
-						if (aLM.getUsername().equals("Teacher") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
+						if (aLM.getUsername().equals("Teacher") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
 							
 						}
 					}
 					else if (cherStud.getValue().equals("Students")) {
 						System.out.println("normSusp: Selected Suspicious and Students");
-						if (aLM.getUsername().equals("Student") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
+						if (aLM.getUsername().equals("Student") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
 							
 						}
 					}
@@ -278,6 +303,55 @@ public class AuditLogController {
 					}
 				}
 			}
+		}
+	}
+	
+	public void createListItems(AuditLogModel aLM, Date a, Date b, Date y) {
+		HBox hWrap = new HBox();
+		Label dateTimeLbl = new Label(aLM.getDateTime());
+		VBox vWrap = new VBox();
+		Label ipLbl = new Label(aLM.getIpAddress());
+		Label userActLbl = new Label(aLM.getUsername() + " " + aLM.getActivity());
+		
+		dateTimeLbl.setPrefWidth(600);
+		dateTimeLbl.setPrefHeight(10);
+		dateTimeLbl.setAlignment(Pos.CENTER);
+		dateTimeLbl.setFont(new Font("System", 18));
+		ipLbl.setPrefWidth(660);
+		ipLbl.setPrefHeight(10);
+		ipLbl.setAlignment(Pos.CENTER);
+		ipLbl.setFont(new Font("System", 18));
+		userActLbl.setPrefWidth(660);
+		userActLbl.setPrefHeight(10);
+		userActLbl.setAlignment(Pos.CENTER);
+		userActLbl.setFont(new Font("System", 18));
+		HBox.setMargin(dateTimeLbl, new Insets(15,0,0,0));
+		
+		vWrap.getChildren().add(userActLbl);
+		vWrap.getChildren().add(ipLbl);
+		hWrap.getChildren().add(dateTimeLbl);
+		hWrap.getChildren().add(vWrap);
+		logListView.getItems().add(hWrap);
+		
+		if (aLM.getActivity().equals("Attempted cross-site scripting")) {
+			dateTimeLbl.setStyle("-fx-text-fill: red");
+			ipLbl.setStyle("-fx-text-fill: red");
+			userActLbl.setStyle("-fx-text-fill: red");
+			Tooltip tooltip = new Tooltip("Attempted cross-site scripting");
+			aLM.hackTooltipStartTiming(tooltip);
+			dateTimeLbl.setTooltip(tooltip);
+			ipLbl.setTooltip(tooltip);
+			userActLbl.setTooltip(tooltip);
+		}
+		else if (y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
+			dateTimeLbl.setStyle("-fx-text-fill: red");
+			ipLbl.setStyle("-fx-text-fill: red");
+			userActLbl.setStyle("-fx-text-fill: red");
+			Tooltip tooltip = new Tooltip("Suspicious logging time");
+			aLM.hackTooltipStartTiming(tooltip);
+			dateTimeLbl.setTooltip(tooltip);
+			ipLbl.setTooltip(tooltip);
+			userActLbl.setTooltip(tooltip);
 		}
 	}
 	
