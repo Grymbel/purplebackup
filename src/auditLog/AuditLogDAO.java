@@ -27,9 +27,10 @@ public class AuditLogDAO {
 				fields = record.split(";");
 				String dateTime = fields[0];
 				String ipAddress = fields[1];
-				String username = fields[2];
-				String activity = fields[3];
-				AuditLogModel aLM = new AuditLogModel(dateTime, ipAddress, username, activity);
+				String location = fields[2];
+				String username = fields[3];
+				String activity = fields[4];
+				AuditLogModel aLM = new AuditLogModel(dateTime, ipAddress, location, username, activity);
 				dataList.add(aLM);
 			}
 			in.close();
@@ -60,6 +61,7 @@ public class AuditLogDAO {
 			System.out.println("IP Address: " + model.getIpAddress());
 			System.out.println("Username: " + model.getUsername());
 			System.out.println("Activity: " + model.getActivity());
+			System.out.println("Location: " + model.getLocation());
 		}
 	}
 }

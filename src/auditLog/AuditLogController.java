@@ -101,49 +101,62 @@ public class AuditLogController {
 		    
 			HBox hWrap = new HBox();
 			Label dateTimeLbl = new Label(aLM.getDateTime());
-			VBox vWrap = new VBox();
+			VBox vWrap1 = new VBox();
+			VBox vWrap2 = new VBox();
 			Label ipLbl = new Label(aLM.getIpAddress());
 			Label userActLbl = new Label(aLM.getUsername() + " " + aLM.getActivity());
+			Label locationLbl = new Label(aLM.getLocation());
 			
 			dateTimeLbl.setPrefWidth(600);
 			dateTimeLbl.setPrefHeight(10);
 			dateTimeLbl.setAlignment(Pos.CENTER);
 			dateTimeLbl.setFont(new Font("System", 18));
+			userActLbl.setPrefWidth(600);
+			userActLbl.setPrefHeight(10);
+			userActLbl.setAlignment(Pos.CENTER);
+			userActLbl.setFont(new Font("System", 18));
 			ipLbl.setPrefWidth(660);
 			ipLbl.setPrefHeight(10);
 			ipLbl.setAlignment(Pos.CENTER);
 			ipLbl.setFont(new Font("System", 18));
-			userActLbl.setPrefWidth(660);
-			userActLbl.setPrefHeight(10);
-			userActLbl.setAlignment(Pos.CENTER);
-			userActLbl.setFont(new Font("System", 18));
-			HBox.setMargin(dateTimeLbl, new Insets(15,0,0,0));
+			locationLbl.setPrefWidth(660);
+			locationLbl.setPrefHeight(10);
+			locationLbl.setFont(new Font("System", 18));
+			locationLbl.setAlignment(Pos.CENTER);
+			//HBox.setMargin(dateTimeLbl, new Insets(15,0,0,0));
+			//HBox.setMargin(locationLbl, new Insets(15,0,0,0));
 			
-			vWrap.getChildren().add(userActLbl);
-			vWrap.getChildren().add(ipLbl);
-			hWrap.getChildren().add(dateTimeLbl);
-			hWrap.getChildren().add(vWrap);
+			vWrap1.getChildren().add(dateTimeLbl);
+			vWrap1.getChildren().add(userActLbl);
+			vWrap2.getChildren().add(ipLbl);
+			vWrap2.getChildren().add(locationLbl);
+			hWrap.getChildren().add(vWrap1);
+			hWrap.getChildren().add(vWrap2);
 			logListView.getItems().add(hWrap);
 			
 			if (aLM.getActivity().equals("Attempted cross-site scripting")) {
 				dateTimeLbl.setStyle("-fx-text-fill: red");
 				ipLbl.setStyle("-fx-text-fill: red");
 				userActLbl.setStyle("-fx-text-fill: red");
+				locationLbl.setStyle("-fx-text-fill: red");
 				Tooltip tooltip = new Tooltip("Attempted cross-site scripting");
 				aLM.hackTooltipStartTiming(tooltip);
 				dateTimeLbl.setTooltip(tooltip);
 				ipLbl.setTooltip(tooltip);
 				userActLbl.setTooltip(tooltip);
+				locationLbl.setTooltip(tooltip);
 			}
 			else if (y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
 				dateTimeLbl.setStyle("-fx-text-fill: red");
 				ipLbl.setStyle("-fx-text-fill: red");
 				userActLbl.setStyle("-fx-text-fill: red");
+				locationLbl.setStyle("-fx-text-fill: red");
 				Tooltip tooltip = new Tooltip("Suspicious logging time");
 				aLM.hackTooltipStartTiming(tooltip);
 				dateTimeLbl.setTooltip(tooltip);
 				ipLbl.setTooltip(tooltip);
 				userActLbl.setTooltip(tooltip);
+				locationLbl.setTooltip(tooltip);
 			}
 		}
 	}
@@ -256,7 +269,7 @@ public class AuditLogController {
 					else if (normSusp.getValue().equals("Suspicious")) {
 						System.out.println("cherStud: Selected Students and Suspicious");
 						if (login.next()) {
-							if (aLM.getUsername().equals("Student")) {
+							if (Integer.parseInt(login.getString("UserID")) <= 10) {
 								if ((aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully"))) {
 									createListItems(aLM, a, b, y);
 								}
@@ -345,7 +358,7 @@ public class AuditLogController {
 					else if (cherStud.getValue().equals("Students")) {
 						System.out.println("normSusp: Selected Suspicious and Students");
 						if (login.next()) {
-							if (aLM.getUsername().equals("Student")) {
+							if (Integer.parseInt(login.getString("UserID")) <= 10) {
 								if ((aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully"))) {
 									createListItems(aLM, a, b, y);
 								}
@@ -363,49 +376,62 @@ public class AuditLogController {
 	public void createListItems(AuditLogModel aLM, Date a, Date b, Date y) {
 		HBox hWrap = new HBox();
 		Label dateTimeLbl = new Label(aLM.getDateTime());
-		VBox vWrap = new VBox();
+		VBox vWrap1 = new VBox();
+		VBox vWrap2 = new VBox();
 		Label ipLbl = new Label(aLM.getIpAddress());
 		Label userActLbl = new Label(aLM.getUsername() + " " + aLM.getActivity());
+		Label locationLbl = new Label(aLM.getLocation());
 		
 		dateTimeLbl.setPrefWidth(600);
 		dateTimeLbl.setPrefHeight(10);
 		dateTimeLbl.setAlignment(Pos.CENTER);
 		dateTimeLbl.setFont(new Font("System", 18));
+		userActLbl.setPrefWidth(600);
+		userActLbl.setPrefHeight(10);
+		userActLbl.setAlignment(Pos.CENTER);
+		userActLbl.setFont(new Font("System", 18));
 		ipLbl.setPrefWidth(660);
 		ipLbl.setPrefHeight(10);
 		ipLbl.setAlignment(Pos.CENTER);
 		ipLbl.setFont(new Font("System", 18));
-		userActLbl.setPrefWidth(660);
-		userActLbl.setPrefHeight(10);
-		userActLbl.setAlignment(Pos.CENTER);
-		userActLbl.setFont(new Font("System", 18));
-		HBox.setMargin(dateTimeLbl, new Insets(15,0,0,0));
+		locationLbl.setPrefWidth(660);
+		locationLbl.setPrefHeight(10);
+		locationLbl.setFont(new Font("System", 18));
+		locationLbl.setAlignment(Pos.CENTER);
+		//HBox.setMargin(dateTimeLbl, new Insets(15,0,0,0));
+		//HBox.setMargin(locationLbl, new Insets(15,0,0,0));
 		
-		vWrap.getChildren().add(userActLbl);
-		vWrap.getChildren().add(ipLbl);
-		hWrap.getChildren().add(dateTimeLbl);
-		hWrap.getChildren().add(vWrap);
+		vWrap1.getChildren().add(dateTimeLbl);
+		vWrap1.getChildren().add(userActLbl);
+		vWrap2.getChildren().add(ipLbl);
+		vWrap2.getChildren().add(locationLbl);
+		hWrap.getChildren().add(vWrap1);
+		hWrap.getChildren().add(vWrap2);
 		logListView.getItems().add(hWrap);
 		
 		if (aLM.getActivity().equals("Attempted cross-site scripting")) {
 			dateTimeLbl.setStyle("-fx-text-fill: red");
 			ipLbl.setStyle("-fx-text-fill: red");
 			userActLbl.setStyle("-fx-text-fill: red");
+			locationLbl.setStyle("-fx-text-fill: red");
 			Tooltip tooltip = new Tooltip("Attempted cross-site scripting");
 			aLM.hackTooltipStartTiming(tooltip);
 			dateTimeLbl.setTooltip(tooltip);
 			ipLbl.setTooltip(tooltip);
 			userActLbl.setTooltip(tooltip);
+			locationLbl.setTooltip(tooltip);
 		}
 		else if (y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
 			dateTimeLbl.setStyle("-fx-text-fill: red");
 			ipLbl.setStyle("-fx-text-fill: red");
 			userActLbl.setStyle("-fx-text-fill: red");
+			locationLbl.setStyle("-fx-text-fill: red");
 			Tooltip tooltip = new Tooltip("Suspicious logging time");
 			aLM.hackTooltipStartTiming(tooltip);
 			dateTimeLbl.setTooltip(tooltip);
 			ipLbl.setTooltip(tooltip);
 			userActLbl.setTooltip(tooltip);
+			locationLbl.setTooltip(tooltip);
 		}
 	}
 	

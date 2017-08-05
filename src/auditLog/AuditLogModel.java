@@ -20,15 +20,17 @@ public class AuditLogModel {
 	private String ipAddress;
 	private String username;
 	private String activity;
+	private String location;
 	
 	public AuditLogModel() {
 		super();
 	}
 
-	public AuditLogModel(String dateTime, String ipAddress, String username, String activity) {
+	public AuditLogModel(String dateTime, String ipAddress, String location, String username, String activity) {
 		super();
 		this.dateTime = dateTime;
 		this.ipAddress = ipAddress;
+		this.location = location;
 		this.username = username;
 		this.activity = activity;
 	}
@@ -47,6 +49,14 @@ public class AuditLogModel {
 
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
+	}
+	
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getUsername() {
@@ -67,7 +77,7 @@ public class AuditLogModel {
 	
 	@Override
 	public String toString() {
-		return dateTime + ";" + ipAddress + ";" + username + ";" + activity; 
+		return dateTime + ";" + ipAddress + ";" + location + ";" + username + ";" + activity;
 	}
 	
 	public static ArrayList<AuditLogModel> getAllData() {
@@ -80,6 +90,7 @@ public class AuditLogModel {
 		AuditLogModel aLM = logDAO.getData(dateTime);
 		setIpAddress(aLM.getIpAddress());
 		setUsername(aLM.getUsername());
+		setLocation(aLM.getLocation());
 		setActivity(aLM.getActivity());
 	}
 	
