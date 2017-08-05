@@ -50,7 +50,7 @@ public class DatabaseDAO {
 	     stmt = conn.createStatement();
 	}
 
-	private ResultSet getDatabaseData(String sql) throws SQLException{
+	public ResultSet getDatabaseData(String sql) throws SQLException{
 		return stmt.executeQuery(sql);
 	}
 	
