@@ -52,6 +52,41 @@ public class Zipper{
     public Zipper(){
     	fileList = new ArrayList<String>();
     }
+    
+    public Zipper(String sourceDir){
+    	fileList = new ArrayList<String>();
+    	this.sourceDir =sourceDir;
+    }
+    
+    public void plainZip(File sourceDir, File zipFile){
+
+        byte[] buffer = new byte[1024];
+
+        try{
+
+       	FileOutputStream fos = new FileOutputStream(zipFile);
+       	ZipOutputStream zos = new ZipOutputStream(fos);
+
+       	for(String file : fileList){
+       		ZipEntry ze= new ZipEntry(file);
+           	zos.putNextEntry(ze);
+
+           	FileInputStream in = new FileInputStream(sourceDir+File.separator+file);
+
+           	int len;
+           	while ((len = in.read(buffer)) > 0) {
+           		zos.write(buffer, 0, len);
+           	}
+
+           	in.close();
+       	}
+       	zos.closeEntry();
+       	zos.close();
+        }catch(Exception e){
+        	System.err.println(e.getMessage());
+        	e.printStackTrace();
+        }
+    }
 
     public void zipUp(){
     	this.generateFileList(new File(sourceDir));
@@ -209,6 +244,20 @@ public class Zipper{
 	}
 
     }
+    
+    public void generateFileList(File node,boolean thing){
+    	if(node.isFile()){
+    		fileList.add(generateZipEntry(node.getPath().toString()));
+    	}
+
+    	if(node.isDirectory()){
+    		String[] subNote = node.list();
+    		for(String filename : subNote){
+    			generateFileList(new File(node, filename),true);
+    		}
+    	}
+
+        }
     
     //Lists the whole path of all files in directory recursively
     public void genFileList(File node){

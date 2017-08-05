@@ -27,7 +27,6 @@ public class DBConnect {
 	 }
 	 
 	 public DBConnect(){
-		 System.out.println("Opening DBConnect");
 		 try {
 			getConnection();
 		} catch (ClassNotFoundException e) {
@@ -166,7 +165,7 @@ public class DBConnect {
 	 
 	 public ResultSet getAllSchedules() throws SQLException{
 		 Statement state = con.createStatement();
-		 ResultSet res = state.executeQuery("select * from schedule;");
+		 ResultSet res = state.executeQuery("select * from Schedule;");
 		 return res;
 	 }
 	 

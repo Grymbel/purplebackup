@@ -282,12 +282,36 @@ public class BsController{
 
     @FXML
     void doScrollLeft(ActionEvent event) {
-    	
+    	int minSchedules;
+    	if((this.pageNo-1)>=0){
+    	minSchedules = (pageNo-1)*10;
+    	ObservableList<ScheduleObject> data = bsTable.getItems();
+		data.clear();
+    	for(int y =minSchedules;y<pageNo*10;y++){
+    		data.add(scheduleList.get(y));
+    	}
+    	this.pageNo=this.pageNo-1;
+    	}
     }
 
     @FXML
     void doScrollRight(ActionEvent event) {
+    	int maxSchedules = scheduleList.size();
+    	if(maxSchedules>=noOfPages*10){
+    	maxSchedules = pageNo*10;
+    	}
+    	else{
+    		maxSchedules = scheduleList.size();
+    	}
+    	if(maxSchedules>=(pageNo+1)*10){
+    		ObservableList<ScheduleObject> data = bsTable.getItems();
+    		data.clear();
+    	for(int y =(noOfPages-1)*10;y<maxSchedules;y++){
+    		data.add(scheduleList.get(y));
+    	}
+    	this.pageNo=this.pageNo+1;
 
+    	}
     }
 
 

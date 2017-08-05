@@ -35,6 +35,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
 import zipper.DBLocker;
+import zipper.Zipper;
 
 public class PurpleBController {
 	
@@ -305,15 +306,34 @@ public class PurpleBController {
     @FXML
     void doFindOutput(ActionEvent event){
     	this.exportURL = getDir();
-    	if(this.exportURL!=null){
-    	try {
-			FileUtils.copyDirectoryToDirectory(new File("src/output/"), this.exportURL);
+
+    	if(this.exportURL!=null&&this.exportURL.list().length==0){
+    	try {    		
+    		File f1 = new File("src/output/");
+    		File f2 = new File("src/zipper/the.key");
+    		File f3 = new File("purplebackups.db");
+    		
+			FileUtils.copyDirectoryToDirectory(f1 , this.exportURL);
+			FileUtils.copyFileToDirectory(f2 , this.exportURL);
+			FileUtils.copyFileToDirectory(f3, this.exportURL);
+			
+			Zipper zip = new Zipper(this.exportURL.toString());
+			zip.generateFileList(this.exportURL,true);
+			zip.plainZip(this.exportURL,new File(this.exportURL.toString()+"/output.zip"));
+			
+			FileUtils.deleteDirectory(new File(this.exportURL.toString()+"/output"));
+			new File(this.exportURL.toString()+"/the.key").delete();
+			new File(this.exportURL.toString()+"/purplebackups.db").delete();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
     	}
     }
-
+    
+    @FXML
+    void doImport(ActionEvent event){
+    	
+    }
     @FXML
     void doScrollLeft(ActionEvent event){
     	int minBackups;
@@ -325,9 +345,6 @@ public class PurpleBController {
     		data.add(new BackupObject(allBackups.get(y).getUserBackup(),allBackups.get(y).getCloudBackup(),allBackups.get(y).getWebBackup(),allBackups.get(y).getAuditBackup(),allBackups.get(y).getCreationDate(),allBackups.get(y).getIsBase()));
     	}
     	this.pageNo=this.pageNo-1;
-    	}
-    	else{
-
     	}
     }
     
