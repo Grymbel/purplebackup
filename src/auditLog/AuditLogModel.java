@@ -126,20 +126,12 @@ public class AuditLogModel {
 		Date time3 = new SimpleDateFormat("hh:mm a").parse(d3);
 		Calendar calendar3 = Calendar.getInstance();
 	    calendar3.setTime(time3);
-	    
 	    Date x = calendar3.getTime();
-	    if (x.after(calendar1.getTime()) && x.before(calendar2.getTime())) {
-	    	//System.out.println("true");
-	    }
-	    else {
-	    	//System.out.println("false");
-	    }
 	    
 	    ArrayList<AuditLogModel> dataList = AuditLogModel.getAllData();
 		Collections.reverse(dataList);
 		String timeStr = null;
 		int i = 1;
-		int z = 2;
 		for (AuditLogModel aLM : dataList) {
 			aLM.getDateTime();
 			timeStr = aLM.getDateTime().substring(11);
@@ -147,9 +139,10 @@ public class AuditLogModel {
 			Calendar c = Calendar.getInstance();
 		    c.setTime(d);
 		    Date y = c.getTime();
-		    if (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
-		    	System.out.println("true");
-		    	System.out.println(timeStr);
+		    if (i == 1) {
+			    if ((aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) == false) {
+			    	System.out.println(timeStr);
+			    }
 		    }
 		}
 	}

@@ -72,3 +72,31 @@
 2017/08/05 01:44 AM;Wolf/192.168.239.1;S3675418I;logged in successfully
 2017/08/05 12:45 PM;MSI/192.168.1.5;Bob;entered Directory page
 2017/08/05 01:00 PM;MSI/192.168.1.5;Bob;entered Directory page
+2017/08/05 02:32 PM;MSI/192.168.1.5;T0122332Y;logged in successfully
+2017/08/05 02:32 PM;MSI/192.168.1.5;Bob;entered Directory page
+2017/08/05 02:33 PM;MSI/192.168.1.5;T0122332Y;entered Directory page
+2017/08/05 02:33 PM;MSI/192.168.1.5;T0122332Y;logged in successfully
+2017/08/05 02:34 PM;MSI/192.168.1.5;T0122332Y;logged in successfully
+2017/08/05 02:34 PM;MSI/192.168.1.5;T0122332Y;entered Directory page
+2017/08/05 04:26 PM;MSI/192.168.1.5;;Attempted cross-site scripting
+2017/08/05 04:26 PM;MSI/192.168.1.5;T0122332Y;logged in successfully
+2017/08/05 04:27 PM;MSI/192.168.1.5;Bob;entered Directory page
+2017/08/05 04:27 PM;MSI/192.168.1.5;T0122332Y;entered Directory page
+2017/08/05 04:28 PM;MSI/192.168.1.5;T0122332Y;entered Settings page
+2017/08/05 04:30 PM;MSI/192.168.1.5;T0122332Y;entered Directory page
+2017/08/05 04:31 PM;MSI/192.168.1.5;T0122332Y;searched for: Lee Kuan You
+2017/08/05 04:31 PM;MSI/192.168.1.5;T0122332Y;entered Settings page
+2017/08/05 05:00 PM;MSI/192.168.1.5;T0122332Y;logged in successfully
+2017/08/05 05:01 PM;MSI/192.168.1.5;T0122332Y;entered Teacher Sharing page
+2017/08/05 05:01 PM;MSI/192.168.1.5;T0122332Y;downloaded a file
+2017/08/05 05:03 PM;MSI/192.168.1.5;T0122332Y;entered Teacher Sharing 2 page
+2017/08/05 05:03 PM;MSI/192.168.1.5;T0122332Y;entered Teacher Sharing 3 page
+2017/08/05 05:03 PM;MSI/192.168.1.5;T0122332Y;entered Teacher Sharing page
+2017/08/05 05:03 PM;MSI/192.168.1.5;Bob;entered Directory page
+2017/08/05 05:05 PM;MSI/192.168.1.5;T0122332Y;logged in successfully
+2017/08/05 05:06 PM;MSI/192.168.1.5;Bob;entered Directory page
+2017/08/05 05:06 PM;MSI/192.168.1.5;T0122332Y;entered Teacher Sharing page
+2017/08/05 05:08 PM;MSI/192.168.1.5;T0122332Y;logged out successfully
+2017/08/05 05:08 PM;MSI/192.168.1.5;T0122332Y;logged in successfully
+2017/08/05 05:08 PM;MSI/192.168.1.5;Bob;entered Directory page
+2017/08/05 05:08 PM;MSI/192.168.1.5;T0122332Y;logged out successfully

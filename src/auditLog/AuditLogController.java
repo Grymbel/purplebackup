@@ -1,6 +1,7 @@
 package auditLog;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Date;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 
+import database.DatabaseAccess;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -31,6 +33,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import userManagement.dao.DatabaseDAO;
 
 public class AuditLogController {
 	@FXML
@@ -141,6 +144,10 @@ public class AuditLogController {
 	
 	@FXML
 	public void comboSelect(ActionEvent event) throws ParseException {
+		DatabaseDAO dba = new DatabaseDAO(1);
+		String sqlline = "SELECT Login.UserID, Login.Username, Login.Password, Login.Salt FROM Login WHERE Username = ?;";
+		ResultSet login = dba.getDatabaseData(sqlline);
+		
 		String startTimeStr = "01:00 AM";
 		Date startTime = new SimpleDateFormat("hh:mm a").parse(startTimeStr);
 		Calendar calendar1 = Calendar.getInstance();
@@ -169,18 +176,18 @@ public class AuditLogController {
 				if (cherStud.getValue().equals("All")) {
 					if (normSusp.getValue().equals("All")) {
 						System.out.println("cherStud: Selected All and All");
-						
+						createListItems(aLM, a, b, y);
 					}
 					else if (normSusp.getValue().equals("Normal")) {
 						System.out.println("cherStud: Selected All and Normal");
-						if (!aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
-							
+						if ((aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) == false) {
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else if (normSusp.getValue().equals("Suspicious")) {
 						System.out.println("cherStud: Selected All and Suspicious");
 						if (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
-							//System.out.println(timeStr);
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else {
@@ -191,19 +198,19 @@ public class AuditLogController {
 					if (normSusp.getValue().equals("All")) {
 						System.out.println("cherStud: Selected Teachers and All");
 						if (aLM.getUsername().equals("Teacher")) {
-							
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else if (normSusp.getValue().equals("Normal")) {
 						System.out.println("cherStud: Selected Teachers and Normal");
-						if (aLM.getUsername().equals("Teacher") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
-							
+						if (aLM.getUsername().equals("Teacher") && ((aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) == false)) {
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else if (normSusp.getValue().equals("Suspicious")) {
 						System.out.println("cherStud: Selected Teachers and Suspicious");
-						if (aLM.getUsername().equals("Teacher") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
-							
+						if (aLM.getUsername().equals("Teacher") && (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully"))) {
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else {
@@ -214,19 +221,19 @@ public class AuditLogController {
 					if (normSusp.getValue().equals("All")) {
 						System.out.println("cherStud: Selected Students and All");
 						if (aLM.getUsername().equals("Student")) {
-							
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else if (normSusp.getValue().equals("Normal")) {
 						System.out.println("cherStud: Selected Students and Normal");
-						if (aLM.getUsername().equals("Student") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
-							
+						if (aLM.getUsername().equals("Student") && ((aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) == false)) {
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else if (normSusp.getValue().equals("Suspicious")) {
 						System.out.println("cherStud: Selected Students and Suspicious");
-						if (aLM.getUsername().equals("Student") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
-							
+						if (aLM.getUsername().equals("Student") && (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully"))) {
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else {
@@ -238,18 +245,18 @@ public class AuditLogController {
 				if (normSusp.getValue().equals("All")) {
 					if (cherStud.getValue().equals("All")) {
 						System.out.println("normSusp: Selected All and All");
-						
+						createListItems(aLM, a, b, y);
 					}
 					else if (cherStud.getValue().equals("Teachers")) {
 						System.out.println("normSusp: Selected All and Teachers");
 						if (aLM.getUsername().equals("Teacher")) {
-							
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else if (cherStud.getValue().equals("Students")) {
 						System.out.println("normSusp: Selected All and Students");
 						if (aLM.getUsername().equals("Student")) {
-							
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else {
@@ -259,20 +266,20 @@ public class AuditLogController {
 				else if (normSusp.getValue().equals("Normal")) {
 					if (cherStud.getValue().equals("All")) {
 						System.out.println("normSusp: Selected Normal and All");
-						if (!aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
-							
+						if ((aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) == false) {
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else if (cherStud.getValue().equals("Teachers")) {
 						System.out.println("normSusp: Selected Normal and Teachers");
-						if (aLM.getUsername().equals("Teacher") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
-							
+						if (aLM.getUsername().equals("Teacher") && ((aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) == false)) {
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else if (cherStud.getValue().equals("Students")) {
 						System.out.println("normSusp: Selected Normal and Students");
-						if (aLM.getUsername().equals("Student") && !aLM.getActivity().equals("Attempted cross-site scripting") || !y.after(a) && y.before(b) && !aLM.getActivity().equals("logged in successfully")) {
-							
+						if (aLM.getUsername().equals("Student") && ((aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) == false)) {
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else {
@@ -283,19 +290,19 @@ public class AuditLogController {
 					if (cherStud.getValue().equals("All")) {
 						System.out.println("normSusp: Selected Suspicious and All");
 						if (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
-							
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else if (cherStud.getValue().equals("Teachers")) {
 						System.out.println("normSusp: Selected Suspicious and Teachers");
-						if (aLM.getUsername().equals("Teacher") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
-							
+						if (aLM.getUsername().equals("Teacher") && (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully"))) {
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else if (cherStud.getValue().equals("Students")) {
 						System.out.println("normSusp: Selected Suspicious and Students");
-						if (aLM.getUsername().equals("Student") && aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
-							
+						if (aLM.getUsername().equals("Student") && (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully"))) {
+							createListItems(aLM, a, b, y);
 						}
 					}
 					else {
