@@ -144,7 +144,12 @@ public class PurpleBController {
 	protected void addBackupObject() {
 		//Display object constructor for table
         ObservableList<BackupObject> data = bmtable.getItems();
+        if(!bo.getIsBase()){
         data.add(new BackupObject(bo.getUserBackup(),bo.getCloudBackup(),bo.getWebBackup(),bo.getAuditBackup(),bo.getCreationDate(),bo.getIsBase()));
+        }
+        else{
+        	data.add(new BackupObject(true,true,true,true,bo.getCreationDate(),true));
+        }
     }
     
     //Process of registering a manual backup
@@ -158,6 +163,10 @@ public class PurpleBController {
     		addBackupObject();
     	
     	if(bo.getIsBase()==true){
+    		bo.setAuditBackup(true);
+    		bo.setCloudBackup(true);
+    		bo.setWebBackup(true);
+    		bo.setUserBackup(true);
     		bo.makeBaseBackup(time);
     		}
     	else{

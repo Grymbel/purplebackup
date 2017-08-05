@@ -184,11 +184,6 @@ public class BackupObject {
 		//Zip all and put it in the output dir
 		this.initBackupLocations();
 		
-		this.setAuditBackup(true);
-		this.setCloudBackup(true);
-		this.setUserBackup(true);
-		this.setWebBackup(true);
-		this.setIsBase(true);
 		this.setCreationDate(time);
 		
 		BackupDAO.manualBackup(this);
