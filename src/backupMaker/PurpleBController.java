@@ -2,12 +2,17 @@ package backupMaker;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 
 import org.apache.commons.io.FileUtils;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXPasswordField;
 
 import backupScheduler.TimerAccess;
 import javafx.animation.KeyFrame;
@@ -34,6 +39,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
+import zipper.AESThing;
 import zipper.DBLocker;
 import zipper.Zipper;
 
@@ -72,6 +78,9 @@ public class PurpleBController {
     
     @FXML
     private JFXButton btnDoExport;
+    
+    @FXML
+    private JFXButton btnActuallyDoExport;
 
     @FXML
     private TableView<BackupObject> bmtable;
@@ -109,12 +118,25 @@ public class PurpleBController {
     @FXML
     private JFXCheckBox chbEnableBase;
     
+    @FXML
+    private JFXPasswordField passwordField1;
+    
+    @FXML
+    private JFXPasswordField passwordField2;
+    
+    private String password;
+    
     public void initialize(){
     	bo = new BackupObject();
     	allBackups=new ArrayList<BackupObject>();
 
     	btnScrollLeft.setVisible(false);
     	btnScrollRight.setVisible(false);
+    	
+    	passwordField1.setVisible(false);
+    	passwordField2.setVisible(false);
+    	
+    	btnActuallyDoExport.setVisible(false);
     	
 			BackupDAO bdao = new BackupDAO();
 			allBackups.addAll(bdao.getExistingBackups());
@@ -306,27 +328,57 @@ public class PurpleBController {
     @FXML
     void doFindOutput(ActionEvent event){
     	this.exportURL = getDir();
-
     	if(this.exportURL!=null&&this.exportURL.list().length==0){
-    	try {    		
-    		File f1 = new File("src/output/");
-    		File f2 = new File("src/zipper/the.key");
-    		File f3 = new File("purplebackups.db");
+    		passwordField1.setVisible(true);
+    		passwordField2.setVisible(true);
+    		btnActuallyDoExport.setVisible(true);
     		
-			FileUtils.copyDirectoryToDirectory(f1 , this.exportURL);
-			FileUtils.copyFileToDirectory(f2 , this.exportURL);
-			FileUtils.copyFileToDirectory(f3, this.exportURL);
-			
-			Zipper zip = new Zipper(this.exportURL.toString());
-			zip.generateFileList(this.exportURL,true);
-			zip.plainZip(this.exportURL,new File(this.exportURL.toString()+"/output.zip"));
-			
-			FileUtils.deleteDirectory(new File(this.exportURL.toString()+"/output"));
-			new File(this.exportURL.toString()+"/the.key").delete();
-			new File(this.exportURL.toString()+"/purplebackups.db").delete();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    		passwordField1.setPromptText("Archive Password");
+    		passwordField2.setPromptText("Confirm Password");
+    	}
+    }
+    
+    @FXML
+    void doExport(ActionEvent event){
+    	if(passwordField1.getText().equals(passwordField2.getText())){
+    		password=passwordField1.getText();
+    		
+    	if(this.exportURL.list().length>0){
+    		Alert alert = new Alert(AlertType.WARNING);
+    		alert.setTitle("Export location not empty");
+    		alert.setHeaderText("To prevent issues, select an empty directory");
+    		alert.setContentText("The export directory you have chosen is not empty.");
+
+    		alert.showAndWait();
+    	}
+    	if(this.exportURL!=null&&this.exportURL.list().length==0){
+        	try {    		
+        		File f1 = new File("src/output/");
+        		File f2 = new File("src/zipper/the.key");
+        		File f3 = new File("purplebackups.db");
+        		
+    			FileUtils.copyDirectoryToDirectory(f1 , this.exportURL);
+    			FileUtils.copyFileToDirectory(f2 , this.exportURL);
+    			FileUtils.copyFileToDirectory(f3, this.exportURL);
+    			
+    			Zipper zip = new Zipper(this.exportURL.toString());
+    			zip.generateFileList(this.exportURL,true);
+    			zip.plainZip(this.exportURL,new File(this.exportURL.toString()+"/output.zip"));
+    			
+    			FileUtils.deleteDirectory(new File(this.exportURL.toString()+"/output"));
+    			new File(this.exportURL.toString()+"/the.key").delete();
+    			new File(this.exportURL.toString()+"/purplebackups.db").delete();
+    			
+    			AESThing aes = new AESThing(password);
+    			try {
+					aes.encryptFile(new File(this.exportURL.toString()+"/output.zip"));
+				} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+					e.printStackTrace();
+				}
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+        	}
     	}
     }
     

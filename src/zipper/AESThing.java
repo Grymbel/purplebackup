@@ -59,6 +59,20 @@ public class AESThing {
 			e.printStackTrace();
 		}
 	}
+	
+	public AESThing(String secret){
+		try{
+		int length=16;
+		
+		byte[] key = new byte[length];
+		key = fixSecret(secret, length);
+		this.secretKey = new SecretKeySpec(key, "AES");
+		this.cipher = Cipher.getInstance("AES");
+		}catch(Exception e){
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
 
 	//Pads the secret
 	private byte[] fixSecret(String s, int length) throws UnsupportedEncodingException {

@@ -20,6 +20,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import backupMaker.FormattedTableCellFactory?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupMaker.PurpleBController">
    <children>
@@ -364,6 +365,13 @@
                                  </font>
                               </JFXButton>
                               <JFXButton fx:id="btnDoExport" layoutX="870.0" layoutY="415.0" onAction="#doFindOutput" ripplerFill="#9a27b0" text="Export" textFill="#dddddd">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXPasswordField fx:id="passwordField1" layoutX="870.0" layoutY="460.0"></JFXPasswordField>
+                              <JFXPasswordField fx:id="passwordField2" layoutX="870.0" layoutY="510.0"></JFXPasswordField>
+                              <JFXButton fx:id="btnActuallyDoExport" layoutX="870.0" layoutY="560.0" onAction="#doExport" ripplerFill="#9a27b0" text="Proceed" textFill="#dddddd">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
