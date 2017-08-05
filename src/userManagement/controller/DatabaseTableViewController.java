@@ -368,7 +368,7 @@ public class DatabaseTableViewController {
     		Teacher teacher = new Teacher(department, user);
     		Student student = new Student(null, user);
     		ua = new UserAll(user, l, student, teacher);
-    		logs.add("INSERT INTO User (UserID, Name, Gender, DOB, ContactNo, Email, Class, Address, folder) VALUES (" + user.getUserID() + ", '" + user.getnRIC() + "', '" + name + "', '" + gender + "', '" + dOB + "', '" + contactNo + "', '" + email + "', '" + schoolClass + "', '" + address +  "', '" + "nothing" + "');");
+    		logs.add("INSERT INTO User (UserID, NRIC, Name, Gender, DOB, ContactNo, Email, Class, Address, User.Keys, folder) VALUES (" + user.getUserID() + ", '" + user.getnRIC() + "', '" + name + "', '" + gender + "', '" + dOB + "', '" + contactNo + "', '" + email + "', '" + schoolClass + "', '" + address +  "', '" + keys + "', '" + "nothing" + "');");
     		logs.add("INSERT INTO Login (Username, Password, Salt, UserID) VALUES ('" + nRIC + "', '" + password + "', '" + saltString + "', " + user.getUserID() + ");");
         	logs.add("INSERT INTO Teacher (Department, UserID) VALUES ('" + department + "', " + user.getUserID() + ");");
     	}
@@ -376,7 +376,7 @@ public class DatabaseTableViewController {
     		Teacher teacher = new Teacher(null, user);
     		Student student = new Student(cCA, user);
     		ua = new UserAll(user, l, student, teacher);
-    		logs.add("INSERT INTO User (UserID, Name, Gender, DOB, ContactNo, Email, Class, Address, folder) VALUES (" + user.getUserID() + ", '" + user.getnRIC() + "', '" + name + "', '" + gender + "', '" + dOB + "', '" + contactNo + "', '" + email + "', '" + schoolClass + "', '" + address +  "', '" + "nothing" + "');");
+    		logs.add("INSERT INTO User (UserID, NRIC, Name, Gender, DOB, ContactNo, Email, Class, Address, User.Keys, folder) VALUES (" + user.getUserID() + ", '" + user.getnRIC() + "', '" + name + "', '" + gender + "', '" + dOB + "', '" + contactNo + "', '" + email + "', '" + schoolClass + "', '" + address +  "', '" + keys + "', '" + "nothing" + "');");
     		logs.add("INSERT INTO Login (Username, Password, Salt, UserID) VALUES ('" + nRIC + "', '" + password + "', '" + saltString + "', " + user.getUserID() + ");");
     		logs.add("INSERT INTO Student (CCA, UserID) VALUES ('" + cCA + "', " + user.getUserID() + ");");
     	}
