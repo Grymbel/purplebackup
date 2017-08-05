@@ -36,6 +36,7 @@ public class BasicFirewallViewController {
     private JFXButton BlackDeleteBtn;
     @FXML
     private JFXListView<Label> blackListView;
+    public static ArrayList<Label> blackList;
     
     public void initialize() throws IOException{
     	System.out.println("Initialized");
@@ -71,7 +72,7 @@ public class BasicFirewallViewController {
     }
     
 	void updateFile() throws IOException, ClassNotFoundException, SQLException{
-    	ArrayList<Label> blackList = new ArrayList<Label>(blackListView.getItems());
+    	blackList = new ArrayList<Label>(blackListView.getItems());
     	String writeToFileLine = "";
 		for(int i = 0; i < blackList.size(); i++){
 			if(i == 0)

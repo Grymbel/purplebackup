@@ -20,16 +20,6 @@ public class IpAddress {
 		this.ipAddress = ipAddress;
 	}
 	
-	static public ArrayList<IpAddress> getWhiteList() throws IOException{
-		WhiteBlackListDAO dao = new WhiteBlackListDAO();
-		ArrayList<IpAddress> ipArray = new ArrayList<IpAddress>();
-		for(String s:dao.getWhiteListArray()){
-			IpAddress ip = new IpAddress(s);
-			ipArray.add(ip);
-		}
-		return ipArray;
-	}
-	
 	static public ArrayList<IpAddress> getBlackList() throws IOException{
 		WhiteBlackListDAO dao = new WhiteBlackListDAO();
 		ArrayList<IpAddress> ipArray = new ArrayList<IpAddress>();
