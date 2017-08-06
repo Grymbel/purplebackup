@@ -558,7 +558,7 @@ public class PurpleBController {
 			
 			Alert alert = new Alert(AlertType.WARNING);
     		alert.setTitle("Restart required");
-    		alert.setHeaderText("The application will now restart");
+    		alert.setHeaderText("The application will now exit");
 
     		alert.showAndWait();
     		DBLocker.lockDB();

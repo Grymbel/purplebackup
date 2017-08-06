@@ -16,13 +16,13 @@ public class HIDSDAO {
 		ArrayList<HIDSObject> toRet = new ArrayList<HIDSObject>();
 		DBConnect dbc = new DBConnect();
 		try {
-			dbc.setHIDSRead();
 			ResultSet res = dbc.getHIDSData();
 			
 			while(res.next()){
 				HIDSObject ho = new HIDSObject(res.getString("sha1hash"),res.getInt("relid"),res.getString("relDir"),res.getString("message"),res.getBoolean("resolved"));
 				toRet.add(ho);
 			}
+			dbc.setHIDSRead();
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 			e.printStackTrace();
