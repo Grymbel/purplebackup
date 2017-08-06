@@ -23,7 +23,7 @@
 <?import backupMaker.FormattedTableCellFactory?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupMaker.PurpleBController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupMaker.PurpleBController">
    <children>
       <AnchorPane prefHeight="70.0" prefWidth="1920.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -291,7 +291,7 @@
                <children>
                   <VBox VBox.vgrow="ALWAYS">
                      <children>
-                        <AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #222222;">
+                        <AnchorPane prefHeight="1009.0" prefWidth="1920.0" style="-fx-background-color: #222222;">
                            <children>
                               <GridPane layoutX="290.0" layoutY="125.0" prefHeight="270.0" prefWidth="360.0">
                                  <columnConstraints>
@@ -351,47 +351,47 @@
                                     <Font name="Noto Sans" size="20.0" />
                                  </font>
                               </Text>
-                              <JFXButton fx:id="btnRestore" layoutX="670.0" layoutY="415.0" onAction="#doRestore" ripplerFill="#9a27b0" text="Restore" textFill="#dddddd">
+                              <JFXButton fx:id="btnRestore" layoutX="670.0" layoutY="645.0" onAction="#doRestore" ripplerFill="#9a27b0" text="Restore" textFill="#dddddd">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnDoExport" layoutX="870.0" layoutY="415.0" onAction="#doFindOutput" ripplerFill="#9a27b0" text="Export" textFill="#dddddd">
+                              <JFXButton fx:id="btnDoExport" layoutX="870.0" layoutY="645.0" onAction="#doFindOutput" ripplerFill="#9a27b0" text="Export" textFill="#dddddd">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </JFXButton>
-                              <JFXPasswordField fx:id="passwordField1" layoutX="870.0" layoutY="460.0"></JFXPasswordField>
-                              <JFXPasswordField fx:id="passwordField2" layoutX="870.0" layoutY="510.0"></JFXPasswordField>
-                              <JFXButton fx:id="btnActuallyDoExport" layoutX="870.0" layoutY="560.0" onAction="#doExport" ripplerFill="#9a27b0" text="Proceed" textFill="#dddddd">
+                              <JFXPasswordField fx:id="passwordField1" layoutX="870.0" layoutY="690.0" />
+                              <JFXPasswordField fx:id="passwordField2" layoutX="870.0" layoutY="740.0" />
+                              <JFXButton fx:id="btnActuallyDoExport" layoutX="870.0" layoutY="790.0" onAction="#doExport" ripplerFill="#9a27b0" text="Proceed" textFill="#dddddd">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnDoImport" layoutX="1020.0" layoutY="415.0" onAction="#doImport" ripplerFill="#9a27b0" text="Import" textFill="#dddddd">
+                              <JFXButton fx:id="btnDoImport" layoutX="1020.0" layoutY="645.0" onAction="#doImport" ripplerFill="#9a27b0" text="Import" textFill="#dddddd">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </JFXButton>
-                              <JFXPasswordField fx:id="passwordField3" layoutX="1020.0" layoutY="460.0"></JFXPasswordField>
-                              <JFXPasswordField fx:id="passwordField4" layoutX="1020.0" layoutY="510.0"></JFXPasswordField>
-                              <JFXPasswordField fx:id="passwordField5" layoutX="1020.0" layoutY="560.0"></JFXPasswordField>
-                              <JFXButton fx:id="btnActuallyDoImport" layoutX="1020.0" layoutY="610.0" onAction="#doImporting" ripplerFill="#9a27b0" text="Proceed" textFill="#dddddd">
+                              <JFXPasswordField fx:id="passwordField3" layoutX="1020.0" layoutY="690.0" />
+                              <JFXPasswordField fx:id="passwordField4" layoutX="1020.0" layoutY="740.0" />
+                              <JFXPasswordField fx:id="passwordField5" layoutX="1020.0" layoutY="790.0" />
+                              <JFXButton fx:id="btnActuallyDoImport" layoutX="1020.0" layoutY="840.0" onAction="#doImporting" ripplerFill="#9a27b0" text="Proceed" textFill="#dddddd">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </JFXButton>
-                              <TableView fx:id="bmtable" layoutX="670.0" layoutY="125.0" prefHeight="270.0" prefWidth="577.0">
+                              <TableView fx:id="bmtable" layoutX="670.0" layoutY="125.0" prefHeight="500.0" prefWidth="1170.0">
                               <columns>
-                               <TableColumn fx:id="colDate" prefWidth="200.0" text="Date">
-               		<cellValueFactory>
+                               <TableColumn fx:id="colDate" prefWidth="700.0" text="Date">
+				<cellValueFactory>
                 		<PropertyValueFactory property="creationDateSTR" />
                 	</cellValueFactory>
                 	<cellFactory>
                 		<FormattedTableCellFactory alignment="center"/>
                 	</cellFactory>
                 </TableColumn>
-                <TableColumn fx:id="colUser" prefWidth="75.0" text=" User">
+                <TableColumn fx:id="colUser" prefWidth="72.0" text=" User">
                 <cellValueFactory>
                 		<PropertyValueFactory property="userBackupSTR" />
                 	</cellValueFactory>
@@ -399,32 +399,32 @@
                 		<FormattedTableCellFactory alignment="center"/>
                 	</cellFactory>
                 </TableColumn>
-                  <TableColumn fx:id="colCloud" prefWidth="75.0" text="Cloud">
-                  <cellValueFactory>
+                  <TableColumn fx:id="colCloud" prefWidth="81.0" text="Cloud">
+                 <cellValueFactory>
                 		<PropertyValueFactory property="cloudBackupSTR" />
                 	</cellValueFactory>
                 	<cellFactory>
                 		<FormattedTableCellFactory alignment="center"/>
                 	</cellFactory>
                 </TableColumn>
-                <TableColumn fx:id="colWeb" prefWidth="75.0" text="Webpages">
-                  <cellValueFactory>
+                <TableColumn fx:id="colWeb" prefWidth="115.0" text="Webpages">
+                 <cellValueFactory>
                 		<PropertyValueFactory property="webBackupSTR" />
                 	</cellValueFactory>
                 	<cellFactory>
                 		<FormattedTableCellFactory alignment="center"/>
                 	</cellFactory>
                 </TableColumn>
-                  <TableColumn fx:id="colAudit" prefWidth="75.0" text="Audit Logs">
-                  <cellValueFactory>
+                  <TableColumn fx:id="colAudit" prefWidth="130.0" text="Audit Logs">
+                 <cellValueFactory>
                 		<PropertyValueFactory property="auditBackupSTR" />
                 	</cellValueFactory>
                 	<cellFactory>
                 		<FormattedTableCellFactory alignment="center"/>
                 	</cellFactory>
                 </TableColumn>
-                <TableColumn fx:id="colIsBase" prefWidth="75.0" text="Base">
-                  <cellValueFactory>
+                <TableColumn fx:id="colIsBase" prefWidth="70.0" text="Base">
+                 <cellValueFactory>
                 		<PropertyValueFactory property="isBaseSTR" />
                 	</cellValueFactory>
                 	<cellFactory>
@@ -443,12 +443,12 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
-                              <JFXButton fx:id="btnScrollLeft" layoutX="720.0" layoutY="420.0" onAction="#doScrollLeft" ripplerFill="#9a27b0" text="&lt;" textFill="#cccccc">
+                              <JFXButton fx:id="btnScrollLeft" layoutX="720.0" layoutY="650.0" onAction="#doScrollLeft" ripplerFill="#9a27b0" text="&lt;" textFill="#cccccc">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnScrollRight" layoutX="802.0" layoutY="420.0" onAction="#doScrollRight" ripplerFill="#9a27b0" text="&gt;" textFill="#cccccc">
+                              <JFXButton fx:id="btnScrollRight" layoutX="802.0" layoutY="650.0" onAction="#doScrollRight" ripplerFill="#9a27b0" text="&gt;" textFill="#cccccc">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
