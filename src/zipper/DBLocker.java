@@ -48,8 +48,11 @@ public class DBLocker {
 			aes.writeToFile(new File("purplebackups.db"));
 			}
 			System.out.println("Unlocked DB");
-		} catch (IOException | IllegalBlockSizeException | BadPaddingException e) {
+		} catch (IllegalBlockSizeException | BadPaddingException e) {
 			e.printStackTrace();
+		}
+		catch(IOException io){
+			System.out.println("No db to decrypt yet");
 		}
 		}
 	}
