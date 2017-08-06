@@ -18,7 +18,7 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import backupMaker.FormattedTableCellFactory?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupHIDS.HIDSController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupHIDS.HIDSController">
    <children>
       <AnchorPane prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -288,9 +288,9 @@
                      <children>
                         <AnchorPane prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #222222;">
                            <children>
-                              <TableView fx:id="HIDSTable" layoutX="50.0" layoutY="50.0" prefHeight="500.0" prefWidth="1180.0">
+                              <TableView fx:id="HIDSTable" layoutX="50.0" layoutY="50.0" prefHeight="500.0" prefWidth="1800.0">
                                  <columns>
-                                    <TableColumn id="colRelID" prefWidth="75.0" text="Backup ID">
+                                    <TableColumn id="colRelID" prefWidth="250.0" text="Backup ID">
                                    		<cellValueFactory>
                 							<PropertyValueFactory property="relID" />
                 						</cellValueFactory>
@@ -298,7 +298,7 @@
                 							<FormattedTableCellFactory alignment="center"/>
                 						</cellFactory>
                                     </TableColumn>
-                                    <TableColumn id="colRelDir" prefWidth="105.0" text="Sub Directory">
+                                    <TableColumn id="colRelDir" prefWidth="250.0" text="Sub Directory">
                                     	<cellValueFactory>
                 							<PropertyValueFactory property="relDir" />
                 						</cellValueFactory>
@@ -306,7 +306,7 @@
                 							<FormattedTableCellFactory alignment="center"/>
                 						</cellFactory>
                                     </TableColumn>
-                                    <TableColumn id="colMessage" prefWidth="898.0" text="Error Remarks">
+                                    <TableColumn id="colMessage" prefWidth="1000.0" text="Error Remarks">
                                     	<cellValueFactory>
                 							<PropertyValueFactory property="alertMessage" />
                 						</cellValueFactory>
@@ -314,7 +314,7 @@
                 							<FormattedTableCellFactory alignment="center"/>
                 						</cellFactory>
                                     </TableColumn>
-                                    <TableColumn id="colResolve" prefWidth="100.0" text="Resolve Status">
+                                    <TableColumn id="colResolve" prefWidth="200.0" text="Resolve Status">
                                     	<cellValueFactory>
                 							<PropertyValueFactory property="resolvedSTR" />
                 						</cellValueFactory>

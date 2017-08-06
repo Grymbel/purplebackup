@@ -23,7 +23,7 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import backupMaker.FormattedTableCellFactory?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupScheduler.BsController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupScheduler.BsController">
    <children>
       <AnchorPane prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -391,17 +391,17 @@
                                     </JFXButton>
                                  </children>
                               </GridPane>
-                              <JFXButton fx:id="btnCancel" layoutX="526.0" layoutY="507.0" onAction="#doCancel" ripplerFill="#9a27b0" text="Cancel Scheduled" textFill="#dddddd">
+                              <JFXButton fx:id="btnCancel" layoutX="526.0" layoutY="700.0" onAction="#doCancel" ripplerFill="#9a27b0" text="Cancel Scheduled" textFill="#dddddd">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnScrollLeft" layoutX="506.0" layoutY="544.0" onAction="#doScrollLeft" ripplerFill="#9a27b0" text="&lt;" textFill="#cccccc">
+                              <JFXButton fx:id="btnScrollLeft" layoutX="506.0" layoutY="740.0" onAction="#doScrollLeft" ripplerFill="#9a27b0" text="&lt;" textFill="#cccccc">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnScrollRight" layoutX="599.0" layoutY="544.0" onAction="#doScrollRight" ripplerFill="#9a27b0" text="&gt;" textFill="#cccccc">
+                              <JFXButton fx:id="btnScrollRight" layoutX="599.0" layoutY="740.0" onAction="#doScrollRight" ripplerFill="#9a27b0" text="&gt;" textFill="#cccccc">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
@@ -411,50 +411,50 @@
                                     <Font name="Noto Sans" size="20.0" />
                                  </font>
                               </Text>
-                              <TableView fx:id="bsTable" layoutX="406.0" layoutY="72.0" prefHeight="410.0" prefWidth="825.0">
+                              <TableView fx:id="bsTable" layoutX="406.0" layoutY="72.0" prefHeight="600.0" prefWidth="1460.0">
                                 <columns>
-                                  <TableColumn fx:id="colName" prefWidth="186.0" text="Name">
-                                 	 <cellValueFactory>
+                                  <TableColumn fx:id="colName" prefWidth="225.0" text="Name">
+                                  <cellValueFactory>
                 						<PropertyValueFactory property="name" />
                 					 </cellValueFactory>
                 					 <cellFactory>
                 						<FormattedTableCellFactory alignment="center"/>
                 					 </cellFactory>
                 				  </TableColumn>
-                                  <TableColumn fx:id="colMaxT" prefWidth="72.0" text="Max Times">
-                                  <cellValueFactory>
+                                  <TableColumn fx:id="colMaxT" prefWidth="90.0" text="Max Times">
+                				 <cellValueFactory>
                 						<PropertyValueFactory property="maxTimes" />
                 					 </cellValueFactory>
                 					 <cellFactory>
                 						<FormattedTableCellFactory alignment="center"/>
                 					 </cellFactory>
                 				  </TableColumn>
-                                    <TableColumn fx:id="colTDone" prefWidth="74.0" text="Times Done">
-                                    <cellValueFactory>
+                                    <TableColumn fx:id="colTDone" prefWidth="90.0" text="Times Done">
+                				 <cellValueFactory>
                 						<PropertyValueFactory property="timesDone" />
                 					 </cellValueFactory>
                 					 <cellFactory>
                 						<FormattedTableCellFactory alignment="center"/>
                 					 </cellFactory>
                 				  </TableColumn>
-                                    <TableColumn fx:id="colTofDay" prefWidth="94.0" text="Interval">
-                                    <cellValueFactory>
+                                    <TableColumn fx:id="colTofDay" prefWidth="300.0" text="Interval">
+                				  <cellValueFactory>
                 						<PropertyValueFactory property="intervalSTR" />
                 					 </cellValueFactory>
                 					 <cellFactory>
                 						<FormattedTableCellFactory alignment="center"/>
                 					 </cellFactory>
                 				  </TableColumn>
-                                    <TableColumn fx:id="colNextInstance" prefWidth="217.0" text="Next Instance">
-                                    <cellValueFactory>
+                                    <TableColumn fx:id="colNextInstance" prefWidth="250.0" text="Next Instance">
+                				  <cellValueFactory>
                 						<PropertyValueFactory property="nextInstanceSTR" />
                 					 </cellValueFactory>
                 					 <cellFactory>
                 						<FormattedTableCellFactory alignment="center"/>
                 					 </cellFactory>
                 				  </TableColumn>
-                                    <TableColumn fx:id="colBooleans" prefWidth="180" text="Contents">
-                                    <cellValueFactory>
+                                    <TableColumn fx:id="colBooleans" prefWidth="400.0" text="Contents">
+                				  <cellValueFactory>
                 						<PropertyValueFactory property="boSTR" />
                 					 </cellValueFactory>
                 					 <cellFactory>
