@@ -556,31 +556,31 @@ public class DatabaseTableViewController {
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		Parent root = null;
 		if (event.getSource().equals(homeItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/HomePage.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../../view/HomePage.fxml"));
 		}
 		if (event.getSource().equals(userItem)) {
-			root = FXMLLoader.load(getClass().getResource("../userManagement/view/DatabaseTableView.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../../userManagement/view/DatabaseTableView.fxml"));
 		}
 		else if (event.getSource().equals(firewallItem)) {
-			root = FXMLLoader.load(getClass().getResource("../basicFirewall/view/BasicFirewallView.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../../basicFirewall/view/BasicFirewallView.fxml"));
 		}
 		else if (event.getSource().equals(auditItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../../view/AuditLog.fxml"));
 		}
 		else if (event.getSource().equals(backupItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../../view/BackupMaker.fxml"));
 		}
 		else if (event.getSource().equals(bLocation)) {
-			root = FXMLLoader.load(getClass().getResource("../view/BackupLocations.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../../view/BackupLocations.fxml"));
 		}
 		else if (event.getSource().equals(bScheduler)) {
-			root = FXMLLoader.load(getClass().getResource("../view/BackupScheduler.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../../view/BackupScheduler.fxml"));
 		}
 		else if (event.getSource().equals(bHIDS)) {
-			root = FXMLLoader.load(getClass().getResource("../view/BackupHIDS.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../../view/BackupHIDS.fxml"));
 		}
 		else if (event.getSource().equals(secureItem)) {
-			root = FXMLLoader.load(getClass().getResource("../view/Settings.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../../view/Settings.fxml"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			DBLocker.lockDB();
