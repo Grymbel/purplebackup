@@ -8,11 +8,13 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -28,20 +30,19 @@ import javafx.util.Duration;
 public class LoginController{
 	@FXML
 	private JFXTextField userID;
-	
 	@FXML
 	private JFXPasswordField passID;
-	
 	@FXML
 	private Label errorMessage;
-	
 	@FXML
 	//Visibility = false
 	private JFXButton btnLogin;
-	
 	@FXML
 	//Visibility = false
 	private JFXSpinner loginSpinner;
+	
+	Timeline timeline;
+	Integer intObj;
 	
 	@FXML
 	public void initialize() {
@@ -61,75 +62,8 @@ public class LoginController{
 	
 	@FXML
 	public void goToHomePage(ActionEvent event) {
-		String Username = userID.getText();
-		String Password = passID.getText();
-		String storedUsername = null;
-		String storedSalt = null;
-		String storedPassword = null;
-		HashPass HP = new HashPass();
-		
-		ArrayList<LoginModel> list = LoginModel.getAllData();
-		for (LoginModel model : list) {
-			storedUsername = model.getUsername();
-			storedSalt = model.getSalt();
-			storedPassword = model.getPassword();
-		}
-		
-		byte [] decodedSalt = HP.getDecodedSalt(storedSalt);
-		String hashedPassword = HP.getHashedPassword(Password, decodedSalt);
-		
-		if (Username.equals(null) || Username.equals("")) {
-			errorMessage.setVisible(true);
-			errorMessage.setText("Please enter your username.");
-		}
-		else if (Password.equals(null) || Password.equals("")) {
-			errorMessage.setVisible(true);
-			errorMessage.setText("Please enter your password.");
-		}
-		else {
-			if (Username.equals(storedUsername) && hashedPassword.equals(storedPassword)) {
-				System.out.println("Username and Password is correct");
-				btnLogin.setDisable(true);
-				btnLogin.setVisible(false);
-				loginSpinner.setVisible(true);
-				
-				Timeline timeline = new Timeline();
-				KeyFrame keyFrame = new KeyFrame(
-					Duration.seconds(2), 
-					first -> {
-						Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-						Parent root = null;
-						try {
-							root = (Parent)FXMLLoader.load(getClass().getResource("../view/HomePage.fxml"));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						Screen screen = Screen.getPrimary();
-						Rectangle2D bounds = screen.getVisualBounds();
-						stage.setX(bounds.getMinX());
-						stage.setY(bounds.getMinY());
-						stage.setWidth(bounds.getWidth());
-						stage.setHeight(bounds.getHeight());
-						stage.setMaximized(true);
-						stage.setScene(new Scene(root));
-				 	    stage.show();
-					}
-				);
-		    	timeline.getKeyFrames().addAll(keyFrame);
-				timeline.play();
-			}
-			else {
-				errorMessage.setVisible(true);
-				errorMessage.setText("Username or password is incorrect.");
-			}
-		}
-	}
-	
-	@FXML
-	public void checkEnter(KeyEvent event) {
-		if (event.getCode().getName().equals("Enter")) {
-			int penalty=BadTyping.getPenalty();
-			if(penalty==0){
+		int penalty = BadTyping.getPenalty();
+		if (penalty == 0) {
 			String Username = userID.getText();
 			String Password = passID.getText();
 			String storedUsername = null;
@@ -193,10 +127,138 @@ public class LoginController{
 					BadTyping.logTypo();
 				}
 			}
-		}else{
-			errorMessage.setVisible(true);
-			errorMessage.setText("Please wait "+penalty+" seconds.");
 		}
+		else {
+			errorMessage.setVisible(true);
+			errorMessage.setText("Please wait "+ penalty +" seconds.");
+			
+			timeline = new Timeline();
+			intObj = new Integer(penalty);
+		    timeline.setCycleCount(Animation.INDEFINITE);
+		    timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+		    	@Override
+				public void handle(ActionEvent event) {
+		    		intObj--;
+
+		    		if (intObj >= 0) {
+		    			errorMessage.setText("Please wait " + intObj.toString() + " seconds.");
+		    		}
+		    		else {
+		    			timeline.stop();
+		    		}
+		        }				
+		    }));
+		    timeline.playFromStart();
+		    errorMessage.textProperty().addListener(new ChangeListener<String>() {
+	            @Override
+	            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+	            	if (newValue.equals("Please wait 0 seconds.")) {
+	            		errorMessage.setVisible(false);
+	            	}
+	            }
+	        });
+		}
+	}
+	
+	@FXML
+	public void checkEnter(KeyEvent event) {
+		if (event.getCode().getName().equals("Enter")) {
+			int penalty = BadTyping.getPenalty();
+			if (penalty == 0) {
+				String Username = userID.getText();
+				String Password = passID.getText();
+				String storedUsername = null;
+				String storedSalt = null;
+				String storedPassword = null;
+				HashPass HP = new HashPass();
+				
+				ArrayList<LoginModel> list = LoginModel.getAllData();
+				for (LoginModel model : list) {
+					storedUsername = model.getUsername();
+					storedSalt = model.getSalt();
+					storedPassword = model.getPassword();
+				}
+				
+				byte [] decodedSalt = HP.getDecodedSalt(storedSalt);
+				String hashedPassword = HP.getHashedPassword(Password, decodedSalt);
+				
+				if (Username.equals(null) || Username.equals("")) {
+					errorMessage.setVisible(true);
+					errorMessage.setText("Please enter your username.");
+				}
+				else if (Password.equals(null) || Password.equals("")) {
+					errorMessage.setVisible(true);
+					errorMessage.setText("Please enter your password.");
+				}
+				else {
+					if (Username.equals(storedUsername) && hashedPassword.equals(storedPassword)) {
+						System.out.println("Username and Password is correct");
+						btnLogin.setDisable(true);
+						btnLogin.setVisible(false);
+						loginSpinner.setVisible(true);
+						
+						Timeline timeline = new Timeline();
+						KeyFrame keyFrame = new KeyFrame(
+							Duration.seconds(2), 
+							first -> {
+								Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+								Parent root = null;
+								try {
+									root = (Parent)FXMLLoader.load(getClass().getResource("../view/HomePage.fxml"));
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+								Screen screen = Screen.getPrimary();
+								Rectangle2D bounds = screen.getVisualBounds();
+								stage.setX(bounds.getMinX());
+								stage.setY(bounds.getMinY());
+								stage.setWidth(bounds.getWidth());
+								stage.setHeight(bounds.getHeight());
+								stage.setMaximized(true);
+								stage.setScene(new Scene(root));
+						 	    stage.show();
+							}
+						);
+				    	timeline.getKeyFrames().addAll(keyFrame);
+						timeline.play();
+					}
+					else {
+						errorMessage.setVisible(true);
+						errorMessage.setText("Username or password is incorrect.");
+						BadTyping.logTypo();
+					}
+				}
+			}
+			else {
+				errorMessage.setVisible(true);
+				errorMessage.setText("Please wait "+ penalty +" seconds.");
+				
+				timeline = new Timeline();
+				intObj = new Integer(penalty);
+			    timeline.setCycleCount(Animation.INDEFINITE);
+			    timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+			    	@Override
+					public void handle(ActionEvent event) {
+			    		intObj--;
+
+			    		if (intObj >= 0) {
+			    			errorMessage.setText("Please wait " + intObj.toString() + " seconds.");
+			    		}
+			    		else {
+			    			timeline.stop();
+			    		}
+			        }				
+			    }));
+			    timeline.playFromStart();
+			    errorMessage.textProperty().addListener(new ChangeListener<String>() {
+		            @Override
+		            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+		            	if (newValue.equals("Please wait 0 seconds.")) {
+		            		errorMessage.setVisible(false);
+		            	}
+		            }
+		        });
+			}
 		}
 	}
 }
