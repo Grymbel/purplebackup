@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 
+import backupScheduler.TimerAccess;
 import database.DBConnect;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -27,6 +28,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import zipper.DBLocker;
 
 public class HIDSController {
 
@@ -76,6 +78,7 @@ public class HIDSController {
     private JFXCheckBox chbEnableBase;
     
     public void initialize(){
+    	//Selects which entries to display
     	allEntries=new ArrayList<HIDSObject>();
     	crudeEntries=new ArrayList<HIDSObject>();
     	btnScrollLeft.setVisible(false);
@@ -110,6 +113,7 @@ public class HIDSController {
 		}
     }
 
+    //Resolves an issue raised by the HIDS
     @FXML
     void doResolve(ActionEvent event){
     	if(HIDSTable.getSelectionModel().getSelectedIndex()>=0){
@@ -132,6 +136,7 @@ public class HIDSController {
         	}
     }
     
+    //Un-Resolves an issue raised by the HIDS
     @FXML
     void doUnresolve(ActionEvent event){
     	if(HIDSTable.getSelectionModel().getSelectedIndex()>=0){
@@ -154,6 +159,7 @@ public class HIDSController {
         	}
     }
     
+    //Scroll Left
     @FXML
     void doScrollLeft(ActionEvent event){
     	int minEntries;
@@ -171,6 +177,7 @@ public class HIDSController {
     	}
     }
     
+    //Scroll right
     @FXML
     void doScrollRight(ActionEvent event){
     	int maxEntries = allEntries.size();
@@ -191,7 +198,7 @@ public class HIDSController {
     	}
     }
     
-    //Looks good
+    //Changes the color of the button when you click it
     public void colorSwap(JFXButton jfxb){
     	Paint color1 = jfxb.getRipplerFill();
     	Paint color2 = jfxb.getTextFill();
@@ -204,6 +211,7 @@ public class HIDSController {
     	}
     }
     
+    //Standardised sidebars, etc.
     @FXML
 	private TextFlow sideIcon;
 	@FXML
@@ -343,6 +351,8 @@ public class HIDSController {
 			root = FXMLLoader.load(getClass().getResource("../view/"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
+			DBLocker.lockDB();
+			TimerAccess.closeTime();
 			stage.setX(450);
 			stage.setY(128);
 			stage.setWidth(1020);

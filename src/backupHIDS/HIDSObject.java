@@ -15,7 +15,8 @@ public class HIDSObject {
 	private boolean resolved;
 	private String resolvedSTR;
 	private boolean read;
-
+	
+	//Constructor for data storage
 	public HIDSObject(String hash, int relid, String relDir, boolean read){
 		this.hash=hash;
 		this.relDir=relDir;
@@ -23,6 +24,7 @@ public class HIDSObject {
 		this.read=read;
 	}
 	
+	//Constructor for table-compatible object
 	public HIDSObject(String hash, int relid, String relDir, String alertMessage, boolean resolved){
 		this.hash=hash;
 		this.relDir=relDir;
@@ -38,10 +40,12 @@ public class HIDSObject {
 		}
 	}
 	
+	//Creates the alerts
 	public void CompareToCurr(){
 		File toCompare = new File("src/output/"+relID+"/"+relDir+"/"+relDir+".zip");
 		if(toCompare.exists()){
 			try {
+				//Reads the current hash and compares to the expected hash
 				String enemyHash = SHA1.sha1(toCompare);
 				if(!enemyHash.equals(this.hash)){
 					alertMessage = "Backup Modified! "+toCompare.toString();

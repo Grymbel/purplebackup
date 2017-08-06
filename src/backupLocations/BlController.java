@@ -11,6 +11,7 @@ import java.util.Set;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 
+import backupScheduler.TimerAccess;
 import database.DBConnect;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -33,6 +34,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Duration;
 import zipper.AESThing;
+import zipper.DBLocker;
 import zipper.KeyReader;
 import zipper.SHA1;
 
@@ -41,6 +43,7 @@ public class BlController{
 	private File cloudURL;
 	private File userURL;
 	private File webURL;
+	private File restoreURL;
 
 	private Window scene;
 	 	@FXML
@@ -78,6 +81,9 @@ public class BlController{
 
 		    @FXML
 		    private JFXTextArea taUser;
+		    
+		    @FXML
+		    private JFXTextArea taRestore;
 
 		    @FXML
 		    private JFXButton btnFindAudit;
@@ -90,6 +96,9 @@ public class BlController{
 
 		    @FXML
 		    private JFXButton btnDoFindUser;
+		    
+		    @FXML
+		    private JFXButton btnDoFindRestore;
 
 		    @FXML
 		    private JFXButton btnAccept;
@@ -100,6 +109,7 @@ public class BlController{
 
 		private boolean openClose = false;
 
+		//Fills the text fields with previously made data
 		public void initialize(){
 			DBConnect dbc = new DBConnect();
 			try {
@@ -118,6 +128,9 @@ public class BlController{
 				if(test.equals("cloud")){
 					this.cloudURL=new File(res.getString("target"));
 				}
+				if(test.equals("restore")){
+					this.restoreURL=new File(res.getString("target"));
+				}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -127,9 +140,33 @@ public class BlController{
 			taCloud.setText(cloudURL.toString());
 			taUser.setText(userURL.toString());
 			taWeb.setText(webURL.toString());
+			taRestore.setText(restoreURL.toString());
 			
 			dbc.close();
 		}
+		
+		//Attempts to set a new restore path
+		@FXML
+		void doSetRestore(ActionEvent event){
+			if(restoreURL==null){
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Error");
+				alert.setHeaderText("Null values");
+				alert.setContentText("Spaces and file locations cannot be left empty");
+	
+				alert.showAndWait();
+			}
+			else{
+				DBConnect dbc = new DBConnect();
+				try {
+					dbc.setFileLocation("restore", restoreURL.toString());
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		//Attempts to set new backup location paths
 		@FXML
 	    void doAccept(ActionEvent event) {
 			if(
@@ -138,10 +175,10 @@ public class BlController{
 			nonNullCheck(cloudURL)||
 			nonNullCheck(userURL)){
 				
-				Alert alert = new Alert(AlertType.ERROR);
+				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Error");
 				alert.setHeaderText("Null values");
-				alert.setContentText("Spaces cannot be left null");
+				alert.setContentText("Spaces and file locations cannot be left empty");
 	
 				alert.showAndWait();
 			}
@@ -154,7 +191,7 @@ public class BlController{
 					dbc.setFileLocation("web", webURL.toString());
 					dbc.setFileLocation("cloud", cloudURL.toString());
 					
-					Alert alert = new Alert(AlertType.ERROR);
+					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Success");
 					alert.setHeaderText("Success");
 					alert.setContentText("Success");
@@ -173,6 +210,7 @@ public class BlController{
 			}
 	    }
 
+		//Recrypts backups with a new randomly generated key
 		@FXML
 		void doRecrypt(ActionEvent event){
 			Alert alert = new Alert(AlertType.CONFIRMATION, "Recrypting backups encrypts backups with a different random key for security purposes. Proceed?", ButtonType.YES, ButtonType.NO);
@@ -180,6 +218,7 @@ public class BlController{
 
 			if (alert.getResult() == ButtonType.YES) {
 				try {
+					//Decrypts all backups
 					AESThing aes = new AESThing();
 					DBConnect dbc = new DBConnect();
 					ResultSet res = dbc.getHIDSData();
@@ -191,7 +230,7 @@ public class BlController{
 						aes.decryptFile(new File(todo));
 						aes.writeToFile(new File(todo));
 					}
-					
+					//Makes a new key and recrypts
 					KeyReader.genKey();
 					AESThing aes2 = new AESThing();
 					
@@ -210,39 +249,67 @@ public class BlController{
 			}
 			}
 		
+		//Opens a directory picker, sets to audit textfield
 	    @FXML
 	    void doFindAudit(ActionEvent event) {
+	    	try{
 	    	File auditTest = getDir();
 	    	this.auditURL = auditTest;
 	    	taAudit.setText(auditTest.toString());
+	    	}catch(NullPointerException e){
+	    		
+	    	}
 	    }
 
+	  //Opens a directory picker, sets to cloud textfield
 	    @FXML
 	    void doFindCloud(ActionEvent event) {
+	    	try{
 	    	File cloudTest = getDir();
 	    	this.cloudURL = cloudTest;
 	    	taCloud.setText(cloudTest.toString());
+	    }catch(NullPointerException e){
+    		
+    	}
 	    }
 
+	  //Opens a directory picker, sets to web textfield
 	    @FXML
 	    void doFindWeb(ActionEvent event) {
+	    	try{
 	    	File webTest = getDir();
 	    	this.webURL=webTest;
 	    	taWeb.setText(webTest.toString());
+	    }catch(NullPointerException e){
+    		
+    	}
 	    }
 
+	  //Opens a directory picker, sets to user data textfield
 	    @FXML
 	    void doFindUser(ActionEvent event) {
+	    try{
 	    	File userTest = getDir();
 	    	this.userURL=userTest;
 	    	taUser.setText(userTest.toString());
-	    }
-
-	    @FXML
-	    void gotoBack(ActionEvent event) {
-
+	    }catch(NullPointerException e){
+    		
+    	}
 	    }
 	    
+	  //Opens a directory picker, sets to restore textfield
+	    @FXML
+	    void doFindRestore(ActionEvent event) {
+	    	try{
+	    	File restoreTest = getDir();
+	    	this.restoreURL=restoreTest;
+	    	taRestore.setText(restoreTest.toString());
+	    	}catch(NullPointerException e){
+	    		
+	    	}
+	    }
+	    
+	  //Generic function to select a directory
 	    public File getDir(){
 	    	DirectoryChooser chooser = new DirectoryChooser();
 	    	chooser.setTitle("Select a directory");
@@ -251,6 +318,7 @@ public class BlController{
 	    	return selectedDirectory;
 	    }
 	    
+	    //Checks the directory selected is not null and contains files
 	    public boolean nonNullCheck(File toAuth){
 	    	if(toAuth.list()!=null){
 	    		return false;
@@ -260,6 +328,7 @@ public class BlController{
 	    	}
 	    }
 	    
+	    //Makes sure selected directories are not duplicated
 	    public boolean nonDupeCheck(){
 	    	ArrayList<String> urls = new ArrayList<String>();
 	    	
@@ -277,6 +346,8 @@ public class BlController{
 	    		return true;
 	    	}
 	    }
+	    
+	    //Sidebar code
 		@FXML
 		public void showSidebar(MouseEvent event) {
 			if (openClose == false) {
@@ -391,6 +462,8 @@ public class BlController{
 				root = FXMLLoader.load(getClass().getResource("../view/"));
 			}
 			else if (event.getSource().equals(logoutItem)) {
+				DBLocker.lockDB();
+				TimerAccess.closeTime();
 				stage.setX(450);
 				stage.setY(128);
 				stage.setWidth(1020);

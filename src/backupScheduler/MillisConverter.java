@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.TimeZone;
 
+//A class for all my time conversion needs
 public class MillisConverter {
 
 	public static String getDaysHours(long millis){

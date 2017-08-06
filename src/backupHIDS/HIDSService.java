@@ -10,6 +10,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class HIDSService {
 
+	//The all in one execution for the HIDS alert process
 	public static void doHIDS(){
 		DBConnect dbc = new DBConnect();
 		ArrayList<String> toPrint = new ArrayList<String>();
@@ -18,6 +19,7 @@ public class HIDSService {
 		try {
 			ResultSet res = dbc.getHashList();
 			while(res.next()){
+				//Creates an object from the DB, compares and produces alerts
 				HIDSObject hidso = new HIDSObject(res.getString("sha1hash"),res.getInt("relid"),res.getString("relDir"),res.getBoolean("read"));
 				hidso.CompareToCurr();
 				
@@ -48,7 +50,7 @@ public class HIDSService {
     		alert.setHeaderText("A new base backup is advised");
     		alert.setContentText(toAlert);
 
-    		alert.showAndWait();
+    		alert.show();
 		}
 	}
 }

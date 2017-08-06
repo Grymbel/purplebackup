@@ -232,41 +232,6 @@
                                  <children>
                                     <TextFlow textAlignment="CENTER">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP Whitelist">
-                                             <font>
-                                                <Font name="System Bold" size="24.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                       <VBox.margin>
-                                          <Insets bottom="20.0" />
-                                       </VBox.margin>
-                                    </TextFlow>
-                                    <HBox>
-                                       <children>
-                                          <JFXTextField fx:id="whiteField" prefWidth="300.0" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets right="50.0" />
-                                             </HBox.margin>
-                                          </JFXTextField>
-                                          <ToolBar>
-                                             <items>
-                                                <JFXButton fx:id="whiteAddBtn" buttonType="RAISED" onAction="#addWhite" text="Add" />
-                                                <JFXButton fx:id="whiteDeleteBtn" buttonType="RAISED" onAction="#deleteWhite" text="Delete" />
-                                             </items>
-                                          </ToolBar>
-                                       </children>
-                                    </HBox>
-                                    <JFXListView fx:id="whiteListView" VBox.vgrow="ALWAYS" />
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-                                 </HBox.margin>
-                              </VBox>
-                              <VBox HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <TextFlow textAlignment="CENTER">
-                                       <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP Blacklist">
                                              <font>
                                                 <Font name="System Bold" size="24.0" />

@@ -31,6 +31,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import zipper.DBLocker;
 
 public class BsController{
     @FXML
@@ -134,12 +135,14 @@ public class BsController{
 	private int pageNo;
     
 	public void initialize(){
+		//Starts the timer
     	timePicker.setShowTime(true);
     	this.bo = new BackupObject();
     	
     	DBConnect dbc = new DBConnect();
     	this.scheduleList = new ArrayList<ScheduleObject>();
     
+    	//Loads the table with objects generated from the DB
     	try {
 			ResultSet res = dbc.getAllSchedules();
 			
@@ -199,6 +202,7 @@ public class BsController{
 		
     }
     
+	//Adds an entry to the schedule
     @FXML
     void doAddBackup(ActionEvent event) {
     	boolean auth = false;
@@ -210,6 +214,7 @@ public class BsController{
     			
     	if(auth){
     	try{
+    		//Writes a new schedule object
     	ScheduleObject so = new ScheduleObject(
     			taName.getText(),
     			Integer.parseInt(taRepeat.getText()),
@@ -228,6 +233,8 @@ public class BsController{
     		System.err.println(e.getMessage());
     	}
 
+    	//Cleans the UI
+    	
     	taName.setText("");
     	taRepeat.setText("");
     	
@@ -254,7 +261,7 @@ public class BsController{
 
     @FXML
     void doCancel(ActionEvent event) {
-    	//Convert to remove a scheduled object
+    	//Remove a scheduled object
     	if(bsTable.getSelectionModel().getSelectedIndex()>=0){
         	int selOnes = bsTable.getSelectionModel().getSelectedIndex();
         	int sel = (pageNo*10)+selOnes;
@@ -275,12 +282,36 @@ public class BsController{
 
     @FXML
     void doScrollLeft(ActionEvent event) {
-    	
+    	int minSchedules;
+    	if((this.pageNo-1)>=0){
+    	minSchedules = (pageNo-1)*10;
+    	ObservableList<ScheduleObject> data = bsTable.getItems();
+		data.clear();
+    	for(int y =minSchedules;y<pageNo*10;y++){
+    		data.add(scheduleList.get(y));
+    	}
+    	this.pageNo=this.pageNo-1;
+    	}
     }
 
     @FXML
     void doScrollRight(ActionEvent event) {
+    	int maxSchedules = scheduleList.size();
+    	if(maxSchedules>=noOfPages*10){
+    	maxSchedules = pageNo*10;
+    	}
+    	else{
+    		maxSchedules = scheduleList.size();
+    	}
+    	if(maxSchedules>=(pageNo+1)*10){
+    		ObservableList<ScheduleObject> data = bsTable.getItems();
+    		data.clear();
+    	for(int y =(noOfPages-1)*10;y<maxSchedules;y++){
+    		data.add(scheduleList.get(y));
+    	}
+    	this.pageNo=this.pageNo+1;
 
+    	}
     }
 
 
@@ -442,6 +473,8 @@ public class BsController{
 			root = FXMLLoader.load(getClass().getResource("../view/"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
+			DBLocker.lockDB();
+			TimerAccess.closeTime();
 			stage.setX(450);
 			stage.setY(128);
 			stage.setWidth(1020);

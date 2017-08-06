@@ -17,6 +17,7 @@ public class ScheduleClock {
 		
 	}
 	
+	//Starts the clock and checks for missed schedule entries
 	public void scheduleServiceFirst(){
 		DBConnect dbc = new DBConnect();
 		alertNames = new ArrayList<String>();
@@ -63,6 +64,7 @@ public class ScheduleClock {
 		}
 	}
 	
+	//Checks for backups to do and does them
 	public BackupObject scheduleClock(){
 		BackupObject bo = new BackupObject();
 		DBConnect dbc = new DBConnect();
@@ -103,12 +105,5 @@ public class ScheduleClock {
 			}
 		return bo;
 	}
-	public static long deriveNext(int timesDone, long interval, long dayTime, long startingDay){
-		long toRet=0;
-		
-		toRet = (timesDone*interval) + dayTime + startingDay;
-
-		return toRet;
-	}	
 
 }

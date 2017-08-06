@@ -8,6 +8,7 @@ public class LastDoneBackup {
 	private int lastID;
 	private long lastTime;
 	
+	//Reads in Last Done Backup info
 	public LastDoneBackup(){
 		LastDoneBackupDAO ldbdao = new LastDoneBackupDAO();
 		Scanner sc =new Scanner(ldbdao.ldbRead());
@@ -20,6 +21,7 @@ public class LastDoneBackup {
 		sc.close();
 	}
 	
+	//Returns a list of base backups
 	public ArrayList<Integer> getBases(){
 		LastDoneBackupDAO ldd= new LastDoneBackupDAO();
 		return ldd.getBases();

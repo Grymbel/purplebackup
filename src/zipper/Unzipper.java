@@ -12,6 +12,7 @@ import java.util.zip.ZipInputStream;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 
+//Unzipping and decryption
 public class Unzipper
 {
     List<String> fileList;
@@ -83,6 +84,7 @@ public class Unzipper
         zis.closeEntry();
     	zis.close();
 
+    	//Re-encrypts the read file
     	if(doRecrypt){
     		try {
     			aes = new AESThing();
@@ -100,4 +102,46 @@ public class Unzipper
     	ex.printStackTrace();
     }
    }
+    
+    public void unzipImport(){
+    	byte[] buffer = new byte[1024];
+
+        try{
+
+       	//create output directory is not exists
+       	File folder = new File(outputDir);
+       	if(!folder.exists()){
+       		folder.mkdir();
+       	}
+
+       	//get the zip file content
+       	ZipInputStream zis =
+       		new ZipInputStream(new FileInputStream(this.inputZip));
+       	//get the zipped file list entry
+       	ZipEntry ze = zis.getNextEntry();
+
+       	while(ze!=null){
+
+       	   String fileName = ze.getName();
+              File newFile = new File(outputDir + File.separator + fileName);
+              
+               new File(newFile.getParent()).mkdirs();
+
+               FileOutputStream fos = new FileOutputStream(newFile);
+
+               int len;
+               while ((len = zis.read(buffer)) > 0) {
+          		fos.write(buffer, 0, len);
+               }
+
+               fos.close();
+               ze = zis.getNextEntry();
+       	}
+
+           zis.closeEntry();
+       	zis.close();
+    }catch(Exception e){
+    	e.printStackTrace();
+    }
+    }
 }

@@ -14,6 +14,7 @@ import java.util.zip.ZipOutputStream;
 
 import database.DBConnect;
 
+//Zipping and encryption
 public class Zipper{
 	List<String> fileList;
 	List<String> digestList;
@@ -51,6 +52,41 @@ public class Zipper{
     public Zipper(){
     	fileList = new ArrayList<String>();
     }
+    
+    public Zipper(String sourceDir){
+    	fileList = new ArrayList<String>();
+    	this.sourceDir =sourceDir;
+    }
+    
+    public void plainZip(File sourceDir, File zipFile){
+
+        byte[] buffer = new byte[1024];
+
+        try{
+
+       	FileOutputStream fos = new FileOutputStream(zipFile);
+       	ZipOutputStream zos = new ZipOutputStream(fos);
+
+       	for(String file : fileList){
+       		ZipEntry ze= new ZipEntry(file);
+           	zos.putNextEntry(ze);
+
+           	FileInputStream in = new FileInputStream(sourceDir+File.separator+file);
+
+           	int len;
+           	while ((len = in.read(buffer)) > 0) {
+           		zos.write(buffer, 0, len);
+           	}
+
+           	in.close();
+       	}
+       	zos.closeEntry();
+       	zos.close();
+        }catch(Exception e){
+        	System.err.println(e.getMessage());
+        	e.printStackTrace();
+        }
+    }
 
     public void zipUp(){
     	this.generateFileList(new File(sourceDir));
@@ -62,6 +98,7 @@ public class Zipper{
     		System.out.println("Selective zip");
     	}
     }
+    //Zips the whole directory without logic
     public void zipItAll(String zipFile){
 
      byte[] buffer = new byte[1024];
@@ -109,6 +146,7 @@ public class Zipper{
     }
    }
     
+    //Zips on the changed files
     public void zipIt(String zipFile){
 
         byte[] buffer = new byte[1024];
@@ -170,6 +208,7 @@ public class Zipper{
 			e.printStackTrace();
 		} 
 
+       	//Updates the HIDS
     	try {
     		dbc.addHIDS(backupID,outputFile.substring(0,outputFile.length()-4),SHA1.sha1(new File(zipFile)));
 		} catch (SQLException e) {
@@ -183,6 +222,8 @@ public class Zipper{
           ex.printStackTrace();
        }
       }
+    
+    //Lists all files in directory recursively
     public void generateFileList(File node){
 	if(node.isFile()){
 		fileList.add(generateZipEntry(node.getPath().toString()));
@@ -204,6 +245,21 @@ public class Zipper{
 
     }
     
+    public void generateFileList(File node,boolean thing){
+    	if(node.isFile()){
+    		fileList.add(generateZipEntry(node.getPath().toString()));
+    	}
+
+    	if(node.isDirectory()){
+    		String[] subNote = node.list();
+    		for(String filename : subNote){
+    			generateFileList(new File(node, filename),true);
+    		}
+    	}
+
+        }
+    
+    //Lists the whole path of all files in directory recursively
     public void genFileList(File node){
     	if(node.isFile()){
     		fileList.add(node.getPath().toString());
@@ -217,6 +273,7 @@ public class Zipper{
     	}
         }
 
+    //Cuts the length of the path
     private String generateZipEntry(String file){
     	return file.substring(sourceDir.length()+1, file.length());
     }

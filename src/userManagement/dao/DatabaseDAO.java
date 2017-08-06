@@ -50,7 +50,7 @@ public class DatabaseDAO {
 	     stmt = conn.createStatement();
 	}
 
-	private ResultSet getDatabaseData(String sql) throws SQLException{
+	public ResultSet getDatabaseData(String sql) throws SQLException{
 		return stmt.executeQuery(sql);
 	}
 	
@@ -67,7 +67,7 @@ public class DatabaseDAO {
 	}
 	
 	public ArrayList<UserAll> getDatabaseUserAll() throws SQLException{
-		ResultSet rs = getDatabaseData("SELECT User.UserID, Login.Username, Login.Password, Login.Salt, User.NRIC, User.Name, User.Gender, User.DOB, User.ContactNo, User.Email, User.Class, User.Address, User.Keys, Student.CCA, Teacher.TeacherID, Teacher.Department FROM User LEFT OUTER JOIN Login ON (User.UserID = Login.UserID) LEFT OUTER JOIN Student ON (User.UserID = Student.UserID) LEFT OUTER JOIN Teacher ON (User.UserID = Teacher.UserID) ORDER BY UserID;");
+		ResultSet rs = getDatabaseData("SELECT User.UserID, Login.Username, Login.Password, Login.Salt, User.NRIC, User.Name, User.Gender, User.DOB, User.ContactNo, User.Email, User.Class, User.Address, User.Keys, User.folder, Student.CCA, Teacher.TeacherID, Teacher.Department FROM User LEFT OUTER JOIN Login ON (User.UserID = Login.UserID) LEFT OUTER JOIN Student ON (User.UserID = Student.UserID) LEFT OUTER JOIN Teacher ON (User.UserID = Teacher.UserID) ORDER BY UserID;");
 		ArrayList<UserAll> userAllArray = new ArrayList<UserAll>();
 		
 		while(rs.next()){
@@ -81,7 +81,9 @@ public class DatabaseDAO {
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
 			String keys = rs.getString("Keys");
-			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
+			String folder = rs.getString("folder");
+			
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys, folder);
 			
 			String username = rs.getString("Username");
 			String password = rs.getString("Password");
@@ -117,7 +119,9 @@ public class DatabaseDAO {
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
 			String keys = rs.getString("Keys");
-			userArray.add(new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys));
+			String folder = rs.getString("folder");
+			
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys, folder);
 		}
 		
 		rs.close();
@@ -139,8 +143,9 @@ public class DatabaseDAO {
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
 			String keys = rs.getString("Keys");
+			String folder = rs.getString("folder");
 			
-			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys, folder);
 			String username = rs.getString("Username");
 			String password = rs.getString("Password");
 			String salt = rs.getString("Salt");
@@ -167,8 +172,9 @@ public class DatabaseDAO {
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
 			String keys = rs.getString("Keys");
+			String folder = rs.getString("folder");
 			
-			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys, folder);
 			
 			String cCA = rs.getString("CCA");
 			Student student = new Student(cCA, user);
@@ -195,8 +201,9 @@ public class DatabaseDAO {
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
 			String keys = rs.getString("Keys");
+			String folder = rs.getString("folder");
 			
-			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys, folder);
 			int teacherID = rs.getInt("TeacherID");
 			String department = rs.getString("Department");
 			Teacher teacher = new Teacher(teacherID, department, user);
@@ -222,8 +229,9 @@ public class DatabaseDAO {
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
 			String keys = rs.getString("Keys");
+			String folder = rs.getString("folder");
 			
-			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys, folder);
 			
 			int fileID = rs.getInt("fileID");
 			String fileName = rs.getString("fileName");;
@@ -268,8 +276,9 @@ public class DatabaseDAO {
 			String schoolClass = rs.getString("Class");
 			String address = rs.getString("Address");
 			String keys = rs.getString("Keys");
+			String folder = rs.getString("folder");
 			
-			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys);
+			User user = new User(userID, nRIC, name, gender, dOB, contactNo, email, schoolClass, address, keys, folder);
 			
 			String username = rs.getString("Username");
 			String password = rs.getString("Password");

@@ -8,34 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import basicFirewall.controller.BasicFirewallViewController;
+import javafx.scene.control.Label;
 import userManagement.dao.DatabaseDAO;
 
 public class WhiteBlackListDAO {
 	final private String filePath = "src/basicFirewall/WhiteBlackList.txt";
-	final private String fileCommitPath = "C:/Users/Wei Xuan/workspace/Servers/Tomcat v9.0 Server at localhost-config/server.xml";
-	final private String fileCommitPath2 = "C:/Apache24/conf/whiteblacklist/whitelist.conf";
+	//final private String fileCommitPath = "C:/Users/Wei Xuan/workspace/Servers/Tomcat v9.0 Server at localhost-config/server.xml";
+	//final private String fileCommitPath2 = "C:/Apache24/conf/whiteblacklist/whitelist.conf";
 	private File file;
 	
 	public WhiteBlackListDAO() throws IOException{
 		file = new File(filePath);
-	}
-	
-	public ArrayList<String> getWhiteListArray() throws FileNotFoundException{
-		ArrayList<String> whiteListArray = new ArrayList<String>();
-		Scanner sc = new Scanner(file);
-		sc.useDelimiter(",");
-		if(sc.hasNext()){
-			String line = sc.next();
-			Scanner sc2 = new Scanner(line);
-			sc2.useDelimiter(">");
-			while(sc2.hasNext()){
-				String line2 = sc2.next(); 
-				whiteListArray.add(line2);
-			}
-			sc2.close();
-		}
-		sc.close();
-		return whiteListArray;
 	}
 	
 	public ArrayList<String> getBlackListArray() throws FileNotFoundException{
@@ -43,17 +27,8 @@ public class WhiteBlackListDAO {
 		Scanner sc = new Scanner(file);
 		sc.useDelimiter(",");
 		if(sc.hasNext()){
-			sc.next();
-			if(sc.hasNext()){
-				String line = sc.next();
-				Scanner sc2 = new Scanner(line);
-				sc2.useDelimiter(">");
-				while(sc2.hasNext()){
-					String line2 = sc2.next();
-					blackListArray.add(line2);
-				}
-				sc2.close();
-			}
+			String line = sc.next();
+			blackListArray.add(line);
 		}
 		sc.close();
 		return blackListArray;
@@ -108,11 +83,11 @@ public class WhiteBlackListDAO {
 		for(basicFirewall.model.IpAddress a:dao.getDatabaseBlacklist()){ //as (Database)
 			as.add(a.getIpAddress());
 		}
-		ArrayList<String> blackList = getBlackListArray();
+		ArrayList<Label> blackList = BasicFirewallViewController.blackList;
 		if(as.size() == blackList.size()){
 			System.out.println("Nothing Changed...");
 			for(int i = 0; i < blackList.size(); i++){
-				String sql = "UPDATE Blacklist SET IpAddress = '" + blackList.get(i) + "' WHERE Blacklist.ID = " + (++i) +";";
+				String sql = "UPDATE Blacklist SET IpAddress = '" + blackList.get(i).getText() + "' WHERE Blacklist.ID = " + (++i) +";";
 				dao.updateDatabaseData(sql);
 			}
 		}else{
@@ -120,18 +95,18 @@ public class WhiteBlackListDAO {
 			if(number < 1){ 										//-1 = 1 - 2
 				System.out.println("New IP Address Added...");
 				for(int i = 0; i < blackList.size() + number; i++){ //i = 0; i < 1; i++
-					String sql = "UPDATE Blacklist SET IpAddress = '" + blackList.get(i) + "' WHERE Blacklist.ID = " + (++i) +";";
+					String sql = "UPDATE Blacklist SET IpAddress = '" + blackList.get(i).getText() + "' WHERE Blacklist.ID = " + (++i) +";";
 					dao.updateDatabaseData(sql);
 				}
 				for(int i = blackList.size() + number; i < blackList.size(); i++){ //i = 1; i < 2; i++
-					String sql = "INSERT INTO Blacklist(ID, IpAddress) VALUES (" + (i + 1) + ", \"" + blackList.get(i) + "\");";
+					String sql = "INSERT INTO Blacklist(ID, IpAddress) VALUES (" + (i + 1) + ", \"" + blackList.get(i).getText() + "\");";
 					dao.updateDatabaseData(sql);
 				}
 			}
 			else{													// 3 = 4 - 1
 				System.out.println("IP Address Deleted...");
 				for(int i = 0; i < blackList.size(); i++){	//i = 0; i < 1; i++
-					String sql = "UPDATE Blacklist SET IpAddress = '" + blackList.get(i) + "' WHERE Blacklist.ID = " + (++i) +";";
+					String sql = "UPDATE Blacklist SET IpAddress = '" + blackList.get(i).getText() + "' WHERE Blacklist.ID = " + (++i) +";";
 					dao.updateDatabaseData(sql);
 				}
 				for(int i = blackList.size(); i < as.size(); i++){ //i = 1; i < 4; i++

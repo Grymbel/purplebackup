@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import database.DBConnect;
 
+//Writes the file delta and file lists
 public class MDWriter {
 
 	private String destinationFL;
@@ -20,7 +21,7 @@ public class MDWriter {
 	private int backupID;
 	private boolean isBase;
 	
-	
+	//Writes a list of files
 	public MDWriter(ArrayList<String> fileList, ArrayList<String> digestList, String destinationDirFull, String destinationDir, int backupID,boolean isBase){
 		this.setDestinationDirFull(destinationDirFull);
 		this.setDestinationDir(destinationDir);
@@ -57,6 +58,7 @@ public class MDWriter {
 		}
 	}
 	
+	//Writes the changes to files between backups
 	public void writeDelta(){
 		if(this.isBase==true){
 			DBConnect dbc = new DBConnect();

@@ -29,14 +29,6 @@ import basicFirewall.model.IpAddress;
 
 public class BasicFirewallViewController {
     @FXML
-    private JFXTextField whiteField;
-    @FXML
-    private JFXButton whiteAddBtn;
-    @FXML
-    private JFXButton whiteDeleteBtn;
-    @FXML
-    private JFXListView<Label> whiteListView;
-    @FXML
     private JFXTextField blackField;
     @FXML
     private JFXButton blackAddBtn;
@@ -44,18 +36,10 @@ public class BasicFirewallViewController {
     private JFXButton BlackDeleteBtn;
     @FXML
     private JFXListView<Label> blackListView;
+    public static ArrayList<Label> blackList;
     
     public void initialize() throws IOException{
     	System.out.println("Initialized");
-    	for(IpAddress i:IpAddress.getWhiteList()){
-    		//System.out.println("White: " + i);
-			Label ipAddressLbl = new Label(i.getIpAddress());
-			ipAddressLbl.setMinWidth(500);
-			ipAddressLbl.setPrefWidth(500);
-	
-			whiteListView.getItems().add(ipAddressLbl);
-    	}
-    	
     	for(IpAddress i:IpAddress.getBlackList()){
     		//System.out.println("Black: " + i);
 			Label ipAddressLbl = new Label(i.getIpAddress());
@@ -81,68 +65,21 @@ public class BasicFirewallViewController {
     }
 
     @FXML
-    void addWhite(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
-    	String ipLine = whiteField.getText();
-    	if(!ipLine.isEmpty() && ipLine != ""){
-	    	Label ipAddressLbl = new Label(ipLine);
-			ipAddressLbl.setMinWidth(500);
-			ipAddressLbl.setPrefWidth(500);
-	    	whiteListView.getItems().add(0, ipAddressLbl);
-    	}
-    	whiteField.clear();
-    	updateFile();
-    }
-
-    @FXML
     void deleteBlack(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
     	int selectedIndex = blackListView.getSelectionModel().getSelectedIndex();
     	blackListView.getItems().remove(selectedIndex);
     	updateFile();
     }
-
-    @FXML
-    void deleteWhite(ActionEvent event) throws IOException, ClassNotFoundException, SQLException {
-    	int selectedIndex = whiteListView.getSelectionModel().getSelectedIndex();
-    	whiteListView.getItems().remove(selectedIndex);
-    	updateFile();
-    }
     
 	void updateFile() throws IOException, ClassNotFoundException, SQLException{
-		ArrayList<Label> whiteList = new ArrayList<Label>(whiteListView.getItems());
-    	ArrayList<Label> blackList = new ArrayList<Label>(blackListView.getItems());
+    	blackList = new ArrayList<Label>(blackListView.getItems());
     	String writeToFileLine = "";
-    	if(whiteList.isEmpty() || blackList.isEmpty()){
-    		if(whiteList.isEmpty() && blackList.isEmpty()){
-    			
-    		}else if(whiteList.isEmpty()){
-    			for(int i = 0; i < blackList.size(); i++){
-    				if(i == 0)
-    					writeToFileLine += "," + blackList.get(i).getText();
-    				else
-    					writeToFileLine += ">" + blackList.get(i).getText();
-    			}
-    		}else{
-    			for(int i = 0; i < whiteList.size(); i++){
-        			if(i == 0)
-        				writeToFileLine += whiteList.get(i).getText();
-        			else
-        				writeToFileLine += ">" + whiteList.get(i).getText();
-        		}
-    		}
-    	}else{
-    		for(int i = 0; i < whiteList.size(); i++){
-    			if(i == 0)
-    				writeToFileLine += whiteList.get(i).getText();
-    			else
-    				writeToFileLine += ">" + whiteList.get(i).getText();
-    		}
-    		for(int i = 0; i < blackList.size(); i++){
-				if(i == 0)
-					writeToFileLine += "," + blackList.get(i).getText();
-				else
-					writeToFileLine += ">" + blackList.get(i).getText();
-			}
-    	}
+		for(int i = 0; i < blackList.size(); i++){
+			if(i == 0)
+				writeToFileLine += blackList.get(i).getText();
+			else
+				writeToFileLine += "," + blackList.get(i).getText();
+		}
 		
 		IpAddress.writeToFile(writeToFileLine);
     }

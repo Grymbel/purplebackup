@@ -1,24 +1,23 @@
 package login;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class LoginModel {
 	private String username;
-	private String password;
 	private String salt;
+	private String password;
 	
 	public LoginModel() {
 		super();
 	}
 
-	public LoginModel(String username, String password, String salt) {
+	public LoginModel(String username, String salt, String password) {
 		super();
 		this.username = username;
-		this.password = password;
 		this.salt = salt;
+		this.password = password;
 	}
 
 	public String getUsername() {
@@ -47,7 +46,7 @@ public class LoginModel {
 	
 	@Override
 	public String toString() {
-		return username + ";" + password + ";" + salt;
+		return username + ";" + salt + ";" + password;
 	}
 	
 	public static ArrayList<LoginModel> getAllData() {
@@ -55,11 +54,11 @@ public class LoginModel {
 		return loginDAO.getAllData();
 	}
 	
-	public void getData() {
+	public void getAdmin() {
 		LoginDAO loginDAO = new LoginDAO();
 		LoginModel loginModel = loginDAO.getAdmin(username);
-		setPassword(loginModel.getPassword());
 		setSalt(loginModel.getSalt());
+		setPassword(loginModel.getPassword());
 	}
 	
 	public void updateAdmin() {
@@ -67,25 +66,15 @@ public class LoginModel {
 		loginDAO.updateAdmin(this);
 	}
 	
-	public LoginModel getCurrentAdmin() throws FileNotFoundException {
-		File file = new File("src/login/Login.txt");
-		Scanner sc = new Scanner(file) ;
-		String n = sc.nextLine();
-		sc.close();
-		
-		LoginDAO loginDAO = new LoginDAO();
-		LoginModel loginModel = new LoginModel();
-		loginModel = loginDAO.getAdmin(n);
-		
-		return loginModel;
+	public static void main(String[] args) throws FileNotFoundException, ParseException {
+		/*
+		LoginModel model = new LoginModel();
+		ArrayList<LoginModel> list = LoginModel.getAllData();
+		for (LoginModel m : list) {
+			model = m;
+		}
+		model.setPassword("Something");
+		model.updateAdmin();
+		*/
 	}
-	
-	public static void main(String[] args) throws FileNotFoundException {
-		LoginModel loginModel = new LoginModel();
-		loginModel.getCurrentAdmin();
-		loginModel.setPassword("Admin");
-		loginModel.setSalt("Salt");
-		loginModel.updateAdmin();
-	}
-
 }

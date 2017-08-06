@@ -5,6 +5,7 @@ import java.util.TimerTask;
 import backupMaker.BackupObject;
 
 public class AutoBackupProcess extends TimerTask{
+	//Automated backup creation 
 	@Override
 	public void run() {
 		ScheduleClock sch = new ScheduleClock();

@@ -4,12 +4,51 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.InvalidKeyException;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+
+//Key management class
+/*
+ * Lock, Unlock, Get, Generate, Check for existing
+ */
 public class KeyReader {
+	
+public static void lockKey(){
+	AESThing aes = new AESThing(true);
+	
+	try {
+		aes.encryptKey();
+	} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | IOException e) {
+		e.printStackTrace();
+	}
+}
+
+public static void unlockKey(){
+	AESThing aes = new AESThing(true);
+	boolean errorless=true;
+	try {
+		aes.decryptKey();
+	}catch (Exception e){
+		errorless=false;
+		System.err.println(e.getMessage());
+	}
+	
+	if(errorless){
+		try {
+			aes.writeToKey();
+		} catch (IllegalBlockSizeException | BadPaddingException | IOException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+}
+
 public static String getKey(){
+	unlockKey();
 	String key = "";
 	try {
 		FileReader fr = new FileReader("src/zipper/the.key");
@@ -20,6 +59,7 @@ public static String getKey(){
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
 	}
+	lockKey();
 	return key;
 	}
 public static void genKey() {
@@ -31,12 +71,13 @@ public static void genKey() {
         salt.append(chars.charAt(index));
     }
     String saltStr = salt.toString();
-    System.out.println(saltStr);
     
     try {
 		FileWriter fw = new FileWriter("src/zipper/the.key");
 		fw.append(saltStr);
 		fw.close();
+		
+		lockKey();
 	} catch (IOException e) {
 		e.printStackTrace();
 	}

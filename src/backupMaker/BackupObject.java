@@ -123,7 +123,13 @@ public class BackupObject {
 				areas.add(filename);
 			}
 		}
-		String restDir = "src/restored/"+id+"RESTORE/";
+		DBConnect dbc = new DBConnect();
+		String restDir = "";
+		try {
+			restDir = dbc.getRestorePath()+"/"+id+"RESTORE/";
+		}catch (Exception e) {
+				e.printStackTrace();
+			}
 		int c = 0;
 		for(String str : dirList){
 			try {				
@@ -131,7 +137,7 @@ public class BackupObject {
 				System.out.println(archive+restDir+areas.get(c));
 				Unzipper unz = new Unzipper(archive,restDir+areas.get(c));
 				c++;
-				DBConnect dbc = new DBConnect();
+				dbc = new DBConnect();
 				ResultSet res = dbc.getFileDeltaRange(rangeStart, id);
 				while(res.next()){
 					String action = res.getString("deltaAction");
@@ -159,6 +165,7 @@ public class BackupObject {
 		}
 	}
 	
+	
 	public boolean isFilled(){
 		return this.auditBackup||this.cloudBackup||this.userBackup||this.webBackup;
 	}
@@ -177,11 +184,6 @@ public class BackupObject {
 		//Zip all and put it in the output dir
 		this.initBackupLocations();
 		
-		this.setAuditBackup(true);
-		this.setCloudBackup(true);
-		this.setUserBackup(true);
-		this.setWebBackup(true);
-		this.setIsBase(true);
 		this.setCreationDate(time);
 		
 		BackupDAO.manualBackup(this);
@@ -205,6 +207,9 @@ public class BackupObject {
 	//For first-ever backup. Independent of other files
 	public void makeBaseBackupFirst(long time){
 		System.out.println("FIRST");
+		if(!new File("src/output/").exists()){
+			new File("src/output/").mkdir();
+		}
 		DBConnect dbc = new DBConnect();
 		try {
 			dbc.resolveAll();
