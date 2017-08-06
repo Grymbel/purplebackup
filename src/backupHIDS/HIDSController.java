@@ -284,13 +284,13 @@ public class HIDSController {
 			backupItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(bLocation)) {
-			backupItem.setStyle("-fx-background-color: #673AB7");
+			bLocation.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(bScheduler)) {
-			backupItem.setStyle("-fx-background-color: #673AB7");
+			bScheduler.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(bHIDS)) {
-			backupItem.setStyle("-fx-background-color: #673AB7");
+			bHIDS.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(secureItem)) {
 			secureItem.setStyle("-fx-background-color: #673AB7");
@@ -318,13 +318,13 @@ public class HIDSController {
 			backupItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(bLocation)) {
-			backupItem.setStyle("-fx-background-color: #9575CD");
+			bLocation.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(bScheduler)) {
-			backupItem.setStyle("-fx-background-color: #9575CD");
+			bScheduler.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(bHIDS)) {
-			backupItem.setStyle("-fx-background-color: #9575CD");
+			bHIDS.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(secureItem)) {
 			secureItem.setStyle("-fx-background-color: #9575CD");
