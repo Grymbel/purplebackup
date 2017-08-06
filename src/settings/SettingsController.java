@@ -171,16 +171,18 @@ public class SettingsController {
 			
 			if (!oldPassword.equals(null) && !oldPassword.equals("") && !newPassword.equals(null) && !newPassword.equals("") && !confirmPass.equals(null) && !confirmPass.equals("")) {
 				if (!hashedPassword.equals(storedPassword)) {
+					errorLbl.setVisible(true);
 					errorLbl.setText("Old password is wrong");
 				}
 				else if (newPassword.equals(oldPassword)) {
+					errorLbl.setVisible(true);
 					errorLbl.setText("New password cannot be the same as previous");
 				}
 				else if (!confirmPass.equals(newPassword)) {
+					errorLbl.setVisible(true);
 					errorLbl.setText("New password does not match");
 				}
 				else {
-					errorLbl.setText("Can change password");
 					byte [] newSalt = HP.createSalt();
 					String newSaltStr = enc.encodeToString(newSalt);
 					String newHashedPassword = HP.getHashedPassword(confirmPass, newSalt);
@@ -188,9 +190,13 @@ public class SettingsController {
 					loginModel.setSalt(newSaltStr);
 					loginModel.setPassword(newHashedPassword);
 					loginModel.updateAdmin();
+					
+					errorLbl.setStyle("-fx-text-fill : #32CD32");
+					errorLbl.setText("Password update successful");
 				}
 			}
 			else {
+				errorLbl.setVisible(true);
 				errorLbl.setText("All inputs are required to be filled in");
 			}
 		}
