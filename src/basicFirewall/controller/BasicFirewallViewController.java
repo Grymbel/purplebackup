@@ -97,11 +97,17 @@ public class BasicFirewallViewController {
 	@FXML
 	private HBox firewallItem;
 	@FXML
-	private HBox secureItem;
-	@FXML
 	private HBox auditItem;
 	@FXML
 	private HBox backupItem;
+	@FXML
+	private HBox bLocation;
+	@FXML
+	private HBox bScheduler;
+	@FXML
+	private HBox bHIDS;
+	@FXML
+	private HBox secureItem;
 	@FXML
 	private HBox logoutItem;
 
@@ -142,14 +148,23 @@ public class BasicFirewallViewController {
 		else if (event.getSource().equals(firewallItem)) {
 			firewallItem.setStyle("-fx-background-color: #673AB7");
 		}
-		else if (event.getSource().equals(secureItem)) {
-			secureItem.setStyle("-fx-background-color: #673AB7");
-		}
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(backupItem)) {
 			backupItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(bLocation)) {
+			backupItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(bScheduler)) {
+			backupItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(bHIDS)) {
+			backupItem.setStyle("-fx-background-color: #673AB7");
+		}
+		else if (event.getSource().equals(secureItem)) {
+			secureItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #673AB7");
@@ -167,14 +182,23 @@ public class BasicFirewallViewController {
 		else if (event.getSource().equals(firewallItem)) {
 			firewallItem.setStyle("-fx-background-color: #9575CD");
 		}
-		else if (event.getSource().equals(secureItem)) {
-			secureItem.setStyle("-fx-background-color: #9575CD");
-		}
 		else if (event.getSource().equals(auditItem)) {
 			auditItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(backupItem)) {
 			backupItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(bLocation)) {
+			backupItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(bScheduler)) {
+			backupItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(bHIDS)) {
+			backupItem.setStyle("-fx-background-color: #9575CD");
+		}
+		else if (event.getSource().equals(secureItem)) {
+			secureItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			logoutItem.setStyle("-fx-background-color: #9575CD");
@@ -186,22 +210,31 @@ public class BasicFirewallViewController {
 		Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 		Parent root = null;
 		if (event.getSource().equals(homeItem)) {
-			root = FXMLLoader.load(getClass().getResource("../../view/HomePage.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../view/HomePage.fxml"));
 		}
 		if (event.getSource().equals(userItem)) {
-			root = FXMLLoader.load(getClass().getResource("../../userManagement/view/DatabaseTableView.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../userManagement/view/DatabaseTableView.fxml"));
 		}
 		else if (event.getSource().equals(firewallItem)) {
-			root = FXMLLoader.load(getClass().getResource("../../basicFirewall/view/BasicFirewallView.fxml"));
-		}
-		else if (event.getSource().equals(secureItem)) {
-			root = FXMLLoader.load(getClass().getResource("../../view/"));
+			root = FXMLLoader.load(getClass().getResource("../basicFirewall/view/BasicFirewallView.fxml"));
 		}
 		else if (event.getSource().equals(auditItem)) {
-			root = FXMLLoader.load(getClass().getResource("../../view/AuditLog.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../view/AuditLog.fxml"));
 		}
 		else if (event.getSource().equals(backupItem)) {
-			root = FXMLLoader.load(getClass().getResource("../../view/BackupMaker.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../view/BackupMaker.fxml"));
+		}
+		else if (event.getSource().equals(bLocation)) {
+			root = FXMLLoader.load(getClass().getResource("../view/BackupLocations.fxml"));
+		}
+		else if (event.getSource().equals(bScheduler)) {
+			root = FXMLLoader.load(getClass().getResource("../view/BackupScheduler.fxml"));
+		}
+		else if (event.getSource().equals(bHIDS)) {
+			root = FXMLLoader.load(getClass().getResource("../view/BackupHIDS.fxml"));
+		}
+		else if (event.getSource().equals(secureItem)) {
+			root = FXMLLoader.load(getClass().getResource("../view/Settings.fxml"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
 			stage.setX(450);
@@ -209,7 +242,7 @@ public class BasicFirewallViewController {
 			stage.setWidth(1020);
 			stage.setHeight(650);
 			
-			root = FXMLLoader.load(getClass().getResource("../../view/Login.fxml"));
+			root = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
 			stage.setMaximized(false);
 		}
 		stage.setScene(new Scene(root));

@@ -6,6 +6,7 @@ import java.util.Base64;
 
 import com.jfoenix.controls.JFXPasswordField;
 
+import backupScheduler.TimerAccess;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -29,6 +30,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import login.HashPass;
 import login.LoginModel;
+import zipper.DBLocker;
 
 public class SettingsController {
 	@FXML
@@ -320,6 +322,8 @@ public class SettingsController {
 			root = FXMLLoader.load(getClass().getResource("../view/Settings.fxml"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
+			DBLocker.lockDB();
+			TimerAccess.closeTime();
 			stage.setX(450);
 			stage.setY(128);
 			stage.setWidth(1020);

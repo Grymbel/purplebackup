@@ -2,6 +2,7 @@ package defaultLayout;
 
 import java.io.IOException;
 
+import backupScheduler.TimerAccess;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -17,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import zipper.DBLocker;
 
 public class DefaultLayoutController {
 	@FXML
@@ -172,6 +174,8 @@ public class DefaultLayoutController {
 			root = FXMLLoader.load(getClass().getResource("../view/Settings.fxml"));
 		}
 		else if (event.getSource().equals(logoutItem)) {
+			DBLocker.lockDB();
+			TimerAccess.closeTime();
 			stage.setX(450);
 			stage.setY(128);
 			stage.setWidth(1020);

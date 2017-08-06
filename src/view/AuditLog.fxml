@@ -221,7 +221,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                  <image>
-                                    <Image url="@../images/Backup.png" />
+                                    <Image url="@../images/hids.png" />
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup HIDS" textAlignment="CENTER" textFill="WHITE">
@@ -241,7 +241,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                                  <image>
-                                    <Image url="@../images/Secure.png" />
+                                    <Image url="@../images/settings.png" />
                                  </image>
                               </ImageView>
                               <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Settings" textAlignment="CENTER" textFill="WHITE">

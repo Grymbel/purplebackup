@@ -21,407 +21,463 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userManagement.controller.DatabaseTableViewController">
+<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userManagement.controller.DatabaseTableViewController">
    <children>
-      <AnchorPane prefHeight="800.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <TextFlow layoutX="1013.0" maxHeight="70.0" minHeight="70.0" prefHeight="70.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TextFlow layoutX="1013.0" maxHeight="70.0" minHeight="70.0" prefHeight="70.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="0.0">
+                  <Label alignment="CENTER" maxHeight="70.0" minHeight="70.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="70.0" text="Purpleboard" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </TextFlow>
+            <TextFlow layoutX="1210.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/BasLogo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </TextFlow>
+            <TextFlow AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <StackPane>
                      <children>
-                        <Label alignment="CENTER" maxHeight="70.0" minHeight="70.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="70.0" text="Purpleboard" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font size="36.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </TextFlow>
-                  <TextFlow layoutX="1210.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="closeIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#hideSidebar" pickOnBounds="true" preserveRatio="true" visible="false">
                            <image>
-                              <Image url="@../../images/BasLogo.png" />
+                              <Image url="@../../images/Close.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="sideIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#showSidebar" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/HamburgerMenu.png" />
                            </image>
                         </ImageView>
                      </children>
-                  </TextFlow>
-                  <TextFlow AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  </StackPane>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <padding>
+                  <Insets left="10.0" top="10.0" />
+               </padding>
+            </TextFlow>
+         </children>
+      </AnchorPane>
+      <HBox layoutY="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+         <children>
+            <AnchorPane>
+               <children>
+                  <VBox fx:id="sidebarNav" layoutX="-240.0" prefWidth="240.0" spacing="20.0" style="-fx-background-color: #9575CD;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <StackPane>
+                        <HBox fx:id="homeItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <ImageView fx:id="closeIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#hideSidebar" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
                                  <image>
-                                    <Image url="@../../images/Close.png" />
+                                    <Image url="@../../images/Home.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="sideIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#showSidebar" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/HamburgerMenu.png" />
-                                 </image>
-                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Home" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
                            </children>
-                        </StackPane>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <VBox.margin>
+                              <Insets top="70.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../../images/UserManage.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="User Management" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="firewallItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../../images/Firewall.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Firewall" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="auditItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../../images/Log.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Audit Log" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="backupItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../../images/Backup.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Maker" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="bLocation" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../../images/Backup.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Location" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="bScheduler" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../../images/Backup.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Scheduler" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="bHIDS" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../../images/hids.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup HIDS" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="secureItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../../images/settings.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Settings" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
+                        <HBox fx:id="logoutItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                           <children>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../../images/Logout.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Logout" textAlignment="CENTER" textFill="WHITE">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </HBox>
                      </children>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <padding>
-                        <Insets left="10.0" top="10.0" />
-                     </padding>
-                  </TextFlow>
+                  </VBox>
                </children>
             </AnchorPane>
-            <HBox layoutY="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+            <VBox minHeight="800.0" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #EDE7F6;" HBox.hgrow="ALWAYS">
                <children>
-                  <AnchorPane>
+                  <VBox prefHeight="800.0" prefWidth="100.0" style="-fx-background-color: #EDE7F6;">
                      <children>
-                        <VBox fx:id="sidebarNav" layoutX="-240.0" prefWidth="240.0" spacing="20.0" style="-fx-background-color: #9575CD;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox>
                            <children>
-                              <HBox fx:id="homeItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0" VBox.vgrow="ALWAYS">
+                              <HBox>
                                  <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                    <JFXTextField fx:id="Login_Username" labelFloat="true" promptText="Username" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
-                                          <Insets left="10.0" />
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                        </HBox.margin>
-                                       <image>
-                                          <Image url="@../../images/Home.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Home" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <VBox.margin>
-                                    <Insets top="200.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox fx:id="userItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                                 <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                    </JFXTextField>
+                                    <JFXTextField fx:id="Login_Password" labelFloat="true" promptText="Password" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
-                                          <Insets left="10.0" />
+                                          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                        </HBox.margin>
-                                       <image>
-                                          <Image url="@../../images/UserManage.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="User Management" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
+                                    </JFXTextField>
                                  </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
                               </HBox>
-                              <HBox fx:id="firewallItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
+                              <HBox>
                                  <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                       <image>
-                                          <Image url="@../../images/Firewall.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Firewall" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </HBox>
-                              <HBox fx:id="secureItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                                 <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                       <image>
-                                          <Image url="@../../images/Secure.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="XZ's Feature" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </HBox>
-                              <HBox fx:id="auditItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                                 <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                       <image>
-                                          <Image url="@../../images/Log.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Audit Log" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </HBox>
-                              <HBox fx:id="backupItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                                 <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                       <image>
-                                          <Image url="@../../images/Backup.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Backup Maker" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </HBox>
-                              <HBox fx:id="logoutItem" maxHeight="50.0" minHeight="50.0" onMouseClicked="#changePage" onMouseEntered="#showHoverColor" onMouseExited="#hideHoverColor" prefHeight="50.0">
-                                 <children>
-                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                       <image>
-                                          <Image url="@../../images/Logout.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Label alignment="CENTER" prefHeight="90.0" prefWidth="240.0" text="Logout" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
-                  <VBox minHeight="800.0" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #EDE7F6;" HBox.hgrow="ALWAYS">
-                     <children>
-                        <VBox prefHeight="800.0" prefWidth="100.0" style="-fx-background-color: #EDE7F6;" VBox.vgrow="ALWAYS">
-                           <children>
-                              <VBox>
-                                 <children>
-                                    <HBox>
+                                    <VBox prefHeight="271.0" prefWidth="17.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <JFXTextField fx:id="Login_Username" labelFloat="true" promptText="Username" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                             </HBox.margin>
+                                          <JFXTextField fx:id="User_NRIC" promptText="NRIC">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" top="5.0" />
+                                             </padding>
                                           </JFXTextField>
-                                          <JFXTextField fx:id="Login_Password" labelFloat="true" promptText="Password" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                             </HBox.margin>
+                                          <JFXTextField fx:id="User_Name" labelFloat="true" promptText="Name">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" top="5.0" />
+                                             </padding>
                                           </JFXTextField>
-                                       </children>
-                                    </HBox>
-                                    <HBox>
-                                       <children>
-                                          <VBox prefHeight="271.0" prefWidth="17.0" HBox.hgrow="ALWAYS">
+                                          <HBox>
                                              <children>
-                                                <JFXTextField fx:id="User_NRIC" promptText="NRIC">
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                                                   </VBox.margin>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </JFXTextField>
-                                                <JFXTextField fx:id="User_Name" labelFloat="true" promptText="Name">
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                                                   </VBox.margin>
-                                                   <padding>
-                                                      <Insets bottom="5.0" top="5.0" />
-                                                   </padding>
-                                                </JFXTextField>
-                                                <HBox>
-                                                   <children>
-                                                      <JFXTextField fx:id="User_ContactNo" labelFloat="true" promptText="Contact Number" HBox.hgrow="ALWAYS">
-                                                         <HBox.margin>
-                                                            <Insets bottom="5.0" left="10.0" top="10.0" />
-                                                         </HBox.margin>
-                                                         <padding>
-                                                            <Insets bottom="5.0" top="5.0" />
-                                                         </padding>
-                                                      </JFXTextField>
-                                                      <HBox alignment="CENTER">
-                                                         <children>
-                                                            <JFXRadioButton fx:id="User_Gender_M" selected="true" text="Male">
-                                                               <toggleGroup>
-                                                                  <ToggleGroup fx:id="Gender" />
-                                                               </toggleGroup>
-                                                            </JFXRadioButton>
-                                                            <JFXRadioButton fx:id="User_Gender_F" text="Female" toggleGroup="$Gender" />
-                                                         </children>
-                                                         <HBox.margin>
-                                                            <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
-                                                         </HBox.margin>
-                                                      </HBox>
-                                                   </children>
-                                                </HBox>
-                                                <JFXTextField fx:id="User_Email" labelFloat="true" promptText="Email">
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                                                   </VBox.margin>
+                                                <JFXTextField fx:id="User_ContactNo" labelFloat="true" promptText="Contact Number" HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="10.0" top="10.0" />
+                                                   </HBox.margin>
                                                    <padding>
                                                       <Insets bottom="5.0" top="5.0" />
                                                    </padding>
                                                 </JFXTextField>
                                                 <HBox alignment="CENTER">
                                                    <children>
-                                                      <JFXTextField fx:id="User_Class" labelFloat="true" promptText="Class" HBox.hgrow="ALWAYS">
-                                                         <padding>
-                                                            <Insets bottom="5.0" top="5.0" />
-                                                         </padding>
-                                                         <HBox.margin>
-                                                            <Insets bottom="5.0" left="10.0" top="5.0" />
-                                                         </HBox.margin>
-                                                      </JFXTextField>
-                                                      <JFXDatePicker fx:id="User_DOB" promptText="YYYY-MM-DD">
-                                                         <padding>
-                                                            <Insets bottom="5.0" top="5.0" />
-                                                         </padding>
-                                                         <HBox.margin>
-                                                            <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
-                                                         </HBox.margin>
-                                                      </JFXDatePicker>
+                                                      <JFXRadioButton fx:id="User_Gender_M" selected="true" text="Male">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="Gender" />
+                                                         </toggleGroup>
+                                                      </JFXRadioButton>
+                                                      <JFXRadioButton fx:id="User_Gender_F" text="Female" toggleGroup="$Gender" />
                                                    </children>
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                                                   </HBox.margin>
                                                 </HBox>
-                                                <JFXTextArea fx:id="User_Address" promptText="Address" wrapText="true" VBox.vgrow="ALWAYS">
-                                                   <VBox.margin>
-                                                      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                                                   </VBox.margin>
+                                             </children>
+                                          </HBox>
+                                          <JFXTextField fx:id="User_Email" labelFloat="true" promptText="Email">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" top="5.0" />
+                                             </padding>
+                                          </JFXTextField>
+                                          <HBox alignment="CENTER">
+                                             <children>
+                                                <JFXTextField fx:id="User_Class" labelFloat="true" promptText="Class" HBox.hgrow="ALWAYS">
                                                    <padding>
                                                       <Insets bottom="5.0" top="5.0" />
                                                    </padding>
-                                                </JFXTextArea>
-                                                <JFXToggleButton fx:id="studentTeacherInputChange" onAction="#showCorrrectInput" text="Student/Teacher" toggleColor="#8a26ab" toggleLineColor="#eb64dd">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="10.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </JFXTextField>
+                                                <JFXDatePicker fx:id="User_DOB" promptText="YYYY-MM-DD">
+                                                   <padding>
+                                                      <Insets bottom="5.0" top="5.0" />
+                                                   </padding>
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </JFXDatePicker>
+                                             </children>
+                                          </HBox>
+                                          <JFXTextArea fx:id="User_Address" promptText="Address" wrapText="true" VBox.vgrow="ALWAYS">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" top="5.0" />
+                                             </padding>
+                                          </JFXTextArea>
+                                          <JFXToggleButton fx:id="studentTeacherInputChange" onAction="#showCorrrectInput" text="Student/Teacher" toggleColor="#8a26ab" toggleLineColor="#eb64dd">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                             </VBox.margin>
+                                          </JFXToggleButton>
+                                       </children>
+                                    </VBox>
+                                    <StackPane prefHeight="351.0" prefWidth="222.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox fx:id="student_Input" prefHeight="200.0" prefWidth="100.0">
+                                             <children>
+                                                <JFXTextField fx:id="Student_CCA" promptText="CCA">
                                                    <VBox.margin>
-                                                      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                                      <Insets left="20.0" right="20.0" top="20.0" />
                                                    </VBox.margin>
-                                                </JFXToggleButton>
+                                                </JFXTextField>
+                                                <JFXTextField fx:id="Student_UserID" disable="true" editable="false" promptText="UserID">
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" top="20.0" />
+                                                   </VBox.margin>
+                                                </JFXTextField>
                                              </children>
                                           </VBox>
-                                          <StackPane prefHeight="351.0" prefWidth="222.0" HBox.hgrow="ALWAYS">
+                                          <VBox fx:id="teacher_Input" prefHeight="200.0" prefWidth="100.0" visible="false">
                                              <children>
-                                                <VBox fx:id="student_Input" prefHeight="200.0" prefWidth="100.0">
-                                                   <children>
-                                                      <JFXTextField fx:id="Student_CCA" promptText="CCA">
-                                                         <VBox.margin>
-                                                            <Insets left="20.0" right="20.0" top="20.0" />
-                                                         </VBox.margin>
-                                                      </JFXTextField>
-                                                      <JFXTextField fx:id="Student_UserID" disable="true" editable="false" promptText="UserID">
-                                                         <VBox.margin>
-                                                            <Insets left="20.0" right="20.0" top="20.0" />
-                                                         </VBox.margin>
-                                                      </JFXTextField>
-                                                   </children>
-                                                </VBox>
-                                                <VBox fx:id="teacher_Input" prefHeight="200.0" prefWidth="100.0" visible="false">
-                                                   <children>
-                                                      <JFXTextField fx:id="Teacher_TeacherID" promptText="teacherID">
-                                                         <VBox.margin>
-                                                            <Insets left="20.0" right="20.0" top="20.0" />
-                                                         </VBox.margin>
-                                                      </JFXTextField>
-                                                      <JFXTextField fx:id="Teacher_Department" promptText="Department">
-                                                         <VBox.margin>
-                                                            <Insets left="20.0" right="20.0" top="20.0" />
-                                                         </VBox.margin>
-                                                      </JFXTextField>
-                                                      <JFXTextField fx:id="Teacher_UserID" disable="true" editable="false" promptText="UserID">
-                                                         <VBox.margin>
-                                                            <Insets left="20.0" right="20.0" top="20.0" />
-                                                         </VBox.margin>
-                                                      </JFXTextField>
-                                                   </children>
-                                                </VBox>
+                                                <JFXTextField fx:id="Teacher_TeacherID" promptText="teacherID">
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" top="20.0" />
+                                                   </VBox.margin>
+                                                </JFXTextField>
+                                                <JFXTextField fx:id="Teacher_Department" promptText="Department">
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" top="20.0" />
+                                                   </VBox.margin>
+                                                </JFXTextField>
+                                                <JFXTextField fx:id="Teacher_UserID" disable="true" editable="false" promptText="UserID">
+                                                   <VBox.margin>
+                                                      <Insets left="20.0" right="20.0" top="20.0" />
+                                                   </VBox.margin>
+                                                </JFXTextField>
                                              </children>
-                                          </StackPane>
+                                          </VBox>
                                        </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER">
-                                       <children>
-                                          <JFXButton fx:id="submitBtn" onAction="#submit" text="Submit">
-                                             <HBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXButton fx:id="clearBtn" onAction="#clear" text="Clear" />
-                                          <JFXButton fx:id="applyBtn" onAction="#applyChange" text="Apply" />
-                                       </children>
-                                    </HBox>
+                                    </StackPane>
                                  </children>
-                              </VBox>
-                              <VBox VBox.vgrow="ALWAYS">
+                              </HBox>
+                              <HBox alignment="CENTER">
                                  <children>
-                                    <HBox alignment="CENTER" prefHeight="272.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
-                                       <children>
-                                          <TableView fx:id="dataTable" editable="true" onMouseClicked="#generateNewSaltKeys" prefHeight="79.0" prefWidth="1280.0" HBox.hgrow="ALWAYS">
-                                            <columns>
-                                              <TableColumn fx:id="userID" editable="false" prefWidth="56.0" text="UserID" />
-                                              <TableColumn fx:id="username" prefWidth="94.0" text="Username" />
-                                                <TableColumn fx:id="password" prefWidth="73.0" text="Password" />
-                                                <TableColumn fx:id="salt" editable="false" prefWidth="73.0" text="Salt" />
-                                                <TableColumn fx:id="nRIC" minWidth="0.0" prefWidth="101.0" text="NRIC" />
-                                                <TableColumn fx:id="name" prefWidth="90.0" text="Name" />
-                                                <TableColumn fx:id="gender" prefWidth="58.0" text="Gender" />
-                                                <TableColumn fx:id="dOB" prefWidth="136.80029296875" text="DOB" />
-                                                <TableColumn fx:id="contactNo" prefWidth="136.0" text="Contact Number" />
-                                                <TableColumn fx:id="email" prefWidth="121.0" text="Email" />
-                                                <TableColumn fx:id="schoolClass" prefWidth="68.0" text="Class" />
-                                                <TableColumn fx:id="address" prefWidth="137.0" text="Address" />
-                                                <TableColumn fx:id="keys" editable="false" prefWidth="137.0" text="Keys" />
-                                                <TableColumn fx:id="cCA" minWidth="0.0" text="CCA" />
-                                                <TableColumn fx:id="teacherID" prefWidth="139.0" text="TeacherID" />
-                                                <TableColumn fx:id="department" prefWidth="116.0" text="Department" />
-                                            </columns>
-                                          </TableView>
-                                       </children>
-                                    </HBox>
+                                    <JFXButton fx:id="submitBtn" onAction="#submit" text="Submit">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <JFXButton fx:id="clearBtn" onAction="#clear" text="Clear" />
+                                    <JFXButton fx:id="applyBtn" onAction="#applyChange" text="Apply" />
                                  </children>
-                              </VBox>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox VBox.vgrow="ALWAYS">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="272.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <TableView fx:id="dataTable" editable="true" onMouseClicked="#generateNewSaltKeys" prefHeight="79.0" prefWidth="1280.0" HBox.hgrow="ALWAYS">
+                                       <columns>
+                                          <TableColumn fx:id="userID" editable="false" prefWidth="56.0" text="UserID" />
+                                          <TableColumn fx:id="username" prefWidth="94.0" text="Username" />
+                                          <TableColumn fx:id="password" prefWidth="73.0" text="Password" />
+                                          <TableColumn fx:id="salt" editable="false" prefWidth="73.0" text="Salt" />
+                                          <TableColumn fx:id="nRIC" minWidth="0.0" prefWidth="101.0" text="NRIC" />
+                                          <TableColumn fx:id="name" prefWidth="90.0" text="Name" />
+                                          <TableColumn fx:id="gender" prefWidth="58.0" text="Gender" />
+                                          <TableColumn fx:id="dOB" prefWidth="136.80029296875" text="DOB" />
+                                          <TableColumn fx:id="contactNo" prefWidth="136.0" text="Contact Number" />
+                                          <TableColumn fx:id="email" prefWidth="121.0" text="Email" />
+                                          <TableColumn fx:id="schoolClass" prefWidth="68.0" text="Class" />
+                                          <TableColumn fx:id="address" prefWidth="137.0" text="Address" />
+                                          <TableColumn fx:id="keys" editable="false" prefWidth="137.0" text="Keys" />
+                                          <TableColumn fx:id="cCA" minWidth="0.0" text="CCA" />
+                                          <TableColumn fx:id="teacherID" prefWidth="139.0" text="TeacherID" />
+                                          <TableColumn fx:id="department" prefWidth="116.0" text="Department" />
+                                       </columns>
+                                    </TableView>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>
                   </VBox>
                </children>
-            </HBox>
+            </VBox>
          </children>
-      </AnchorPane>
+      </HBox>
    </children>
 </AnchorPane>
