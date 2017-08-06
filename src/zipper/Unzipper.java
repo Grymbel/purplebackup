@@ -99,7 +99,6 @@ public class Unzipper
     	}
     }catch(IOException ex){
     	System.err.println(ex.getMessage());
-    	ex.printStackTrace();
     }
    }
     

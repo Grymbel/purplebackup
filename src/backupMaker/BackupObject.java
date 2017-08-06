@@ -1,6 +1,7 @@
 package backupMaker;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -158,8 +159,7 @@ public class BackupObject {
 					}
 				}
 				unz.unZipIt();
-		}
-			catch (Exception e) {
+		}catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
