@@ -49,7 +49,9 @@ public class HomePageController{
 	public void initialize(){
 		DBLocker.unlockDB();
 		HIDSService.doHIDS();
+		if(!TimerAccess.isRunning()){
 		TimerAccess.startTimer();
+		}
 	}
 
 	@FXML
