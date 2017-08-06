@@ -59,6 +59,13 @@ public class BadTyping {
 				}
 			}
 		} catch (FileNotFoundException e) {
+			try {
+				FileWriter fw = new FileWriter("ButterFingers");
+				fw.write("");
+				fw.close();
+			} catch (IOException e1) {
+				System.err.println(e1.getMessage());
+			}
 			System.err.println(e.getMessage());
 		}
 		return 0;

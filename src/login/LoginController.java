@@ -128,6 +128,8 @@ public class LoginController{
 	@FXML
 	public void checkEnter(KeyEvent event) {
 		if (event.getCode().getName().equals("Enter")) {
+			int penalty=BadTyping.getPenalty();
+			if(penalty==0){
 			String Username = userID.getText();
 			String Password = passID.getText();
 			String storedUsername = null;
@@ -188,8 +190,13 @@ public class LoginController{
 				else {
 					errorMessage.setVisible(true);
 					errorMessage.setText("Username or password is incorrect.");
+					BadTyping.logTypo();
 				}
 			}
+		}else{
+			errorMessage.setVisible(true);
+			errorMessage.setText("Please wait "+penalty+" seconds.");
+		}
 		}
 	}
 }
