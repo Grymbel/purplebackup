@@ -23,9 +23,9 @@
 <?import backupMaker.FormattedTableCellFactory?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupMaker.PurpleBController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backupMaker.PurpleBController">
    <children>
-      <AnchorPane prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="70.0" prefWidth="1920.0" style="-fx-background-color: #9575CD;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <TextFlow layoutX="1013.0" maxHeight="70.0" minHeight="70.0" prefHeight="70.0" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="0.0">
                <children>

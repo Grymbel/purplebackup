@@ -505,7 +505,8 @@ public class PurpleBController {
 				FileUtils.copyDirectoryToDirectory(t3, new File("src"));
 				
 				success=true;
-				System.out.println("Done!");
+				
+	    		
 				}
 				else{
 					Alert alert = new Alert(AlertType.WARNING);
@@ -539,6 +540,31 @@ public class PurpleBController {
     		catch(Exception e){
     			
     		}
+    	}
+    	if(success){
+    		System.out.println("Done!");
+    		
+    		try {
+				FileUtils.deleteDirectory(new File("src/tempToUnzip"));
+			} catch (IOException e) {
+
+			}
+    		try{
+    		FileUtils.cleanDirectory(new File(this.exportSwapURL.toString()));
+    		}
+    		catch(Exception e){
+    			
+    		}
+			
+			Alert alert = new Alert(AlertType.WARNING);
+    		alert.setTitle("Restart required");
+    		alert.setHeaderText("The application will now restart");
+
+    		alert.showAndWait();
+    		DBLocker.lockDB();
+			TimerAccess.closeTime();
+			
+			System.exit(0);
     	}
 }
     @FXML
