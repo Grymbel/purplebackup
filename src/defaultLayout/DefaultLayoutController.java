@@ -15,7 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import zipper.DBLocker;
@@ -92,13 +91,13 @@ public class DefaultLayoutController {
 			backupItem.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(bLocation)) {
-			backupItem.setStyle("-fx-background-color: #673AB7");
+			bLocation.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(bScheduler)) {
-			backupItem.setStyle("-fx-background-color: #673AB7");
+			bScheduler.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(bHIDS)) {
-			backupItem.setStyle("-fx-background-color: #673AB7");
+			bHIDS.setStyle("-fx-background-color: #673AB7");
 		}
 		else if (event.getSource().equals(secureItem)) {
 			secureItem.setStyle("-fx-background-color: #673AB7");
@@ -126,13 +125,13 @@ public class DefaultLayoutController {
 			backupItem.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(bLocation)) {
-			backupItem.setStyle("-fx-background-color: #9575CD");
+			bLocation.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(bScheduler)) {
-			backupItem.setStyle("-fx-background-color: #9575CD");
+			bScheduler.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(bHIDS)) {
-			backupItem.setStyle("-fx-background-color: #9575CD");
+			bHIDS.setStyle("-fx-background-color: #9575CD");
 		}
 		else if (event.getSource().equals(secureItem)) {
 			secureItem.setStyle("-fx-background-color: #9575CD");

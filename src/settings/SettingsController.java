@@ -10,8 +10,6 @@ import backupScheduler.TimerAccess;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,10 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import login.HashPass;
@@ -171,16 +167,18 @@ public class SettingsController {
 			
 			if (!oldPassword.equals(null) && !oldPassword.equals("") && !newPassword.equals(null) && !newPassword.equals("") && !confirmPass.equals(null) && !confirmPass.equals("")) {
 				if (!hashedPassword.equals(storedPassword)) {
+					errorLbl.setVisible(true);
 					errorLbl.setText("Old password is wrong");
 				}
 				else if (newPassword.equals(oldPassword)) {
+					errorLbl.setVisible(true);
 					errorLbl.setText("New password cannot be the same as previous");
 				}
 				else if (!confirmPass.equals(newPassword)) {
+					errorLbl.setVisible(true);
 					errorLbl.setText("New password does not match");
 				}
 				else {
-					errorLbl.setText("Can change password");
 					byte [] newSalt = HP.createSalt();
 					String newSaltStr = enc.encodeToString(newSalt);
 					String newHashedPassword = HP.getHashedPassword(confirmPass, newSalt);
@@ -188,9 +186,13 @@ public class SettingsController {
 					loginModel.setSalt(newSaltStr);
 					loginModel.setPassword(newHashedPassword);
 					loginModel.updateAdmin();
+					
+					errorLbl.setStyle("-fx-text-fill : #32CD32");
+					errorLbl.setText("Password update successful");
 				}
 			}
 			else {
+				errorLbl.setVisible(true);
 				errorLbl.setText("All inputs are required to be filled in");
 			}
 		}

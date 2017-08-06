@@ -3,7 +3,6 @@ package userManagement.model;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
-import userManagement.model.UserAllTable;
 
 public class EditingCell extends TableCell<UserAllTable, String>{
 	private TextField textField;

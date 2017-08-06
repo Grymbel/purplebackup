@@ -1,6 +1,7 @@
 package homePage;
 
 import java.io.IOException;
+
 import backupHIDS.HIDSService;
 import backupScheduler.TimerAccess;
 import javafx.animation.KeyFrame;
@@ -48,7 +49,9 @@ public class HomePageController{
 	public void initialize(){
 		DBLocker.unlockDB();
 		HIDSService.doHIDS();
+		if(!TimerAccess.isRunning()){
 		TimerAccess.startTimer();
+		}
 	}
 
 	@FXML
