@@ -52,5 +52,6 @@ public class HIDSService {
 
     		alert.show();
 		}
+		dbc.close();
 	}
 }
