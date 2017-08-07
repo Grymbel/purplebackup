@@ -10,7 +10,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 public class HashPass {
-	public static final int iterations = 100000;
+	public static final int iterations = 1000;
 	public static final int keyLength = 512;
 
 	public byte [] hashPassword (String password, byte[] salt, int iterations, int keyLength ) {
