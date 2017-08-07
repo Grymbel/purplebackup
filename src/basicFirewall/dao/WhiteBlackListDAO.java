@@ -26,7 +26,7 @@ public class WhiteBlackListDAO {
 		ArrayList<String> blackListArray = new ArrayList<String>();
 		Scanner sc = new Scanner(file);
 		sc.useDelimiter(",");
-		if(sc.hasNext()){
+		while(sc.hasNext()){
 			String line = sc.next();
 			blackListArray.add(line);
 		}

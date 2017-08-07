@@ -133,8 +133,9 @@ public class SettingsController {
 				loginModel.setPassword(newHashedPassword);
 				loginModel.updateAdmin();
 				
-				errorLbl.setStyle("-fx-text-fill : #32CD32");
+				//errorLbl.setStyle("-fx-text-fill : #32CD32");
 				errorLbl.setText("Password update successful");
+				errorLbl.setStyle("-fx-text-fill : #32CD32");
 			}
 		}
 		else {

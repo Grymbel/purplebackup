@@ -180,7 +180,7 @@ public class AuditLogController {
 		logListView.getItems().clear();
 		Collections.reverse(dataList);
 		String timeStr = null;
-		DatabaseDAO dba = new DatabaseDAO(1);
+		DatabaseDAO dba = new DatabaseDAO(0);
 		for (AuditLogModel aLM : dataList) {
 			String sqlline = "SELECT UserID FROM Login WHERE Username = ?;";
 			ResultSet login = dba.getDatabaseData(sqlline, aLM.getUsername());
@@ -342,7 +342,7 @@ public class AuditLogController {
 				else if (normSusp.getValue().equals("Suspicious")) {
 					if (cherStud.getValue().equals("All")) {
 						System.out.println("normSusp: Selected Suspicious and All");
-						if (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b)) {
+						if (aLM.getActivity().equals("Attempted cross-site scripting") || y.after(a) && y.before(b) && aLM.getActivity().equals("logged in successfully")) {
 							createListItems(aLM, a, b, y);
 						}
 					}
