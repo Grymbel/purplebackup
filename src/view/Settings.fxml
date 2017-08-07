@@ -358,11 +358,20 @@
                               </TextFlow>
                               <TextFlow textAlignment="CENTER">
                                  <children>
-                                    <Label fx:id="errorLbl" alignment="CENTER" prefHeight="50.0" prefWidth="680.0" text="Label" textAlignment="CENTER" textFill="#f74225" visible="false">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </Label>
+                                    <StackPane>
+                                       <children>
+                                          <Label fx:id="errorLbl" alignment="CENTER" prefHeight="50.0" prefWidth="680.0" text="Label" textAlignment="CENTER" textFill="#f74225" visible="false">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="successLbl" alignment="CENTER" prefHeight="50.0" prefWidth="680.0" text="Label" textAlignment="CENTER" textFill="LIMEGREEN" visible="false">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </StackPane>
                                  </children>
                                  <VBox.margin>
                                     <Insets top="20.0" />

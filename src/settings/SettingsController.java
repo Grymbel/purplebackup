@@ -67,6 +67,8 @@ public class SettingsController {
 	private JFXPasswordField confirmNewPass;
 	@FXML
 	private Label errorLbl;
+	@FXML
+	private Label successLbl;
 	
 	private boolean clicked = true;
 	
@@ -114,16 +116,19 @@ public class SettingsController {
 		if (!oldPassword.equals(null) && !oldPassword.equals("") && !newPassword.equals(null) && !newPassword.equals("") && !confirmPass.equals(null) && !confirmPass.equals("")) {
 			if (!hashedPassword.equals(storedPassword)) {
 				errorLbl.setVisible(true);
+				successLbl.setVisible(false);
 				errorLbl.setStyle("-fx-text-fill : #F74225;");
 				errorLbl.setText("Old password is wrong");
 			}
 			else if (newPassword.equals(oldPassword)) {
 				errorLbl.setVisible(true);
+				successLbl.setVisible(false);
 				errorLbl.setStyle("-fx-text-fill : #F74225;");
 				errorLbl.setText("New password cannot be the same as previous");
 			}
 			else if (!confirmPass.equals(newPassword)) {
 				errorLbl.setVisible(true);
+				successLbl.setVisible(false);
 				errorLbl.setStyle("-fx-text-fill : #F74225;");
 				errorLbl.setText("New password does not match");
 			}
@@ -136,8 +141,10 @@ public class SettingsController {
 				loginModel.setPassword(newHashedPassword);
 				loginModel.updateAdmin();
 				
-				errorLbl.setStyle("-fx-text-fill : #32CD32;");
-				errorLbl.setText("Password update successful");
+				errorLbl.setVisible(false);
+				successLbl.setVisible(true);
+				successLbl.setStyle("-fx-text-fill : #32CD32;");
+				successLbl.setText("Password update successful");
 			}
 		}
 		else {
@@ -171,16 +178,19 @@ public class SettingsController {
 			if (!oldPassword.equals(null) && !oldPassword.equals("") && !newPassword.equals(null) && !newPassword.equals("") && !confirmPass.equals(null) && !confirmPass.equals("")) {
 				if (!hashedPassword.equals(storedPassword)) {
 					errorLbl.setVisible(true);
+					successLbl.setVisible(false);
 					errorLbl.setStyle("-fx-text-fill : #F74225;");
 					errorLbl.setText("Old password is wrong");
 				}
 				else if (newPassword.equals(oldPassword)) {
 					errorLbl.setVisible(true);
+					successLbl.setVisible(false);
 					errorLbl.setStyle("-fx-text-fill : #F74225;");
 					errorLbl.setText("New password cannot be the same as previous");
 				}
 				else if (!confirmPass.equals(newPassword)) {
 					errorLbl.setVisible(true);
+					successLbl.setVisible(false);
 					errorLbl.setStyle("-fx-text-fill : #F74225;");
 					errorLbl.setText("New password does not match");
 				}
@@ -193,8 +203,10 @@ public class SettingsController {
 					loginModel.setPassword(newHashedPassword);
 					loginModel.updateAdmin();
 					
-					errorLbl.setStyle("-fx-text-fill : #32CD32;");
-					errorLbl.setText("Password update successful");
+					errorLbl.setVisible(false);
+					successLbl.setVisible(true);
+					successLbl.setStyle("-fx-text-fill : #32CD32;");
+					successLbl.setText("Password update successful");
 				}
 			}
 			else {
