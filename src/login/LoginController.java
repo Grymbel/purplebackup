@@ -41,9 +41,6 @@ public class LoginController{
 	//Visibility = false
 	private JFXSpinner loginSpinner;
 	
-	Timeline timeline;
-	Integer intObj;
-	
 	@FXML
 	public void initialize() {
 		userID.textProperty().addListener(new ChangeListener<String>() {
@@ -131,32 +128,6 @@ public class LoginController{
 		else {
 			errorMessage.setVisible(true);
 			errorMessage.setText("Please wait "+ penalty +" seconds.");
-			
-			timeline = new Timeline();
-			intObj = new Integer(penalty);
-		    timeline.setCycleCount(Animation.INDEFINITE);
-		    timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-		    	@Override
-				public void handle(ActionEvent event) {
-		    		intObj--;
-
-		    		if (intObj >= 0) {
-		    			errorMessage.setText("Please wait " + intObj.toString() + " seconds.");
-		    		}
-		    		else {
-		    			timeline.stop();
-		    		}
-		        }				
-		    }));
-		    timeline.playFromStart();
-		    errorMessage.textProperty().addListener(new ChangeListener<String>() {
-	            @Override
-	            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-	            	if (newValue.equals("Please wait 0 seconds.")) {
-	            		errorMessage.setVisible(false);
-	            	}
-	            }
-	        });
 		}
 	}
 	
@@ -232,32 +203,6 @@ public class LoginController{
 			else {
 				errorMessage.setVisible(true);
 				errorMessage.setText("Please wait "+ penalty +" seconds.");
-				
-				timeline = new Timeline();
-				intObj = new Integer(penalty);
-			    timeline.setCycleCount(Animation.INDEFINITE);
-			    timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-			    	@Override
-					public void handle(ActionEvent event) {
-			    		intObj--;
-
-			    		if (intObj >= 0) {
-			    			errorMessage.setText("Please wait " + intObj.toString() + " seconds.");
-			    		}
-			    		else {
-			    			timeline.stop();
-			    		}
-			        }				
-			    }));
-			    timeline.playFromStart();
-			    errorMessage.textProperty().addListener(new ChangeListener<String>() {
-		            @Override
-		            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-		            	if (newValue.equals("Please wait 0 seconds.")) {
-		            		errorMessage.setVisible(false);
-		            	}
-		            }
-		        });
 			}
 		}
 	}
