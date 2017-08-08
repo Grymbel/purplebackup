@@ -43,6 +43,7 @@ public class MDWriter {
 	public boolean writeMD(){
 		if(filesAcquired!=null&&filesDigest!=null){	
 				DBConnect dbc = new DBConnect();
+
 				for(int y=0;y<filesAcquired.size();y++){
 					try {
 						dbc.addFileIdx(this.backupID,filesAcquired.get(y),filesDigest.get(y), lowerDir);

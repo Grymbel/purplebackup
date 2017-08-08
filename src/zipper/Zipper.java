@@ -157,7 +157,9 @@ public class Zipper{
         	String[] strings = new File(sourceDir).list();
         	
         	for(String s : strings){
+        		if(new File(sourceDir.toString()+"/"+s).isFile()){
         		toSay.add(s);
+        		}
         	}
         	
         	MDWriter mdw0 = new MDWriter(toSay,(ArrayList<String>) digestList,(outputDirFull).replace("\\", "/"),(outputDir).replace("\\", "/"),backupID,isBase);
@@ -259,7 +261,7 @@ public class Zipper{
 
         }
     
-    //Lists the whole path of all files in directory recursively
+    //Lists the whole path of all files in directory recursively without the digest
     public void genFileList(File node){
     	if(node.isFile()){
     		fileList.add(node.getPath().toString());
@@ -269,6 +271,21 @@ public class Zipper{
     		String[] subNote = node.list();
     		for(String filename : subNote){
     			genFileList(new File(node, filename));
+    		}
+    	}
+        }
+    
+    //Lists the path of files and directories in a directory
+    public void genFileAndDirList(File node){
+    	if(node.isFile()){
+    		fileList.add(node.getPath().toString());
+    	}
+
+    	if(node.isDirectory()){
+    		fileList.add(node.getPath().toString());
+    		String[] subNote = node.list();
+    		for(String filename : subNote){
+    			genFileAndDirList(new File(node, filename));
     		}
     	}
         }

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -97,6 +98,19 @@ public class Unzipper
 				e.printStackTrace();
 			}
     	}
+    	ArrayList<String> checkList = new ArrayList<String>();
+    	
+    	Zipper cleaner = new Zipper(outputDir);
+    	cleaner.genFileAndDirList(new File(outputDir));
+    	checkList=(ArrayList<String>) cleaner.getFileList();
+    	
+    	for(String s:checkList){
+    		File toCheck = new File(s);
+    		if(toCheck.isDirectory()&&toCheck.list().length==0){
+    			toCheck.delete();
+    		}
+    	}
+    	
     }catch(IOException ex){
     	System.err.println(ex.getMessage());
     }
