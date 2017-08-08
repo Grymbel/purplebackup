@@ -1,7 +1,6 @@
 package backupMaker;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -135,22 +134,18 @@ public class BackupObject {
 		for(String str : dirList){
 			try {				
 				String archive = getArchive(new File(str));
-				System.out.println(archive+restDir+areas.get(c));
 				Unzipper unz = new Unzipper(archive,restDir+areas.get(c));
-				c++;
 				dbc = new DBConnect();
 				ResultSet res = dbc.getFileDeltaRange(rangeStart, id);
 				while(res.next()){
 					String action = res.getString("deltaAction");
 					if(action.equals("DEL")){
 						String toDel = res.getString("fileLine");
-						File file = new File((restDir+toDel).replace("\\", "/"));
-						file.delete();
+						new File((restDir+areas.get(c)+"/"+toDel).replace("\\", "/")).delete();
 					}
 					else if(action.equals("UDT")){
 						String toDel = res.getString("fileLine");
-						File file = new File((restDir+toDel).replace("\\", "/"));
-						file.delete();
+						new File((restDir+areas.get(c)+"/"+toDel).replace("\\", "/")).delete();
 					}
 					else if(action.equals("ADD")){
 					}
@@ -159,9 +154,11 @@ public class BackupObject {
 					}
 				}
 				unz.unZipIt();
+				c++;
 		}catch (Exception e) {
 				e.printStackTrace();
 			}
+			
 		}
 	}
 	
