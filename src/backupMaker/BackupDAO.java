@@ -82,6 +82,8 @@ public class BackupDAO {
 					toRet[3]=toRead.getString("target");
 				}
 				}
+				
+				dbc.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

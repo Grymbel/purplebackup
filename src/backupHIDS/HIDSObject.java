@@ -43,6 +43,7 @@ public class HIDSObject {
 	//Creates the alerts
 	public void CompareToCurr(){
 		File toCompare = new File("src/output/"+relID+"/"+relDir+"/"+relDir+".zip");
+		System.out.println(toCompare.toString());
 		if(toCompare.exists()){
 			try {
 				//Reads the current hash and compares to the expected hash

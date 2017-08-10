@@ -17,6 +17,7 @@ public class HIDSService {
 		
 		boolean alertOrNot = false;
 		try {
+			System.out.println("HIDS Running!");
 			ResultSet res = dbc.getHashList();
 			while(res.next()){
 				//Creates an object from the DB, compares and produces alerts
